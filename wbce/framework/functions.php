@@ -569,6 +569,29 @@ function get_parent_ids($iParentID)
 }
 
 /**
+ * @brief  Get the page_id the section_id is part of 
+ *
+ * @param  int $iSectionID
+ * @return integer
+ */
+function get_sections_page_id($iSectionID = NULL)
+{    
+    $sql = "SELECT `page_id` FROM `{TP}sections` WHERE `section_id` = ".intval($iSectionID);
+    return $GLOBALS['database']->get_one($sql);
+}
+
+/**
+ * @brief  Get the frontend link to a page based on its PageID
+ *
+ * @param  int $iSectionID
+ * @return integer
+ */
+function get_url_from_page_id (int $iPageID) {        
+   $sTemp = getAccessFilePath($iPageID);
+   return get_url_from_path($sTemp);
+}
+
+/**
  * @brief   Function to genereate page trail
  *
  * @param int $page_id
@@ -1890,4 +1913,158 @@ function remove_special_characters($str) {
 
   // Returning the result
   return $res;
-  }
+}
+
+/**
+ * Apply formatting for bold, italic, underscore and a variable
+ * to a given string by replacing markdown tags.
+ * Use: 
+ *  *emphasis*
+ *   _italic_ 
+ *  **strong**
+ *  ***strong with emphasis***  
+ *  __underscore__ 
+ * `variable`  
+ * 
+ * This function is meant for simple replacements like in Droplet calls or 
+ * in different modules' input fields. Can be used in in pages menu-titles aswell.
+ *
+ * @param string $string The input string to be processed.
+ *
+ * @return string The processed string with markdown tags replaced.
+ */
+function parse_simple_md_tags($string) {
+    $mdTags = [
+        '/\*{3}(.*?)\*{3}/' => '<strong><em>$1</em></strong>', // ***strong with emphasis***
+        '/\*{2}(.*?)\*{2}/' => '<strong>$1</strong>',          // **strong**
+        '/\*(.*?)\*/'       => '<em>$1</em>',                  // *emphasis*
+        '/_(.*?)_/'         => '<i>$1</i>',                    // _italic_
+        '/_(.*?)_/'         => '<u>$1</u>',                    // _underscore_
+        '/\`(.*?)\`/'       => '<tt>$1</tt>',                  // `variable`
+    ];
+    
+    foreach ($mdTags as $find => $replace) {
+        $string = preg_replace($find, $replace, $string);
+    }
+    
+    return $string;
+}
+
+/**
+ * Translation processing
+ * This function allows you to work with language arrays.
+ * Usually in WBCE we use something like:
+ * 
+ * global $TEXT; 
+ * echo $TEXT['USER'];
+ * 
+ * With this function you don't need to declare 
+ * the array $TEXT as global, instead use:
+ * 
+ * Correct format would be:
+ *     L_('TEXT:USER'); or
+ *     L_('{TEXT:USER}'); // using braces
+ * 
+ * It is now also possible to call multiple translations using one function call: 
+ *     L_('{TEXT:DELETE} {TEXT:SECTION}'); // MUST use braces
+ * 	
+ * The function can accept multiple replacements. 
+ * It also allows the specification of replacements using either a 
+ * non-positional placeholder (%s) or a positional placeholder 
+ * (%1$s, %2$s, etc.) within the input string (similar to the sprintf function).
+ * 
+ * There is a Twig version of this function to use with Twig Templates aswell.
+ * 
+ * @param  string	
+ * @return string Translated String
+ * 
+ */
+function L_($str, ...$args) {
+    // Resolve the main string
+    $resolvedMainString = resolveTranslation($str);
+
+    // Callback function to handle replacements
+    $callback = function($matches) use (&$args) {
+        // Extract the positional specifier and default value
+        $position = isset($matches[1]) && $matches[1] !== "" ? intval($matches[1]) : null;
+        $defaultValue = isset($matches[2]) ? $matches[2] : '';
+
+        // Check if position is set
+        if ($position !== null) {
+            // Use the positional specifier (1-indexed) to fetch the replacement
+            $replacement = isset($args[$position - 1]) ? $args[$position - 1] : $defaultValue;
+        } else {
+            // If no positional specifier, use the first argument (non-positional placeholder)
+            $replacement = array_shift($args);
+            if ($replacement === null) {
+                $replacement = $defaultValue;
+            }
+        }
+
+        // Check if the replacement is in 'TEXT:USER' or '{TEXT:USER}' format and resolve it
+        if (preg_match('/^\{?[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+\}?$/', $replacement)) {
+            $replacement = resolveTranslation($replacement);
+        }
+
+        return $replacement;
+    };
+
+    // Replace placeholders with the final replacements using the callback function
+    return preg_replace_callback('/%(?:(\d*)\$)?s(?:\|(.*?))?(?=\s|$)/', $callback, $resolvedMainString);
+}
+
+/**
+ * Resolve and Replace Translation Strings in Input
+ *
+ * This function scans an input string for matches of specific patterns (e.g. 'TEXT:SETTINGS' or 
+ * '{TEXT:SETTINGS}'), representing global language arrays and keys. It replaces each match 
+ * with its corresponding value from the relevant global array. If a match cannot be resolved,
+ * it gets replaced with a debug message or the key name in lowercase.
+ * 
+ * The function is used as a helper for the main translation function L_().
+ *
+ * @param  string $inputStr The input string with potential matches.
+ * @return string The processed string with matches replaced.
+ */
+function resolveTranslation($inputStr) {
+    // Check if the input string contains patterns like '{TEXT:SETTINGS}' or 'TEXT:SETTINGS'
+    if (preg_match_all('/(?:\{([a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+)\})+|[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+/', $inputStr, $matches)) {
+        // Loop through all the matches
+        foreach ($matches[0] as $resolvedMatch) {
+            $strippedInput = trim($resolvedMatch, '{}');
+            $tmp = explode(':', $strippedInput);
+            $arr = $tmp[0];
+            $key = $tmp[1];
+
+            if (isset($GLOBALS[$arr]) && is_array($GLOBALS[$arr]) && array_key_exists($key, $GLOBALS[$arr])) {
+                $translation = $GLOBALS[$arr][$key];
+                
+                // Handle positional specifiers
+                $translation = preg_replace_callback('/%\$(\d+)s/', function($m) use ($translation) {
+                    return '%' . $m[1] . '$s';
+                }, $translation);
+                
+                // Replace the match in the input string with its translation
+                $inputStr = str_replace($resolvedMatch, $translation, $inputStr);
+            } else {
+                if (defined('SHOW_MISSING_LANG_STRINGS') && SHOW_MISSING_LANG_STRINGS == true) {
+                    $sReplacement = "<span style='color:purple'>";
+                    $sReplacement .= (isset($GLOBALS[$arr]) && is_array($GLOBALS[$arr]) == false) ? "Array {$arr} does not exist.<br>" : '';
+                    $sReplacement .= "<b>Missing Translation:</b> <input style=\"width:450px\" type=\"text\" value=\"$" . $arr . "['" . $key . "']\"></span>";
+                    // Replace the match in the input string with its missing translation message
+                    $inputStr = str_replace($resolvedMatch, $sReplacement, $inputStr);
+                } else {
+                    // Replace the match in the input string with its key name in lowercase
+                    $inputStr = str_replace($resolvedMatch, ucfirst(strtolower($key)), $inputStr);
+                }
+            }
+        }
+    }
+
+    return $inputStr;
+}
+
+
+
+
+

@@ -27,6 +27,29 @@ $language_platform = '1.3.0';
 $language_author = 'Marin Susac';
 $language_license = 'GNU General Public License';
 
+// FRENCH
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Date d'inscription";
+$TEXT['LATEST_LOGIN']      = "Dernière connexion";
+
+$TEXT['ACTIVATE_RECORD']   = "Activer %s|enregistrement";
+$TEXT['DEACTIVATE_RECORD'] = "Désactiver %s|enregistrement";
+$TEXT['ADD_RECORD']        = "Ajouter %s|enregistrement";
+$TEXT['EDIT_RECORD']       = "Modifier %s|enregistrement";
+$TEXT['DELETE_RECORD']     = "Supprimer %s|enregistrement";
+
+$TEXT['RECORD_DISABLED']   = "%s|enregistrement désactivé";
+$TEXT['RECORD_ENABLED']    = "%s|enregistrement activé";
+
+$TEXT['SELECT_ALL']        = "tout sélectionner";
+$TEXT['DESELECT_ALL']      = "tout désélectionner";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Accès aux thèmes';
+$TEXT['TOOLS_PERMISSIONS']    = 'Accès aux outils d\'administration';
+$TEXT['MODULE_PERMISSIONS']   = 'Accès aux modules';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Accès aux modèles';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Acc&#232;s';
 $MENU['ADDON'] = 'Add-on';

@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'Markus Eriksson, Peppe Bergqvist';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Registreringsdatum";
+$TEXT['LATEST_LOGIN']      = "Senaste inloggning";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktivera %s|post";
+$TEXT['DEACTIVATE_RECORD'] = "Inaktivera %s|post";
+$TEXT['ADD_RECORD']        = "Lägg till %s|post";
+$TEXT['EDIT_RECORD']       = "Redigera %s|post";
+$TEXT['DELETE_RECORD']     = "Ta bort %s|post";
+
+$TEXT['RECORD_DISABLED']   = "%s|post inaktiverad";
+$TEXT['RECORD_ENABLED']    = "%s|post aktiverad";
+
+$TEXT['SELECT_ALL']        = "välj alla";
+$TEXT['DESELECT_ALL']      = "avmarkera alla";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Åtkomst till teman';
+$TEXT['TOOLS_PERMISSIONS']    = 'Åtkomst till adminverktyg';
+$TEXT['MODULE_PERMISSIONS']   = 'Åtkomst till moduler';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Åtkomst till mallar';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'R&#228;ttigheter';
 $MENU['ADDON'] = 'Add-on';

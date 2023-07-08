@@ -27,6 +27,29 @@ $language_platform = '1.3.0';
 $language_author = 'Samuel Mateo, Jr. | samuelmateo.com';
 $language_license = 'GNU General Public License';
 
+// SPANISH
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Fecha de registro";
+$TEXT['LATEST_LOGIN']      = "Último inicio de sesión";
+
+$TEXT['ACTIVATE_RECORD']   = "Activar %s|registro";
+$TEXT['DEACTIVATE_RECORD'] = "Desactivar %s|registro";
+$TEXT['ADD_RECORD']        = "Agregar %s|registro";
+$TEXT['EDIT_RECORD']       = "Editar %s|registro";
+$TEXT['DELETE_RECORD']     = "Eliminar %s|registro";
+
+$TEXT['RECORD_DISABLED']   = "%s|registro desactivado";
+$TEXT['RECORD_ENABLED']    = "%s|registro activado";
+
+$TEXT['SELECT_ALL']        = "seleccionar todo";
+$TEXT['DESELECT_ALL']      = "deseleccionar todo";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Acceso a temas';
+$TEXT['TOOLS_PERMISSIONS']    = 'Acceso a herramientas de administración';
+$TEXT['MODULE_PERMISSIONS']   = 'Acceso a módulos';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Acceso a plantillas';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Acceso';
 $MENU['ADDON'] = 'Add-on';

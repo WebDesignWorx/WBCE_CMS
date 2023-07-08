@@ -27,6 +27,27 @@ $language_platform = '2.8.x';
 $language_author = 'Hristo Benev(&#1061;&#1088;&#1080;&#1089;&#1090;&#1086; &#1041;&#1077;&#1085;&#1077;&#1074;)';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Дата на регистрация";
+$TEXT['LATEST_LOGIN']      = "Последно влизане";
+
+$TEXT['ACTIVATE_RECORD']   = "Активирай %s|запис";
+$TEXT['DEACTIVATE_RECORD'] = "Деактивирай %s|запис";
+$TEXT['ADD_RECORD']        = "Добави %s|запис";
+$TEXT['EDIT_RECORD']       = "Редактирай %s|запис";
+$TEXT['DELETE_RECORD']     = "Изтрий %s|запис";
+
+$TEXT['RECORD_DISABLED']   = "%s|запис деактивиран";
+$TEXT['RECORD_ENABLED']    = "%s|запис активиран";
+
+$TEXT['SELECT_ALL']        = "избери всички";
+$TEXT['DESELECT_ALL']      = "размаркирай всички";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Достъп до теми';
+$TEXT['TOOLS_PERMISSIONS']    = 'Достъп до административни инструменти';
+$TEXT['MODULE_PERMISSIONS']   = 'Достъп до модули';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Достъп до шаблони';
+/* END OF: New strings added in WBCE 1.6.2 */
 
 $MENU['ACCESS'] = '&#1044;&#1086;&#1089;&#1090;&#1098;&#1087;';
 $MENU['ADDON'] = 'Add-on';

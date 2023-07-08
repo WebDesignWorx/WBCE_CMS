@@ -27,6 +27,28 @@ $language_platform = '1.3.0';
 $language_author = 'Yannis Spyrou';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Ημερομηνία εγγραφής";
+$TEXT['LATEST_LOGIN']      = "Τελευταία σύνδεση";
+
+$TEXT['ACTIVATE_RECORD']   = "Ενεργοποίηση %s|εγγραφής";
+$TEXT['DEACTIVATE_RECORD'] = "Απενεργοποίηση %s|εγγραφής";
+$TEXT['ADD_RECORD']        = "Προσθήκη %s|εγγραφής";
+$TEXT['EDIT_RECORD']       = "Επεξεργασία %s|εγγραφής";
+$TEXT['DELETE_RECORD']     = "Διαγραφή %s|εγγραφής";
+
+$TEXT['RECORD_DISABLED']   = "%s|εγγραφή απενεργοποιημένη";
+$TEXT['RECORD_ENABLED']    = "%s|εγγραφή ενεργοποιημένη";
+
+$TEXT['SELECT_ALL']        = "επιλογή όλων";
+$TEXT['DESELECT_ALL']      = "αποεπιλογή όλων";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Πρόσβαση στα Θέματα';
+$TEXT['TOOLS_PERMISSIONS']    = 'Πρόσβαση στα Εργαλεία Διαχείρισης';
+$TEXT['MODULE_PERMISSIONS']   = 'Πρόσβαση στις Μονάδες';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Πρόσβαση στα Πρότυπα';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Πρόσβαση';
 $MENU['ADDON'] = 'Επιπρόσθετο';

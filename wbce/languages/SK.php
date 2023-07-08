@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'Michal Kurtulik - YONIX.SK';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Dátum registrácie";
+$TEXT['LATEST_LOGIN']      = "Posledné prihlásenie";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktivovať %s|záznam";
+$TEXT['DEACTIVATE_RECORD'] = "Deaktivovať %s|záznam";
+$TEXT['ADD_RECORD']        = "Pridať %s|záznam";
+$TEXT['EDIT_RECORD']       = "Upraviť %s|záznam";
+$TEXT['DELETE_RECORD']     = "Odstrániť %s|záznam";
+
+$TEXT['RECORD_DISABLED']   = "%s|záznam deaktivovaný";
+$TEXT['RECORD_ENABLED']    = "%s|záznam aktivovaný";
+
+$TEXT['SELECT_ALL']        = "vybrať všetko";
+$TEXT['DESELECT_ALL']      = "zrušiť výber všetkých";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Prístup k témam';
+$TEXT['TOOLS_PERMISSIONS']    = 'Prístup k admin nástrojom';
+$TEXT['MODULE_PERMISSIONS']   = 'Prístup k modulom';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Prístup k šablónam';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Pr&#237;stup';
 $MENU['ADDON'] = 'Add-on';

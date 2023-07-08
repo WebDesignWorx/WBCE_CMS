@@ -27,6 +27,27 @@ $language_platform = '1.3.0';
 $language_author = 'Marek Stepien;';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Data rejestracji";
+$TEXT['LATEST_LOGIN']      = "Ostatnie logowanie";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktywuj %s|wpis";
+$TEXT['DEACTIVATE_RECORD'] = "Deaktywuj %s|wpis";
+$TEXT['ADD_RECORD']        = "Dodaj %s|wpis";
+$TEXT['EDIT_RECORD']       = "Edytuj %s|wpis";
+$TEXT['DELETE_RECORD']     = "Usuń %s|wpis";
+
+$TEXT['RECORD_DISABLED']   = "%s|wpis wyłączony";
+$TEXT['RECORD_ENABLED']    = "%s|wpis aktywny";
+
+$TEXT['SELECT_ALL']        = "zaznacz wszystko";
+$TEXT['DESELECT_ALL']      = "odznacz wszystko";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Dostęp do motywów';
+$TEXT['TOOLS_PERMISSIONS']    = 'Dostęp do narzędzi administracyjnych';
+$TEXT['MODULE_PERMISSIONS']   = 'Dostęp do modułów';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Dostęp do szablonów';
+/* End of: New strings added in WBCE 1.6.2 */
 
 $MENU['ACCESS'] = 'Dostęp';
 $MENU['ADDON'] = 'Dodatek';

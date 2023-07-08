@@ -27,6 +27,23 @@ $language_platform = '1.3.0';
 $language_author = 'Ryan Djurovich, Christian Sommer';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Registration date";
+$TEXT['LATEST_LOGIN']      = "Latest login";
+
+$TEXT['DEACTIVATE_RECORD'] = "Deactivate %s|record";
+$TEXT['ACTIVATE_RECORD']   = "Activate %s|record";
+$TEXT['ADD_RECORD']        = "Add %s|record";
+$TEXT['DELETE_RECORD']     = "Delete %s|record";
+
+$TEXT['SELECT_ALL']        = "select all";
+$TEXT['DESELECT_ALL']      = "deselect all";
+
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Access to Templates';
+$TEXT['MODULE_PERMISSIONS']   = 'Access to Modules';
+$TEXT['THEMES_PERMISSIONS']   = 'Access to Themes';
+$TEXT['TOOLS_PERMISSIONS']    = 'Access to AdminTools';
+/* END OF: New strings added in WBCE 1.6.2 */
 
 $MENU['ACCESS'] = 'Access';
 $MENU['ADDON'] = 'Add-on';

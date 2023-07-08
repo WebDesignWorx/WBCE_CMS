@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'Allan Christensen';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Registreringsdato";
+$TEXT['LATEST_LOGIN']      = "Seneste login";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktivér %s|optegnelse";
+$TEXT['DEACTIVATE_RECORD'] = "Deaktiver %s|optegnelse";
+$TEXT['ADD_RECORD']        = "Tilføj %s|optegnelse";
+$TEXT['EDIT_RECORD']       = "Rediger %s|optegnelse";
+$TEXT['DELETE_RECORD']     = "Slet %s|optegnelse";
+
+$TEXT['RECORD_DISABLED']   = "%s|optegnelse deaktiveret";
+$TEXT['RECORD_ENABLED']    = "%s|optegnelse aktiveret";
+
+$TEXT['SELECT_ALL']        = "vælg alle";
+$TEXT['DESELECT_ALL']      = "fravælg alle";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Adgang til temaer';
+$TEXT['TOOLS_PERMISSIONS']    = 'Adgang til adminværktøjer';
+$TEXT['MODULE_PERMISSIONS']   = 'Adgang til moduler';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Adgang til skabeloner';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Adgang';
 $MENU['ADDON'] = 'Tilf&#248;jelse';

@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'WebStep, s.r.o.';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Datum registrace";
+$TEXT['LATEST_LOGIN']      = "Poslední přihlášení";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktivovat %s|záznam";
+$TEXT['DEACTIVATE_RECORD'] = "Deaktivovat %s|záznam";
+$TEXT['ADD_RECORD']        = "Přidat %s|záznam";
+$TEXT['EDIT_RECORD']       = "Upravit %s|záznam";
+$TEXT['DELETE_RECORD']     = "Smazat %s|záznam";
+
+$TEXT['RECORD_DISABLED']   = "%s|záznam deaktivovaný";
+$TEXT['RECORD_ENABLED']    = "%s|záznam aktivovaný";
+
+$TEXT['SELECT_ALL']        = "vybrat vše";
+$TEXT['DESELECT_ALL']      = "zrušit výběr všeho";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Přístup k tématům';
+$TEXT['TOOLS_PERMISSIONS']    = 'Přístup k nástrojům správce';
+$TEXT['MODULE_PERMISSIONS']   = 'Přístup k modulům';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Přístup k šablonám';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'P&#345;&#237;stup';
 $MENU['ADDON'] = 'Add-on';

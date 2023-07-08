@@ -27,6 +27,28 @@ $language_platform = '1.3.0';
 $language_author = 'Zsolt + Robert';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Regisztráció dátuma";
+$TEXT['LATEST_LOGIN']      = "Legutóbbi bejelentkezés";
+
+$TEXT['ACTIVATE_RECORD']   = "%s|rekord aktiválása";
+$TEXT['DEACTIVATE_RECORD'] = "%s|rekord deaktiválása";
+$TEXT['ADD_RECORD']        = "%s|rekord hozzáadása";
+$TEXT['EDIT_RECORD']       = "%s|rekord szerkesztése";
+$TEXT['DELETE_RECORD']     = "%s|rekord törlése";
+
+$TEXT['RECORD_DISABLED']   = "%s|rekord deaktivált";
+$TEXT['RECORD_ENABLED']    = "%s|rekord aktivált";
+
+$TEXT['SELECT_ALL']        = "összes kijelölése";
+$TEXT['DESELECT_ALL']      = "kijelölés törlése";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Hozzáférés a témákhoz';
+$TEXT['TOOLS_PERMISSIONS']    = 'Hozzáférés az adminisztrációs eszközökhöz';
+$TEXT['MODULE_PERMISSIONS']   = 'Hozzáférés a modulokhoz';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Hozzáférés a sablonokhoz';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Jogosults&#225;gok';
 $MENU['ADDON'] = 'Add-on';

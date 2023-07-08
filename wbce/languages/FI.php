@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'Jontse';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Rekisteröintipäivä";
+$TEXT['LATEST_LOGIN']      = "Viimeisin kirjautuminen";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktivoi %s|tietue";
+$TEXT['DEACTIVATE_RECORD'] = "Poista %s|tietueen aktivointi";
+$TEXT['ADD_RECORD']        = "Lisää %s|tietue";
+$TEXT['EDIT_RECORD']       = "Muokkaa %s|tietuetta";
+$TEXT['DELETE_RECORD']     = "Poista %s|tietue";
+
+$TEXT['RECORD_DISABLED']   = "%s|tietue deaktivoitu";
+$TEXT['RECORD_ENABLED']    = "%s|tietue aktivoitu";
+
+$TEXT['SELECT_ALL']        = "valitse kaikki";
+$TEXT['DESELECT_ALL']      = "poista kaikki valinnat";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Pääsy teemoihin';
+$TEXT['TOOLS_PERMISSIONS']    = 'Pääsy admin-työkaluihin';
+$TEXT['MODULE_PERMISSIONS']   = 'Pääsy moduuleihin';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Pääsy malleihin';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'K&#228;ytt&#228;j&#228;t';
 $MENU['ADDON'] = 'Add-on';

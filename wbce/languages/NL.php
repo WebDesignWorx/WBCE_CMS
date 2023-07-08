@@ -27,6 +27,28 @@ $language_platform = '1.3.0';
 $language_author = 'Bramus, CodeALot, Luckyluke, Argos';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+/* End of: New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Registratiedatum";
+$TEXT['LATEST_LOGIN']      = "Laatste login";
+
+$TEXT['ACTIVATE_RECORD']   = "%s|Record activeren";
+$TEXT['DEACTIVATE_RECORD'] = "%s|Record deactiveren";
+$TEXT['ADD_RECORD']        = "%s|Record toevoegen";
+$TEXT['EDIT_RECORD']       = "%s|Record bewerken";
+$TEXT['DELETE_RECORD']     = "%s|Record verwijderen";
+
+$TEXT['RECORD_DISABLED']   = "%s|Record uitgeschakeld";
+$TEXT['RECORD_ENABLED']    = "%s|Record ingeschakeld";
+
+$TEXT['SELECT_ALL']        = "alles selecteren";
+$TEXT['DESELECT_ALL']      = "alles deselecteren";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Toegang tot Thema\'s';
+$TEXT['TOOLS_PERMISSIONS']    = 'Toegang tot AdminTools';
+$TEXT['MODULE_PERMISSIONS']   = 'Toegang tot Modules';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Toegang tot Templates';
+/* End of: New strings added in WBCE 1.6.2 */
 
 $MENU['ACCESS'] = 'Toegang';
 $MENU['ADDON'] = 'Add-on';

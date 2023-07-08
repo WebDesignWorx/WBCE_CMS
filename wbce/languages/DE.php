@@ -28,6 +28,28 @@ $language_author = 'Stefan Braunewell, Matthias Gallas, Florian Meerwinck';
 $language_license = 'GNU General Public License';
 
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Registriert am";
+$TEXT['LATEST_LOGIN']      = "Letzter Login";
+
+$TEXT['ACTIVATE_RECORD']   = "%s|Datensatz aktivieren";
+$TEXT['DEACTIVATE_RECORD'] = "%s|Datensatz deaktivieren";
+$TEXT['ADD_RECORD']        = "%s|Datensatz hinzufügen";
+$TEXT['EDIT_RECORD']       = "%s|Datensatz bearbeiten";
+$TEXT['DELETE_RECORD']     = "%s|Datensatz löschen";
+
+$TEXT['RECORD_DISABLED']   = "%s|Datensatz deaktiviert";
+$TEXT['RECORD_ENABLED']    = "%s|Datensatz aktiv";
+
+$TEXT['SELECT_ALL']        = "alle auswählen";
+$TEXT['DESELECT_ALL']      = "alle abwählen";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Zugriffsrechte auf Themes';
+$TEXT['TOOLS_PERMISSIONS']    = 'Zugriffsrechte auf AdminTools';
+$TEXT['MODULE_PERMISSIONS']   = 'Zugriffsrechte auf Modulen';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Zugriffsrechte auf Templates';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 $MENU['ACCESS'] = 'Benutzerverwaltung';
 $MENU['ADDON'] = 'Add-on';
 $MENU['ADDONS'] = 'Erweiterungen';

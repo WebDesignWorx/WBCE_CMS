@@ -27,6 +27,27 @@ $language_platform = '1.4.x';
 $language_author = 'Kirill Karakulko (kirill@nadosoft.com), Leo Klee';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Дата регистрации";
+$TEXT['LATEST_LOGIN']      = "Последний вход";
+
+$TEXT['ACTIVATE_RECORD']   = "Активировать %s|запись";
+$TEXT['DEACTIVATE_RECORD'] = "Деактивировать %s|запись";
+$TEXT['ADD_RECORD']        = "Добавить %s|запись";
+$TEXT['EDIT_RECORD']       = "Редактировать %s|запись";
+$TEXT['DELETE_RECORD']     = "Удалить %s|запись";
+
+$TEXT['RECORD_DISABLED']   = "%s|запись деактивирована";
+$TEXT['RECORD_ENABLED']    = "%s|запись активирована";
+
+$TEXT['SELECT_ALL']        = "выбрать все";
+$TEXT['DESELECT_ALL']      = "снять выбор";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Доступ к темам';
+$TEXT['TOOLS_PERMISSIONS']    = 'Доступ к инструментам администратора';
+$TEXT['MODULE_PERMISSIONS']   = 'Доступ к модулям';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Доступ к шаблонам';
+/* END OF: New strings added in WBCE 1.6.2 */
 
 $MENU['ACCESS'] = 'Управление пользователями';
 $MENU['ADDON'] = 'Add-on';

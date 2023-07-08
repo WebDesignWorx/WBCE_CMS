@@ -27,6 +27,28 @@ $language_platform = '1.3.0';
 $language_author = 'Odd Egil Hansen (oeh)';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Registreringsdato";
+$TEXT['LATEST_LOGIN']      = "Siste innlogging";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktiver %s|post";
+$TEXT['DEACTIVATE_RECORD'] = "Deaktiver %s|post";
+$TEXT['ADD_RECORD']        = "Legg til %s|post";
+$TEXT['EDIT_RECORD']       = "Rediger %s|post";
+$TEXT['DELETE_RECORD']     = "Slett %s|post";
+
+$TEXT['RECORD_DISABLED']   = "%s|post deaktivert";
+$TEXT['RECORD_ENABLED']    = "%s|post aktivert";
+
+$TEXT['SELECT_ALL']        = "velg alle";
+$TEXT['DESELECT_ALL']      = "fjern alle";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Tilgang til temaer';
+$TEXT['TOOLS_PERMISSIONS']    = 'Tilgang til adminverktøy';
+$TEXT['MODULE_PERMISSIONS']   = 'Tilgang til moduler';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Tilgang til maler';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Tilgang';
 $MENU['ADDON'] = 'Add-on';

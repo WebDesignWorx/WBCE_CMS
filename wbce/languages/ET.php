@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'Heiko H&auml;ng';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Registreerimise kuupäev";
+$TEXT['LATEST_LOGIN']      = "Viimane sisselogimine";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktiveeri %s|kirje";
+$TEXT['DEACTIVATE_RECORD'] = "Deaktiveeri %s|kirje";
+$TEXT['ADD_RECORD']        = "Lisa %s|kirje";
+$TEXT['EDIT_RECORD']       = "Muuda %s|kirjet";
+$TEXT['DELETE_RECORD']     = "Kustuta %s|kirje";
+
+$TEXT['RECORD_DISABLED']   = "%s|kirje deaktiveeritud";
+$TEXT['RECORD_ENABLED']    = "%s|kirje aktiveeritud";
+
+$TEXT['SELECT_ALL']        = "vali kõik";
+$TEXT['DESELECT_ALL']      = "tühista kõik valikud";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Ligipääs teemadele';
+$TEXT['TOOLS_PERMISSIONS']    = 'Ligipääs adminitööriistadele';
+$TEXT['MODULE_PERMISSIONS']   = 'Ligipääs moodulitele';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Ligipääs mallidele';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Ligip&#228;&#228;s';
 $MENU['ADDON'] = 'Add-on';

@@ -27,6 +27,27 @@ $language_platform = '2.8.x';
 $language_author = 'Atakan KO&Ccedil;';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Kayıt tarihi";
+$TEXT['LATEST_LOGIN']      = "Son giriş";
+
+$TEXT['ACTIVATE_RECORD']   = "%s|kaydı aktifleştir";
+$TEXT['DEACTIVATE_RECORD'] = "%s|kaydı deaktifleştir";
+$TEXT['ADD_RECORD']        = "%s|kayıt ekle";
+$TEXT['EDIT_RECORD']       = "%s|kayıt düzenle";
+$TEXT['DELETE_RECORD']     = "%s|kayıt sil";
+
+$TEXT['RECORD_DISABLED']   = "%s|kayıt devre dışı";
+$TEXT['RECORD_ENABLED']    = "%s|kayıt aktif";
+
+$TEXT['SELECT_ALL']        = "tümünü seç";
+$TEXT['DESELECT_ALL']      = "tüm seçimleri kaldır";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Temalara Erişim';
+$TEXT['TOOLS_PERMISSIONS']    = 'Yönetici Araçlarına Erişim';
+$TEXT['MODULE_PERMISSIONS']   = 'Modüllere Erişim';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Şablonlara Erişim';
+/* END OF: New strings added in WBCE 1.6.2 */
 
 $MENU['ACCESS'] = 'Giri&#254;';
 $MENU['ADDON'] = 'Add-on';

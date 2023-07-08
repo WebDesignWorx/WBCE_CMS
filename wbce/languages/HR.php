@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'Vedran Presecki';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Datum registracije";
+$TEXT['LATEST_LOGIN']      = "Zadnja prijava";
+
+$TEXT['ACTIVATE_RECORD']   = "Aktiviraj %s|zapise";
+$TEXT['DEACTIVATE_RECORD'] = "Deaktiviraj %s|zapise";
+$TEXT['ADD_RECORD']        = "Dodaj %s|zapis";
+$TEXT['EDIT_RECORD']       = "Uredi %s|zapis";
+$TEXT['DELETE_RECORD']     = "Izbriši %s|zapis";
+
+$TEXT['RECORD_DISABLED']   = "%s|zapis deaktiviran";
+$TEXT['RECORD_ENABLED']    = "%s|zapis aktiviran";
+
+$TEXT['SELECT_ALL']        = "odaberi sve";
+$TEXT['DESELECT_ALL']      = "poništi sve odabrano";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Pristup temama';
+$TEXT['TOOLS_PERMISSIONS']    = 'Pristup admin alatima';
+$TEXT['MODULE_PERMISSIONS']   = 'Pristup modulima';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Pristup predlošcima';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Pristup';
 $MENU['ADDON'] = 'Add-on';

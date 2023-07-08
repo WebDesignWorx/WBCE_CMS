@@ -27,6 +27,28 @@ $language_platform = '2.8.x';
 $language_author = 'Carles Escrig (simkin)';
 $language_license = 'GNU General Public License';
 
+/* New strings added in WBCE 1.6.2 */
+$TEXT['REGISTRATION_DATE'] = "Data de registre";
+$TEXT['LATEST_LOGIN']      = "Últim inici de sessió";
+
+$TEXT['ACTIVATE_RECORD']   = "Activa %s|registre";
+$TEXT['DEACTIVATE_RECORD'] = "Desactiva %s|registre";
+$TEXT['ADD_RECORD']        = "Afegeix %s|registre";
+$TEXT['EDIT_RECORD']       = "Edita %s|registre";
+$TEXT['DELETE_RECORD']     = "Elimina %s|registre";
+
+$TEXT['RECORD_DISABLED']   = "%s|registre desactivat";
+$TEXT['RECORD_ENABLED']    = "%s|registre activat";
+
+$TEXT['SELECT_ALL']        = "selecciona tot";
+$TEXT['DESELECT_ALL']      = "deselecciona tot";
+
+$TEXT['THEMES_PERMISSIONS']   = 'Accés a temes';
+$TEXT['TOOLS_PERMISSIONS']    = 'Accés a eines d\'administració';
+$TEXT['MODULE_PERMISSIONS']   = 'Accés a mòduls';
+$TEXT['TEMPLATE_PERMISSIONS'] = 'Accés a plantilles';
+/* END OF: New strings added in WBCE 1.6.2 */
+
 
 $MENU['ACCESS'] = 'Acc&#233;s';
 $MENU['ADDON'] = 'Add-on';
