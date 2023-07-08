@@ -1,8 +1,8 @@
 <?php
 /**
- * WBCE CMS
+ * WebsiteBaker Community Edition (WBCE)
  * Way Better Content Editing.
- * Visit https://wbce.org to learn more and to join the community.
+ * Visit http://wbce.org to learn more and to join the community.
  *
  * @copyright Ryan Djurovich (2004-2009)
  * @copyright WebsiteBaker Org. e.V. (2009-2015)
@@ -11,356 +11,371 @@
  */
 
 require '../../config.php';
-require_once WB_PATH . '/framework/class.admin.php';
-$admin = new admin('Access', 'users');
+$sPos = 'users';
+$isHeaderSet = false;
+$admin   = new Admin('Access', $sPos, $isHeaderSet); // suppress header output
+
 $oMsgBox = new MessageBox();
-$iUserStatus = 1;
-$iUserStatus = (($admin->get_get('status') == 1) ? 0 : $iUserStatus);
-unset($_GET);
 
-// Setup template object, parse vars to it, then parse it
-// Create new template object
-$oTemplate = new Template(dirname($admin->correct_theme_source('users.htt')));
-// $oTemplate->debug = true;
+require ADMIN_PATH . '/access/functions.php';
+require __DIR__ . '/functions.php';
 
-$oTemplate->set_file('page', 'users.htt');
-$oTemplate->set_block('page', 'main_block', 'main');
-$oTemplate->set_block("main_block", "manage_groups_block", "groups");
 
-$UserStatusActive = 'url(' . THEME_URL . '/images/user.png)';
-$UserStatusInactive = 'url(' . THEME_URL . '/images/user_red.png)';
-$sUserTitle = ($iUserStatus == 0) ? $MENU['USERS'] . ' ' . strtolower($TEXT['ACTIVE']) : $MENU['USERS'] . ' ' . strtolower($TEXT['DELETED']);
+// based on GET & POST, let's determin which $action we will perform
+$action = 'overview';
+$actions = [
+    'save_user_add'               => isset($_POST['save_user_add']),
+    'save_user_changes'           => isset($_POST['save_user_changes']),
+    'save_user_changes_and_close' => isset($_POST['save_user_changes_and_close']),
+    'modify_user_data'            => isset($_POST['modify']) || isset($_GET['user_id']),
+    'delete'                      => isset($_GET['delete']),
+    'activation'                  => isset($_GET['activation']),
+    'duplicate'                   => isset($_GET['duplicate'])
+];
 
-$oTemplate->set_var(
-    array(
-        'ADMIN_URL' => ADMIN_URL,
-        'FTAN' => $admin->getFTAN(),
-        'USER_STATUS' => $iUserStatus,
-        'INPUT_NEW_PASSWORD' => $admin->passwordField('password'),
-        'TEXT_USERS' => $sUserTitle . ' ' . $TEXT['SHOW'],
-        'STATUS_ICON' => ($iUserStatus == 0) ? $UserStatusActive : $UserStatusInactive,
-        'ADVANCED_SEARCH' => $TEXT['ADVANCED_SEARCH'],
-        'QUICK_SEARCH_STRG_F' => $TEXT['QUICK_SEARCH_STRG_F'],
-    )
-);
-
-// Get existing values from database
-$sSql = "SELECT * FROM `{TP}users` WHERE 1 AND user_id != 1 
-    AND active = " . $iUserStatus . " 
-    ORDER BY `display_name`, `username`";
-
-$results = $database->query($sSql);
-if ($database->is_error()) {
-    $admin->print_error($database->get_error(), 'index.php');
+foreach ($actions as $actionKey => $request) {
+    if ($request) $action = $actionKey;
 }
 
-$sUserList = $TEXT['LIST_OPTIONS'] . ' ';
-$sUserList .= ($iUserStatus == 1) ? $MENU['USERS'] . ' ' . strtolower($TEXT['ACTIVE']) : $MENU['USERS'] . ' ' . strtolower($TEXT['DELETED']);
-// Insert values into the modify/remove menu
-$oTemplate->set_block('main_block', 'list_block', 'list');
-$oTemplate->set_var('USERTYPE', $sUserList);
-if ($results->numRows() > 0) {
-    // Loop through users
-    while ($user = $results->fetchRow()) {
-        //print_r($user);
-        if ($user['login_when'] == 0) {
-            $lastlogin = '-';
-        } else {
-            $lastlogin = date(DATE_FORMAT . " " . TIME_FORMAT, $user['login_when'] + TIMEZONE);
+switch ($action) { 
+    
+    case 'delete':
+        
+        $admin = new Admin('Access', 'users_delete', false);
+        if($iUserID = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']))){
+        // Check if user id is a valid number and doesnt equal 1
+            userDelete($iUserID);
+        }        
+        break;
+        
+    case 'activation':
+        
+        $admin = new Admin('Access', 'users_modify', false);
+        if($iUserID = intval($admin->checkIDKEY('user_id', 0, $_SERVER['REQUEST_METHOD']))){
+            // Check if user id is a valid number and doesnt equal 1
+            userStatusActivation($iUserID);
+        }                    
+        break;
+        
+    case 'save_user_add':
+    case 'save_user_changes':
+    case 'save_user_changes_and_close':
+        $sAdminArea = ($action == 'save_user_add') ? 'users_add' : 'users_modify';
+        $admin    = new Admin('Access', $sAdminArea, false);
+        $aErrors  = [];
+        $aSuccess = [];
+
+        if (!$admin->checkFTAN()) {
+            header("Location: index.php"); exit(0);
+        } 
+
+        $iUserID = '0'; // temporarily
+        if ($action != 'save_user_add') {
+            // Check if user id is a valid number and doesnt equal 1
+            if (!isset($_POST['user_id']) OR !is_numeric($_POST['user_id']) OR $_POST['user_id'] == 1) {
+                header("Location: index.php"); exit(0);
+            } else {
+                $iUserID = (int) $admin->get_post('user_id');
+            }
+        }                 
+        
+        // Check username 
+        $username = strtolower($admin->get_post_escaped('username'));
+        $checkUsername = isValidUsername($username, $iUserID);
+        if (is_array($checkUsername)) {
+            $aErrors += $checkUsername;
         }
-        if ($user['login_ip'] == 0) {
-            $lastip = "0.0.0.0";
-        } else {
-            $lastip = $user['login_ip'];
+        
+        // Check display_name
+        $display_name = $admin->get_post_escaped('display_name');
+        if ($display_name == "") {
+            $aErrors[] = true;
+        }        
+        
+        // Check groups
+        if (empty($_POST['groups'])) {
+            $aErrors[] = $MESSAGE['USERS_NO_GROUP'];
+        } else {            
+            $groups_id = (isset($_POST['groups'])) ? implode(",", $admin->add_slashes($_POST['groups'])) : '';
+        }        
+        
+        // Check email. Is it valid? Already in use?
+        $email = $admin->get_post_escaped('email');
+        $checkEmail = isValidEmail($email, $iUserID);
+        if (is_array($checkEmail)) {
+            // add errors if already in use or wrong format
+            $aErrors += $checkEmail; 
         }
-        $oTemplate->set_var('VALUE', $admin->getIDKEY($user['user_id']));
-        $oTemplate->set_var('STATUS', ($user['active'] == false ? 'class="user-inactive"' : 'class="user-active"'));
-        $oTemplate->set_var('NAME', $user['display_name'] . ' (' . $user['username'] . ')&nbsp;&nbsp;&nbsp;' . $lastlogin . '&nbsp;&nbsp;&nbsp;' . $lastip);
-        $oTemplate->parse('list', 'list_block', true);
-    }
-} else {
-    // Insert single value to say no users were found
-    $oTemplate->set_var('NAME', $TEXT['NONE_FOUND']);
-    $oTemplate->parse('list', 'list_block', true);
-}
-
-// Insert permissions values
-if ($admin->get_permission('users_add') != true) {
-    $oTemplate->set_var('DISPLAY_ADD', 'hide');
-}
-if ($admin->get_permission('users_modify') != true) {
-    $oTemplate->set_var('DISPLAY_MODIFY', 'hide');
-}
-if ($admin->get_permission('users_delete') != true) {
-    $oTemplate->set_var('DISPLAY_DELETE', 'hide');
-}
-$HeaderTitle = $HEADING['MODIFY_DELETE_USER'] . ' ';
-$HeaderTitle .= (($iUserStatus == 1) ? strtolower($TEXT['ACTIVE']) : strtolower($TEXT['DELETED']));
-$oTemplate->set_var(
-    array(
-        // Insert language headings
-        'HEADING_MODIFY_DELETE_USER' => $HeaderTitle,
-        'HEADING_ADD_USER' => $HEADING['ADD_USER'],
-        'HEADING_ACCESS' => $MENU['ACCESS'],
-        'HEADING_USERS' => $MENU['USERS'],
-        // insert urls
-        'ADMIN_URL' => ADMIN_URL,
-        'WB_URL' => WB_URL,
-        'THEME_URL' => THEME_URL,
-        // Insert language text and messages
-        'TEXT_MODIFY' => $TEXT['MODIFY'],
-        'TEXT_DELETE' => $TEXT['DELETE'],
-        'TEXT_MANAGE_GROUPS' => ($admin->get_permission('groups') == true) ? $TEXT['MANAGE_GROUPS'] : "**",
-        'CONFIRM_DELETE' => (($iUserStatus == 1) ? $TEXT['ARE_YOU_SURE'] : $MESSAGE['USERS_CONFIRM_DELETE'])
-    )
-);
-if ($admin->get_permission('groups') == true) {
-    $oTemplate->parse("groups", "manage_groups_block", true);
-}
-// Parse template object
-$oTemplate->parse('main', 'main_block', false);
-$oTemplate->pparse('output', 'page');
-
-
-/**/
-if (isset($_POST['submit'])) {
-    $aError = [];
-    if (!$admin->checkFTAN()) {
-        $admin->print_header();
-        $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back);
-    }
-
-    // Get details entered
-    $groups_id = (isset($_POST['groups'])) ? implode(",", $admin->add_slashes($_POST['groups'])) : ''; //should check permissions
-    $groups_id = trim($groups_id, ','); // there will be an additional ',' when "Please Choose" was selected, too
-    $active = $admin->add_slashes($_POST['active'][0]);
-    $usernameTmp = $admin->get_post_escaped('username_fieldname');
-    $username = strtolower($admin->get_post_escaped($usernameTmp));
-    $sNewPassword = $admin->get_post('password');
-    $sRePassword = $admin->get_post('password2');
-    $display_name = $admin->get_post_escaped('display_name');
-    $email = $admin->get_post_escaped('email');
-    $home_folder = $admin->get_post_escaped('home_folder');
-
-    // Check values
-    if ($groups_id == '') {
-        echo($MESSAGE['USERS_NO_GROUP']);
-    }
-
-    // Validate the Username
-    if (!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
-        $aError[] = $MESSAGE['USERS_NAME_INVALID_CHARS'] . ' / ' . $MESSAGE['USERS_USERNAME_TOO_SHORT'];
-    }
-
-    // Validate the Email
-    if ($email != '') {
-        if ($admin->validate_email($email) == false) {
-            $_SESSSION['add_user'] = 'moin';
-            $aError[] = $MESSAGE['USERS_INVALID_EMAIL'];
+        
+        // check password if necessary
+        $sEncodedPassword = '';
+        if(isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1 || $action == 'save_user_add'){ 
+            // validate and encode Password
+            $mCheckPassword = validatePassword($admin->get_post('password'), $admin->get_post('password2'));
+            if(is_array($mCheckPassword)){
+                $aErrors[] = $mCheckPassword;
+            } else {
+                $sEncodedPassword = $checkPassword;                
+            }
         }
-    } else {
-        // e-mail must be present
-        $aError[] = $MESSAGE['SIGNUP_NO_EMAIL'];
-    }
 
-    // Choose group_id from groups_id - workaround for still remaining calls to group_id (to be cleaned-up)
-    $gid_tmp = explode(',', $groups_id);
-    $group_id = (in_array('1', $gid_tmp)) ? '1' : $gid_tmp[0];
-    unset($gid_tmp);
+        $aSaveData = array(
+            'user_id'      => $iUserID,
+            'groups_id'    => $groups_id,
+            'active'       => $admin->add_slashes($_POST['active'][0]),
+            'username'     => ($username != 'admin') ? $username : '', // "admin" is an unappropriate usename
+            'display_name' => $display_name,
+            'email'        => $admin->add_slashes($email),
+            'home_folder'  => $admin->get_post_escaped('home_folder'),
+            'timezone'     => '-72000',
+            'language'     => DEFAULT_LANGUAGE,
+            'signup_timestamp'   => time(),
+            'signup_confirmcode' => 'by admin uid: '.$admin->get_user_id(),
+        );
 
-    // Check if username already exists
-    $results = $database->query("SELECT `user_id` FROM `{TP}users` WHERE `username` = '" . $username . "'");
-    if ($results->numRows() > 0) {
-        $aError[] = $MESSAGE['USERS_USERNAME_TAKEN'];
-    }
+        if ($sEncodedPassword != "")
+            $aSaveData['password'] = $sEncodedPassword;
 
-    // Check if the email already exists
-    $rCheckEmail = "SELECT `user_id` FROM `{TP}users` WHERE `email` = '" . $email . "'";
-    if ($database->get_one($rCheckEmail) != false) {
-        $aError[] = $MESSAGE['USERS_EMAIL_TAKEN'];
-    }
-
-    // Validate the Password
-    $sEncodedPassword = '';
-    if ($sNewPassword != '') {
-        $checkPassword = $admin->checkPasswordPattern($sNewPassword, $sRePassword);
-        if (is_array($checkPassword)) {
-            foreach ($checkPassword as $str) {
-                $aError[] = $str;
+        // if no errors write or update the data 
+        if (empty($aErrors)) {
+            if ($action == 'save_user_add') {
+                // adding a new user
+                unset($aSaveData['user_id']);
+                $database->insertRow('{TP}users', $aSaveData);
+                $aSaveData['user_id'] = $database->getLastInsertId();
+            } else {
+                // update existing user record
+                $database->updateRow('{TP}users', 'user_id', $aSaveData);
+            }
+        }
+        
+        $aSaveData['groups'] = explode(',', $groups_id); // we need it to re-fill the form 
+        
+        // After Database updates, let's check for errors and
+        // determin the course of action
+        if ($database->is_error()) {
+            $aErrors[] = $database->get_error(); // Database error occurred
+        } elseif (empty($aErrors)) {
+            // No errors
+            if ($action == 'save_user_changes_and_close') {
+                // Display success message and go back to overview
+                $oMsgBox->success($MESSAGE['USERS_SAVED'], ADMIN_URL . '/users/'); 
+            } elseif ($action == 'save_user_changes' || $action == 'save_user_add') {
+                // Set success message and stay in modify user mode
+                $aSuccess[] = ($action == 'save_user_changes') ? $MESSAGE['USERS_SAVED'] : $MESSAGE['USERS_ADDED'];
+                $isModifyView = true; 
+                $action = 'modify_user_data'; 
             }
         } else {
-            $sEncodedPassword = $checkPassword;
+            // Errors present
+            if ($action == 'save_user_add') {
+                // Error in adding user, set error message on top of the queue
+                $aErrors[0] = '<b>' . $MESSAGE['GENERIC_FILL_IN_ALL'] . '</b>'; 
+                $aSaveData['add_new_user'] = 1;
+                
+                $isModifyView = false; 
+                $action = 'save_user_add'; 
+            } else {
+                // Errors in other actions
+                $isModifyView = true; 
+                $action = 'modify_user_data'; 
+            }
         }
-    } else {
-        $aError[] = $MESSAGE['USERS_PASSWORD_TOO_SHORT'];
-    }
 
-    // Insert User record into the Database
-    $aInsert = array(
-        'group_id' => $group_id,
-        'groups_id' => $groups_id,
-        'active' => $active,
-        'username' => $username,
-        'password' => $sEncodedPassword,
-        'display_name' => $display_name,
-        'home_folder' => $home_folder,
-        'email' => $email,
-        'language' => DEFAULT_LANGUAGE,
-        'signup_checksum' => date("Y-m-d H:i:s", time()),
-        'signup_timestamp' => time(),
-        'signup_confirmcode' => 'by admin uid: ' . $admin->get_user_id(),
-    );
-
-    if (empty($aError)) {
-        $database->insertRow('{TP}users', $aInsert);
-        if ($database->is_error()) {
-            $aError[] = ($database->get_error());
+        
+    case 'overview':
+        if (!isset($iUserID)) {
+            // set some placeholder data for add user
+            $iUserID = 0;
+            $isModifyView = $isModifyView ?? false;
+            $aUserData = [
+                'user_id'      => '',
+                'username'     => '',
+                'display_name' => '',
+                'email'        => '',
+                'active'       => 0,
+            ];
+        }
+        
+    case 'modify_user_data':
+        if ($action == 'modify_user_data') {
+            $isModifyView = true;
+            $admin = new Admin('Access', 'users_modify');
+            if (!isset($iUserID)) {
+                $tmp = $admin->get_get('user_id');
+                if($iUserID = $admin->checkIDKEY($tmp)){
+                    // Check if user id is a valid number and doesn't equal 1
+                    if ($iUserID == 0) {
+                        $oMsgBox->error($MESSAGE['GENERIC_FORGOT_OPTIONS']);
+                    }
+                    if (($iUserID < 2)) {
+                        // we do not allow to change SuperAdmin (user_id 1)
+                        $oMsgBox->error($MESSAGE['GENERIC_SECURITY_ACCESS']); 
+                    }
+                } else {
+                    // checkIDKEY failed (maybe user clicked the refresh button)
+                    $oMsgBox->error($MESSAGE['GENERIC_SECURITY_ACCESS']); 
+                    $oMsgBox->redirect(ADMIN_URL.'/users/'); 
+                }
+                    
+            }
+            $aUserData = getUserArray($iUserID);
         } else {
-            $oMsgBox->success('<b>' . $display_name . '</b><br>' . $MESSAGE['USERS_ADDED']);
-            $oMsgBox->redirect(ADMIN_URL . '/users/');
+            // we're in the OVERVIER USERS 
+            
+            autodeleteEmptyUsers();          
+            
+            if (isset($isHeaderSet) && $isHeaderSet != true) {
+                $admin->print_header();
+                $isHeaderSet = true;
+            }
+            
         }
-    } else {
-        foreach ($aError as $str) {
-            $oMsgBox->error($str);
+        // do we have some Error Messages to display?
+        if (!empty($aErrors)) {
+            $sErrors = (implode('<br>', $aErrors));
+            $oMsgBox->error($sErrors);
         }
-    }
-}
-
-// Setup template object, parse vars to it, then parse it
-// Create new template object
-$oTemplate = new Template(dirname($admin->correct_theme_source('users_form.htt')));
-// $oTemplate->debug = true;
-$oTemplate->set_file('page', 'users_form.htt');
-$oTemplate->set_block('page', 'main_block', 'main');
-
-
-$oTemplate->set_var(
-    array(
-        'HEADING_ADD_USER' => $HEADING['ADD_USER'],
-        'TEXT_CANCEL' => $TEXT['CANCEL'],
-        'DISPLAY_EXTRA' => 'display:none;',
-        #'ACTION_URL'         => ADMIN_URL.'/users/add.php',
-        'ACTION_URL' => '',
-        'SUBMIT_TITLE' => $TEXT['ADD'],
-        'FTAN' => $admin->getFTAN(),
-        'INPUT_NEW_PASSWORD' => $admin->passwordField('password'),
-        // insert urls
-        'ADMIN_URL' => ADMIN_URL,
-        'WB_URL' => WB_URL,
-        'THEME_URL' => THEME_URL,
-
-        'USERNAME' => isset($aInsert['username']) ? $aInsert['username'] : '',
-        'DISPLAY_NAME' => isset($aInsert['display_name']) ? $aInsert['display_name'] : '',
-        'EMAIL' => isset($aInsert['email']) ? $aInsert['email'] : '',
-    )
-);
-$oTemplate->set_var('ACTIVE_CHECKED', ' checked="checked"');
-$oTemplate->set_var('DISABLED_CHECKED', '');
-if (isset($aInsert['active']) && $aInsert['active'] == 0) {
-    $oTemplate->set_var('ACTIVE_CHECKED', '');
-    $oTemplate->set_var('DISABLED_CHECKED', ' checked="checked"');
-}
-
-$oMsgBox->display();
-// Add groups to list
-$oTemplate->set_block('main_block', 'group_list_block', 'group_list');
-$results = $database->query(
-    "SELECT `group_id`, `name` FROM `{TP}groups` WHERE `group_id` != '1'"
-);
-$aSelectedGroups = array();
-if (isset($aInsert['groups_id'])) {
-    $aSelectedGroups = explode(",", $aInsert['groups_id']);
-}
-if ($results->numRows() > 0) {
-    $oTemplate->set_var('ID', '');
-    $oTemplate->set_var('NAME', $TEXT['PLEASE_SELECT'] . '...');
-    $oTemplate->set_var('SELECTED', ' selected="selected"');
-    $oTemplate->parse('group_list', 'group_list_block', true);
-    while ($group = $results->fetchRow()) {
-        $oTemplate->set_var('ID', $group['group_id']);
-        $oTemplate->set_var('NAME', $group['name']);
-        $oTemplate->set_var('SELECTED', '');
-        if (in_array($group['group_id'], $aSelectedGroups)) {
-            $oTemplate->set_var('SELECTED', ' selected="selected"');
+        // do we have some Success Messages to display?
+        if (!empty($aSuccess)) {
+            $sSuccess = (implode('<br>', $aSuccess));
+            $oMsgBox->success($sSuccess);
         }
-        $oTemplate->parse('group_list', 'group_list_block', true);
-    }
-}
-// Only allow the user to add a user to the Administrators group if they belong to it
-if (in_array(1, $admin->get_groups_id())) {
-    $users_groups = $admin->get_groups_name();
-    $oTemplate->set_var('ID', '1');
-    $oTemplate->set_var('NAME', $users_groups[1]);
-    $oTemplate->set_var('SELECTED', '');
-    if (in_array(1, $aSelectedGroups)) {
-        $oTemplate->set_var('SELECTED', ' selected="selected"');
-    }
-    $oTemplate->parse('group_list', 'group_list_block', true);
-} else {
-    if ($results->numRows() == 0) {
-        $oTemplate->set_var('ID', '');
-        $oTemplate->set_var('NAME', $TEXT['NONE_FOUND']);
-        $oTemplate->parse('group_list', 'group_list_block', true);
-    }
-}
+     
 
-// Insert permissions values
-if ($admin->get_permission('users_add') != true) {
-    $oTemplate->set_var('DISPLAY_ADD', 'hide');
-}
+        // prepare Twig 	
+        $aToTwig = array(
+            'MESSAGE_BOX'        => $oMsgBox->fetchDisplay(),
+            'TABS'               => renderAddonsTabs($sPos),
+            'do_modify_user'     => $isModifyView,
+            'ACTION_URL'         => ADMIN_URL . '/users/index.php',
+            'use_home_folders'   => HOME_FOLDERS,
+            'user'               => (isset($aSaveData)) ? $aSaveData : $aUserData,
+            'USERLIST'           => getAllUsersArray(),
+            'groups'             => getGroupsArray($iUserID, (isset($aSaveData['groups']) ? $aSaveData['groups'] : array())),
+            'home_folders'       => getHomefolders($iUserID, (isset($aSaveData['home_folder']) ? $aSaveData['home_folder'] : '')),
+            'change_pswd'        => (isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1),
+            'INPUT_NEW_PASSWORD' => $admin->passwordField('password'), 
+        );
 
-// Generate username field name
-$username_fieldname = 'username_';
-$salt = "abchefghjkmnpqrstuvwxyz0123456789";
-
-$i = 0;
-while ($i <= 7) {
-    $num = rand() % 33;
-    $tmp = substr($salt, $num, 1);
-    $username_fieldname = $username_fieldname . $tmp;
-    $i++;
+        if(isset($_GET['duplicated'])){
+            $aToTwig['change_pswd'] = true;
+        }        
+        if(isset($_GET['hilite'])){
+            $aToTwig['hilite'] = (int) $_GET['hilite'];
+        }
+        $admin->getThemeFile('access_users.twig', $aToTwig);
+        $admin->print_footer();
+        break;
+        
+    default:
+        break;
 }
 
-// Work-out if home folder should be shown
-if (!HOME_FOLDERS) {
-    $oTemplate->set_var('DISPLAY_HOME_FOLDERS', 'display:none;');
-}
+/*
+switch ($action) {
+    case 'save_user_add':
+    case 'save_user_changes':
+    case 'save_user_changes_and_close':
+        $sAdminArea = ($action === 'save_user_add') ? 'users_add' : 'users_modify';
+        $admin = new Admin('Access', $sAdminArea, false);
+        $aErrors = [];
+        $aSuccess = [];
 
-// Include the WB functions file
-require_once WB_PATH . '/framework/functions.php';
+        if (!$admin->checkFTAN()) {
+            header("Location: index.php");
+            exit(0);
+        }
 
-// Add media folders to home folder list
-$oTemplate->set_block('main_block', 'folder_list_block', 'folder_list');
-foreach (directory_list(WB_PATH . MEDIA_DIRECTORY) as $name) {
-    $oTemplate->set_var('NAME', str_replace(WB_PATH, '', $name));
-    $oTemplate->set_var('FOLDER', str_replace(WB_PATH . MEDIA_DIRECTORY, '', $name));
-    $oTemplate->set_var('SELECTED', ' ');
-    $oTemplate->parse('folder_list', 'folder_list_block', true);
-}
+        $iUserID = '0'; // temporarily
+        if ($action !== 'save_user_add') {
+            // Check if user id is a valid number and doesn't equal 1
+            if (!isset($_POST['user_id']) || !is_numeric($_POST['user_id']) || $_POST['user_id'] == 1) {
+                header("Location: index.php");
+                exit(0);
+            }
+            $iUserID = $_POST['user_id'];
+        }
 
-// Insert language text and messages
-$oTemplate->set_var(
-    array(
-        'TEXT_CANCEL' => $TEXT['CANCEL'],
-        'TEXT_RESET' => $TEXT['RESET'],
-        'TEXT_ACTIVE' => $TEXT['ACTIVE'],
-        'TEXT_DISABLED' => $TEXT['DISABLED'],
-        'TEXT_PLEASE_SELECT' => $TEXT['PLEASE_SELECT'],
-        'TEXT_USERNAME' => $TEXT['USERNAME'],
-        'TEXT_PASSWORD' => $TEXT['PASSWORD'],
-        'TEXT_RETYPE_PASSWORD' => $TEXT['RETYPE_PASSWORD'],
-        'TEXT_DISPLAY_NAME' => $TEXT['DISPLAY_NAME'],
-        'TEXT_EMAIL' => $TEXT['EMAIL'],
-        'TEXT_GROUP' => $TEXT['GROUP'],
-        'TEXT_NONE' => $TEXT['NONE'],
-        'TEXT_HOME_FOLDER' => $TEXT['HOME_FOLDER'],
-        'USERNAME_FIELDNAME' => $username_fieldname,
-        'CHANGING_PASSWORD' => $MESSAGE['USERS_CHANGING_PASSWORD']
-    )
-);
+        // Gather details entered
+        $groups_id = (isset($_POST['groups'])) ? implode(",", $admin->add_slashes($_POST['groups'])) : '';
+        $username = strtolower($admin->get_post_escaped('username'));
+        $email = $admin->get_post_escaped('email');
+        $display_name = $admin->get_post_escaped('display_name');
 
-// Parse template for add user form
-$oTemplate->parse('main', 'main_block', false);
-$oTemplate->pparse('output', 'page');
+        // Check values
+        if (!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
+            $aErrors[] = '[2] ' . $MESSAGE['USERS_NAME_INVALID_CHARS'] . ' / ' . $MESSAGE['USERS_USERNAME_TOO_SHORT'];
+        }
+        if ($display_name === "") {
+            $aErrors[] = true;
+        }
+        if (empty($_POST['groups'])) {
+            $aErrors[] = '[1] ' . $MESSAGE['USERS_NO_GROUP'];
+        }
 
-$admin->print_footer();
+        if (isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1 || $action === 'save_user_add') {
+            $sNewPassword = $admin->get_post('password');
+            $sRePassword = $admin->get_post('password2');
+            // validate and encode Password
+            $sEncodedPassword = '';
+            $mCheckPassword = validatePassword($sNewPassword, $sRePassword);
+            if (is_array($mCheckPassword)) {
+                $aErrors[] = $mCheckPassword;
+            } else {
+                $sEncodedPassword = sha1($sNewPassword);
+            }
+        }
+
+        // Check for duplicate username and email
+        if (empty($aErrors)) {
+            $usernameExists = $admin->get_user_by_username($username);
+            $emailExists = $admin->get_user_by_email($email);
+
+            if ($usernameExists && $usernameExists['user_id'] != $iUserID) {
+                $aErrors[] = '[2] ' . $MESSAGE['USERS_USERNAME_EXISTS'];
+            }
+            if ($emailExists && $emailExists['user_id'] != $iUserID) {
+                $aErrors[] = '[3] ' . $MESSAGE['USERS_EMAIL_EXISTS'];
+            }
+        }
+
+        // Process the user data
+        if (empty($aErrors)) {
+            $aData = array(
+                'user_id' => $iUserID,
+                'groups_id' => $groups_id,
+                'username' => $username,
+                'email' => $email,
+                'display_name' => $display_name,
+            );
+
+            if (isset($sEncodedPassword) && $sEncodedPassword !== '') {
+                $aData['password'] = $sEncodedPassword;
+            }
+
+            $admin->save_user($aData);
+
+            if ($action === 'save_user_add') {
+                $aSuccess[] = $MESSAGE['USERS_ADDED'];
+            } else {
+                $aSuccess[] = $MESSAGE['USERS_UPDATED'];
+            }
+        }
+
+        $smarty->assign('sUserName', $username);
+        $smarty->assign('sEmail', $email);
+        $smarty->assign('sDisplayName', $display_name);
+        $smarty->assign('iUserID', $iUserID);
+        $smarty->assign('aUser', $admin->get_user_by_id($iUserID));
+        $smarty->assign('aGroups', $admin->get_groups());
+        $smarty->assign('aErrors', $aErrors);
+        $smarty->assign('aSuccess', $aSuccess);
+        $smarty->assign('admin', $admin);
+        $smarty->display('users_modify.tpl');
+        exit(0);
+
+    default:
+        header("Location: index.php");
+        exit(0);
+}*/

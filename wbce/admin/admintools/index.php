@@ -11,51 +11,77 @@
  */
 
 require '../../config.php';
-$admin = new admin('admintools', 'admintools');
 
-// Setup template object, parse vars to it, then parse it
-// Create new template object
-$template = new Template(dirname($admin->correct_theme_source('admintools.htt')));
-// $template->debug = true;
-$template->set_file('page', 'admintools.htt');
-$template->set_block('page', 'main_block', 'main');
+$admin = new Admin('admintools', 'admintools'); 
+$aAdminTools = array();
 
-// Insert required template variables
-$template->set_var('ADMIN_URL', ADMIN_URL);
-$template->set_var('THEME_URL', THEME_URL);
-$template->set_var('HEADING_ADMINISTRATION_TOOLS', $HEADING['ADMINISTRATION_TOOLS']);
 
-// Insert tools into tool list
-$template->set_block('main_block', 'tool_list_block', 'tool_list');
-
-$tool_default_icon = "fa fa-graduation-cap";
-$rTools = $database->query(
-    "SELECT `directory` FROM {TP}addons 
-     WHERE type = 'module' AND `function` LIKE '%tool%' AND `function` NOT LIKE '%hidden%' 
-     order by name"
-);
-if ($rTools->numRows() > 0) {
-    while ($tool = $rTools->fetchRow(MYSQLI_ASSOC)) {
-        $tool_icon = false;
-        $data = @file_get_contents(WB_PATH . '/modules/' . $tool['directory'] . '/info.php');
-        $tool_icon = get_variable_content('module_icon', $data, true, false);
-
-        $template->set_var(
-            array(
-                'TOOL_DIR' => $tool['directory'],
-                'TOOL_NAME' => $admin->get_module_name($tool['directory']),
-                'TOOL_DESCRIPTION' => $admin->get_module_description($tool['directory']),
-                'TOOL_ICON' => ($tool_icon === false) ? $tool_default_icon : $tool_icon
-            )
-        );
-        $template->parse('tool_list', 'tool_list_block', true);
+$aIconCfg = getAddonMonitorIniCfg()['general'];
+$sIcon = "fa-wrench"; 
+foreach($admin->getAdminToolsArray() as $iID=>$tool){
+    $aAdminTools[$iID]['dir']         = $tool['dir'];
+    $aAdminTools[$iID]['name']        = $tool['name'];
+    $aAdminTools[$iID]['description'] = $admin->get_module_description($tool['dir']);
+    $aAdminTools[$iID]['url']         = ADMIN_URL . '/admintools/tool.php?tool='.$tool['dir'];
+    // get tool icon
+    if($data = @file_get_contents(WB_PATH .'/modules/' .$tool['dir'] .'/info.php')){
+        if(!false == ($tmp = get_variable_content('module_icon', $data, true, false))){
+            $sIcon = $tmp;
+        }
     }
-} else {
-    $template->set_var('TOOL_LIST', $TEXT['NONE_FOUND']);
+    
+    $aAdminTools[$iID]['fa_icon'] = '';
+    $sPNG = '/modules/'.$tool['dir'].'/tool_icon';
+    if($aIconCfg['use_PNG_icons'] == 1 && is_readable(WB_PATH.$sPNG.'.png')){
+        $aAdminTools[$iID]['img'] = WB_URL.$sPNG.'.png';
+    } elseif($aIconCfg['use_SVG_icons'] && is_readable(WB_PATH.$sPNG.'.svg')){
+        $aAdminTools[$iID]['img'] = WB_URL.$sPNG.'.svg';
+    }   
+    
+    if ( $checkSVG = decodeBase64SVG($sIcon) ) {
+        $aAdminTools[$iID]['svg_icon'] = $checkSVG;
+    } else {        
+        $aAdminTools[$iID]['fa_icon'] = 'fa '.$sIcon;
+    }
 }
 
-// Parse template objects output
-$template->parse('main', 'main_block', false);
-$template->pparse('output', 'page');
-
+$aToTwig = array();
+$aToTwig['ADMIN_TOOLS'] = $aAdminTools;
+$admin->getThemeFile('admintools.twig', $aToTwig);
 $admin->print_footer();
+
+function getAddonMonitorIniCfg() {
+    $aRetVal = array();
+    $sIniFile = ADMIN_PATH . '/addons/AddonMonitorCfg.ini.php';
+    if (is_readable($sIniFile)) {
+        $aRetVal = parse_ini_file($sIniFile, true);
+        if (is_writable($sIniFile)) {
+            $aRetVal['cfg_writeable'] = true;
+        }
+    } else {
+        $aRetVal['general']['use_PNG_icons'] = false;
+        $aRetVal['general']['use_SVG_icons'] = false;
+    }
+    return $aRetVal;
+}
+
+/**
+ * Decode a base64-encoded SVG code.
+ * Will decode the encoded string and return a pattern like:
+ * <svg xmlns="http://www.w3.org/2000/svg" .... </svg>
+ *
+ * @param  string $encodedString The base64-encoded SVG string.
+ * @return string|false The decoded SVG string on success, or false on failure.
+ */
+function decodeBase64SVG($encodedString) {
+    // Remove data URI scheme and base64 encoding
+    $data = substr($encodedString, strpos($encodedString, ',') + 1);
+    $sDecodedSVG = base64_decode($data);
+
+    // Check if decoding was successful
+    if ($sDecodedSVG != false && strpos($sDecodedSVG, '<svg') === 0) {
+        return $sDecodedSVG;
+    } else {
+        return false;
+    }
+}

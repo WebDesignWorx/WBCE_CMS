@@ -1,0 +1,298 @@
+{% extends "access_framer.twig" %}
+{% block content %}    
+{% import '_icons.inc.twig' as fa %}
+                         
+{% if has_permission('groups_add') %}  
+<form name="group" action="{{ADMIN_URL}}/groups/save.php" method="post">
+    {{ FTAN }}
+    <input type="hidden" name="group_id" value="{% if GROUP_ID == 0 %}0{% else %}{{ getIDKEY(GROUP_ID) }}{% endif %}"> 
+    <div class="cp-settings">
+        <div class="cp-toggle-section">
+            <div class="formHeading">
+                {% if GROUP_ID == 0 %}
+                    <label><i class="fa fa-plus"></i> 
+                    {{ L_('HEADING:ADD_GROUP') }}
+                    <input type="checkbox" class="toggle" name="add_new_group" value="1" {% if user.add_new_group == true %}checked{% endif %} />
+                    </label>
+                {% else %}
+                    {{ L_('HEADING:MODIFY_GROUP') }}
+                {% endif %}
+            </div>
+            <div id="add_group">
+                <div class="cp-setting-row">
+                   <label class="cp-setting-name" for="group_name">{{ L_('TEXT:NAME') }}</label>
+                    <div class="cp-setting-value">
+                        <input type="text" name="group_name" id="group_name" maxlength="255" required value="{{ GROUP_NAME }}">
+                    </div>
+                </div>              
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name" for="description">{{ L_('TEXT:DESCRIPTION') }}</label>
+                    <div class="cp-setting-value">
+                        <textarea name="description" id="description">{{ GROUP_DESC }}</textarea>
+                    </div>
+                </div>       
+
+                <div class="">
+                    {% for key, area in access_perms %}
+                    <div class="permission-area-section">    
+                        <div class="permission-area">
+                            <div class="area-icon">
+                                <label for="cb_{{ key }}"><i class="fa fa-3x fa-{{ fa.icon(key) }}"></i></label>
+                            </div>
+                            <div class="area-name">
+                                    <label for="cb_{{ key }}">
+                                        <input name="{{ key }}" id="cb_{{ key }}" type="checkbox" value="1" {{ area.checked }} >
+                                        {{ L_(area.title) }}</label>
+                                <p>{{ L_('OVERVIEW:'~ key|upper|trim) }}</p>
+                            </div>
+                        </div>
+                        <article id="section_{{ key }}">
+                            <div class="permission-area">
+                                <div></div>
+                                <div>
+                                    <ul class="permissions">
+                                        {% for key, child in area.child %}
+                                            <li>
+                                                <label>
+                                                    <input name="{{ key }}" class="child_{{ loop.parent.key }}" type="checkbox" value="1" {{ child.checked }} />
+                                                    {{ L_(child.title) }}{% if key == 'pages_add_l0' %} (in {{ L_('TEXT:LEVEL') }} 0){%endif%}
+                                                </label>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div> 
+                            </div> 
+                            <div class="permission-area">
+                                <div></div>
+                                <div> 
+                                    {% if key == "admintools" %}
+                                        <ul class="check_selection">  
+                                            <li>{{ L_('TEXT:TOOLS_PERMISSIONS') }}:</li>
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" id="cb_admintools_tools" />
+                                                    <i>{{ L_('TEXT:SELECT_ALL') }}</i>
+                                                </label>
+                                            </li>
+                                            {% for addon in addon_list.tool %}
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" name="module_permissions[]" id="t_{{ addon.directory }}" value="{{ addon.directory }}_tool" {{ addon.checked }} class="child_admintools_tools" />
+                                                        {{ addon.name }}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>                 
+                                    {% endif %}
+                                    {% if key == "modules" %}
+                                        <ul class="check_selection">
+                                            <li>{{ L_('TEXT:MODULE_PERMISSIONS') }}:</li>
+                                            <li><label>
+                                                    <input type="checkbox" id="cb_module_permissions" />
+                                                    <i>{{ L_('TEXT:SELECT_ALL') }}</i>
+                                                </label>
+                                            </li>
+                                            {% for addon in addon_list.page %}
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="module_permissions[]" id="t_{{ addon.directory }}" class="child_module_permissions" value="{{ addon.directory }}" {{ addon.checked }} />
+                                                    {{ addon.name }}
+                                                </label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    {% if key == "templates" %} 
+                                        <ul class="check_selection">
+                                            <li>{{ L_('TEXT:TEMPLATE_PERMISSIONS') }}:</li>
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" id="cb_template_permissions" />
+                                                    <i>{{ L_('TEXT:SELECT_ALL') }}</i>
+                                                </label>
+                                            </li>
+                                            {% for addon in addon_list.template %}                        
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="template_permissions[]" id="t_{{ addon.directory }}" value="{{ addon.directory }}" {{ addon.checked }}  class="child_template_permissions" />
+                                                    {{ addon.name }}
+                                                </label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                        <ul class="check_selection"> 
+                                            <li>{{ L_('TEXT:THEMES_PERMISSIONS') }}:</li>
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" id="cb_theme_permissions" />
+                                                    <i>{{ L_('TEXT:SELECT_ALL') }}</i>
+                                                </label>
+                                            </li>
+                                            {% for addon in addon_list.theme %}
+                                            <li>
+                                                <label>
+                                                    <input type="checkbox" name="template_permissions[]" id="t_{{ addon.directory }}" value="{{ addon.directory }}" {{ addon.checked }} class="child_theme_permissions" />
+                                                    {{ addon.name }}
+                                                </label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}              
+                                </div>         
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="cp-buttons-row">
+                    <button onclick="window.location.href='{{ ADMIN_URL }}/groups';" class="button ico-cancel">{{ L_('TEXT:CANCEL') }}</button>
+                    {% set TEXT_SUBMIT %}{% if GROUP_ID == '0' %}HEADING:ADD_GROUP{% else %}TEXT:SAVE{% endif %}{% endset %}                    
+                    {% if GROUP_ID != '0' %}<button type="submit" class="button ico-save-back pos-right" name="save_and_close">{{ L_('TEXT:SAVE') }} & {{ L_('TEXT:BACK') }}</button>{% endif %}
+                    <button type="submit" name="save" class="button ico-save pos-right"> {{ L_(TEXT_SUBMIT|trim) }} </button>
+                </div>  
+            </div>
+        </div>  
+    </div>
+</form>
+{% endif %}   
+{% if GROUP_ID == 0 %}
+    <h4>{{ L_('OVERVIEW:GROUPS') }}</h4>
+    <input type="text" id="filterTable" class="cp-table-filter" data-filter-table="groupsOverview" placeholder="{{ L_("TEXT:SEARCH") }} &hellip;">
+
+    <div>
+        <table id="groupsOverview" class="cp-table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="sort filter">ID</th>
+                    <th class="sort filter">{{ L_('TEXT:NAME') }}</th>
+                    <th>{{ L_('TEXT:SYSTEM_PERMISSIONS') }}</th>
+                    <th class="sort">{{ L_('MENU:USERS') }}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for rec in groups %} 
+                    
+                    {% set IDKEY = getIDKEY(rec.group_id) %}
+                    {% set access = get_group_permissions(rec.group_id) %}
+                    <tr> 
+                        <td>{{ rec.group_id }} </td>
+                        <td class="edit-link-name">
+                            {% if has_permission('groups_modify') %}
+                               <a href="{{ ADMIN_URL }}/groups/index.php?group_id={{ IDKEY }}&modify=1" title="{{ L_('TEXT:MODIFY') }} {{ L_('TEXT:GROUP') }}">{{ rec.name }}</a>
+                            {% else %} 
+                                {{ rec.name }} 
+                            {% endif %}  
+                        </a>
+                        </td>
+                        <td>
+                            <ul class="permissions">
+                                <li title="{{ L_('MENU:PAGES') }}"><i class="fa fa-lg fa-{{ fa.icon('pages') }}{% if access.pages.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:MEDIA') }}"><i class="fa fa-lg fa-{{ fa.icon('media') }}{% if access.media.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:MODULES') }}"><i class="fa fa-lg fa-{{ fa.icon('modules') }}{% if access.modules.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:TEMPLATES') }}"><i class="fa fa-lg fa-{{ fa.icon('templates') }}{% if access.templates.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:LANGUAGES') }}"><i class="fa fa-lg fa-{{ fa.icon('languages') }}{% if access.languages.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:SETTINGS') }}"><i class="fa fa-lg fa-{{ fa.icon('settings') }}{% if access.settings.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:ADMINTOOLS') }}"><i class="fa fa-lg fa-{{ fa.icon('admintools') }}{% if access.admintools.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:GROUPS') }}"><i class="fa fa-lg fa-{{ fa.icon('groups') }}{% if access.groups.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:USERS') }}"><i class="fa fa-lg fa-{{ fa.icon('users') }}{% if access.users.checked != '' %} access{% endif %}"></i></li>
+                                <li title="{{ L_('MENU:PREFERENCES') }}"><i class="fa fa-lg fa-{{ fa.icon('preferences') }}{% if access.preferences.checked != '' %} access{% endif %}"></i></li>
+                            </ul>
+                            <span class="group-description">{{ rec.description }}</span>
+                        </td>  
+                        <td>
+                            {% if rec.usercount %}{{ rec.usercount }}{% else %}<i>{{ L_('TEXT:NONE') }}</i>{% endif %}
+                        </td>
+                        <td> 
+                            {% if has_permission('groups_delete') %}     
+                                {% if rec.usercount > 0 %}
+                                    {# Don't allow to delete Group if there are any users in it #}
+                                    <a class="delete-record inactive" title="{{ L_('TEXT:RECORD_DISABLED', 'TEXT:DELETE') }}"><i class="fa fa-trash"></i></a>
+                                {% else %}
+                                    <a class="delete-record" href="{{ ADMIN_URL }}/groups/index.php?group_id={{ IDKEY }}&delete=1" title="{{ L_('TEXT:DELETE_RECORD', 'TEXT:GROUP') }}"  onclick="return confirm('{{ L_('MESSAGE:GROUPS_CONFIRM_DELETE') }}');"><i class="fa fa-trash"></i></a>
+                                {% endif %}  
+                            {% endif %}  
+                        </td>      
+                    </tr>  
+                {% endfor %} 
+            </tbody>
+            {% if groups|length > 5 %}
+                <tfoot>
+                    {{ block('headings') }}
+                </tfoot>
+            {% endif %}
+        </table>
+    </div>
+{% endif %}
+
+{% set area_checkboxes = [
+    'pages',
+    'addons',
+    'modules',
+    'media',
+    'languages',
+    'templates',
+    'admintools',
+    'admintools_tools',
+    'preferences',
+    'settings',
+    'users',
+    'groups',
+    'module_permissions',
+    'template_permissions',
+    'theme_permissions',
+    'tool_permissions',
+    'setting_permissions',
+] %}
+<script>
+    
+    $.insert(WB_URL + '/templates/theme_fallbacks/jQueryPlugins/cpTableFilter/cpTableFilter.js');
+    $(document).ready(function() {
+        $('#filterInput').cpTableFilter();
+    });
+    function add_active_style(child){
+        var obj = $('#section_' + child).parent();
+        obj.addClass('active');
+    }    
+    function remove_active_style(child){
+        var obj = $('#section_' + child).parent();
+        obj.removeClass('active');
+    }
+    
+    function area(area){
+        if ($("input.child_" + area + ":checkbox:checked").length >0) {  
+                $("article#section_" + area).toggle(); 
+                add_active_style(area); 
+        }
+        $("article#section_" + area).toggle();
+        $("#cb_" + area).on('change', function() {
+            $('.child_' + area).prop('checked', $(this).prop('checked'));
+            $("article#section_" + area).toggle(); 
+            if ($("input.child_" + area + ":checkbox:checked").length == 0) {  
+                remove_active_style(area); 
+            } else {
+                add_active_style(area); 
+            }
+        });
+        $('.child_' + area).on('change', function() {
+            $('#cb_' + area).prop('checked', $('.child_' + area + ':checked').length ? true : false);
+            if ($("input.child_" + area + ":checkbox:checked").length == 0) {               
+                $("article#section_" + area).toggle();
+                remove_active_style(area); 
+            }
+        });
+    }
+    $(function () {
+    {% for area in area_checkboxes %}    
+        area('{{ area }}');
+    {% endfor %}
+    $('.toggle').on('change', function () {                
+        $('#add_group').toggle(this.checked);  
+        //$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+    }).change(); //ensure visible state matches initially
+    
+});
+</script>
+{% endblock %}

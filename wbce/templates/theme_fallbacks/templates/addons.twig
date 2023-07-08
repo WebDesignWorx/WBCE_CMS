@@ -1,0 +1,81 @@
+{% extends "addons_framer.twig" %}
+{% block content %}  
+<section class="subpages">
+    {% if has_permission('modules') %}
+    <article class="subpage sub-users">
+        <div class="subpage-icon"><i class="fa fa-cube"></i></div>
+        <div class="subpage-content">
+            <p class="subpage-title">
+                <a href="{{ ADMIN_URL }}/modules/">{{ L_('MENU:MODULES') }}</a>
+            </p>
+            <p>{{ L_('OVERVIEW:MODULES') }}</p>
+        </div>                         
+    </article> 
+    {% endif %} 
+
+    {% if has_permission('templates') %}
+    <article class="subpage sub-groups">
+        <div class="subpage-icon"><i class="fa fa-file-image-o"></i></div>
+        <div class="subpage-content">
+            <p class="subpage-title">
+                <a href="{{ ADMIN_URL }}/templates/">{{ L_('MENU:TEMPLATES') }}</a>
+            </p>
+            <p>{{ L_('OVERVIEW:TEMPLATES') }}</p>
+        </div>                            
+    </article> 
+    {% endif %} 
+    
+    {% if has_permission('languages') %}
+    <article class="subpage sub-groups">
+        <div class="subpage-icon"><i class="fa fa-language"></i></div>
+        <div class="subpage-content">
+            <p class="subpage-title">
+                <a href="{{ ADMIN_URL }}/languages/">{{ L_('MENU:LANGUAGES') }}</a>
+            </p>
+            <p>{{ L_('OVERVIEW:LANGUAGES') }}</p>
+        </div>                            
+    </article> 
+    {% endif %} 
+</section>
+    
+    
+{% if has_permission('settings_advanced') %}  
+<form action="http://localhost/WBCE_CMS/wbce/admin/addons/reload.php" method="post">
+    {{ FTAN }}
+    <div class="cp-settings">
+        <div class="cp-toggle-section">
+            <div class="formHeading">
+                <label><i class="fa fa-sliders"></i> {{ L_('{TEXT:SETTINGS} {TEXT:ADMIN}') }} 
+                    <input type="checkbox" class="toggle" {% if show_settings == true %}checked{% endif %} />
+                </label>
+            </div>
+            <div id="settings">
+                <div class="cp-setting-row">
+                    {{ L_('MESSAGE:ADDON_RELOAD') }}
+                </div>
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name">{{ L_('TEXT:RELOAD') }}</label>
+                    <div class="cp-setting-value">
+                        <input type="checkbox" name="reload_modules" id="reload_modules" value="true">
+                        <label for="reload_modules">{{ L_('MENU:MODULES') }}</label>
+                        <input type="checkbox" name="reload_templates" id="reload_templates" value="true">
+                        <label for="reload_templates">{{ L_('MENU:TEMPLATES') }}</label>
+                        <input type="checkbox" name="reload_languages" id="reload_languages" value="true">
+                        <label for="reload_languages">{{ L_('MENU:LANGUAGES') }}</label>
+                    </div>
+                </div>                 
+                    
+                <div class="cp-buttons-row">  
+                    <button type="submit" name="submit" class="button ico-reload pos-right">{{ L_('TEXT:RELOAD') }}</button> 
+                </div>  
+            </div>  
+        </div>
+    </div>
+</form>
+<script>
+     $('.toggle').on('change', function () {                
+        $('#settings').toggle(this.checked);  
+    }).change(); 
+</script>
+{% endif %}
+{% endblock %}

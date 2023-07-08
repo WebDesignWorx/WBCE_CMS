@@ -84,6 +84,34 @@ div.acpInfobox {
     padding: 6px;
 }
 
+
+.bcp-pane-inlay {
+    margin: auto;
+    padding: 10px;
+}
+
+.island{
+    border: 1px solid #dcdcdc;
+    position: relative;
+    margin: 0 0 1.5em 0;
+    padding: 0;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    background: #fff;
+}
+div.cpForm.island > .formHeading{    
+    padding: .3em .5em; 
+}
+
+div.cpForm .formHeading {
+    font-size: 1.35em;
+    color: #647086;
+    font-weight: bold;
+    padding: 0.6em;
+    padding-top: 1em;
+    background-color: white;
+    border-bottom: 1px solid #ececee;
+}
 /* tabs */
 /* header */
 #acp-header {

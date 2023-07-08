@@ -81,6 +81,46 @@ class Admin extends Wb
             $wb = $this;
         }
     }
+    
+    /**
+     * Retrieve the AdminTools as an array.
+     * Is loged in user is not in the Admin group it will check which Tools to show.
+     *
+     * @param  string $orderBy
+     * @return array The array of AdminTools
+     */
+    public function getAdminToolsArray($orderBy = 'name') {
+        $adminToolsArray = [];
+        
+        // get AdminTools from DB
+        $orderBy = $this->_oDb->escapeString($orderBy); // Sanitize orderBy    
+        $sql = sprintf("SELECT `addon_id`, `directory` FROM `{TP}addons` 
+            WHERE `type` = 'module' AND `function` LIKE '%%tool%%' 
+            AND `function` NOT LIKE '%%hidden%%' ORDER BY %s", $orderBy); 
+        $resTools = $this->_oDb->get_array($sql);
+
+        // walk through the AdminTools and add to array if user has sufficient rights
+        foreach ($resTools as $rec) {
+            if (!$this->isAdmin()) {
+                // check AdminTools permissions if User is not in Admin Group
+                $sToolCheck = trim($rec['directory']) . '_tool';
+                if (!in_array($sToolCheck, $this->get_session('MODULE_PERMISSIONS'))) {
+                    continue;
+                }
+            }
+
+            $id = $rec['addon_id'];
+            $adminToolsArray[$id] = [
+                'name' => trim($this->get_module_name($rec['directory'])),
+                'dir'  => trim($rec['directory']),
+            ];
+
+            if (false !== strpos($_SERVER['REQUEST_URI'], $rec['directory'])) {
+                $adminToolsArray[$id]['current'] = true;
+            }
+        }
+        return $adminToolsArray;
+    }
 
     /**
      * @brief   Return a system permission

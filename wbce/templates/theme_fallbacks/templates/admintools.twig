@@ -1,0 +1,58 @@
+<h2 class="page_titel">{{ L_('MENU:ADMINTOOLS') }}</h2>
+{% if ADMIN_TOOLS %}   
+<input class="cp-table-filter" id="filterInput" type="text" placeholder="{{ L_('TEXT:SEARCH') }} …">
+<section class="subpages">
+    {% for key, tool in ADMIN_TOOLS %}
+    <article class="subpage" id="{{ tool.dir }}">
+        {% if tool.img %}
+            <div class="subpage-img"><img src="{{ tool.img }}" alt="{{ tool.dir }}"></div>
+        {% elseif tool.svg_icon %}
+            <div class="subpage-img">
+                {{ tool.svg_icon }}
+            </div>
+        {% else %}
+            <div class="subpage-icon">
+                <i class="{{ tool.fa_icon }}"></i>
+            </div>
+        {% endif %}
+        
+        <div class="subpage-content">
+            <p class="subpage-title"><a href="{{ tool.url }}">{{ tool.name }}</a></p>
+            <p class="subpage-dir">{{ tool.dir }}</p>
+            <p>{{ tool.description }}</p>                            
+        </div>
+    </article> 
+    {% endfor %} 
+</section> 
+ {% else %}
+     {{ L_('TEXT:NONE_FOUND') }}
+ {% endif %}
+	
+<script>
+$.insert(WB_URL + '/templates/theme_fallbacks/jQueryPlugins/rearangeByLocalStorage/rearangeByLocalStorage.js');
+$.insert(WB_URL + '/templates/theme_fallbacks/jQueryPlugins/cpFilterDivs/cpFilterDivs.js');
+
+$(document).ready(function() {
+    $(".subpages").cpFilterDivs({
+        inputField: "#filterInput",
+        filterSelector: ".subpage",
+        textSelector: ".subpage-title"
+    });
+    $('.subpage').rearangeByLocalStorage({
+        storageKey: 'toolArray',
+        parentClass: 'subpages'
+    });
+    
+    // subpages: clickable article
+    $(document).on('click', 'article.subpage', function() {
+        // Get the link URL from the first <a> tag within the article
+        const link = $(this).find('a:first').attr('href');
+
+        // Redirect the user to the link URL
+        window.location.href = link;
+    });
+
+});
+
+
+</script>

@@ -1,8 +1,8 @@
 <?php
 /**
- * WBCE CMS
+ * WebsiteBaker Community Edition (WBCE)
  * Way Better Content Editing.
- * Visit https://wbce.org to learn more and to join the community.
+ * Visit http://wbce.org to learn more and to join the community.
  *
  * @copyright Ryan Djurovich (2004-2009)
  * @copyright WebsiteBaker Org. e.V. (2009-2015)
@@ -10,49 +10,74 @@
  * @license GNU GPL2 (or any later version)
  */
 
-// Print admin header
-require('../../config.php');
-require_once(WB_PATH . '/framework/class.admin.php');
-// suppress to print the header, so no new FTAN will be set
-$admin = new admin('Access', 'groups_modify', false);
-// Create a javascript back link
-$js_back = ADMIN_URL . '/groups/index.php';
+require '../../config.php';
+
+$admin = new Admin('Access', 'groups_modify', false); 
+$oMsgBox = new MessageBox();
+
+$sRedirect = ADMIN_URL.'/groups';
 
 if (!$admin->checkFTAN()) {
-    $admin->print_header();
-    $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS'], $js_back);
+    $oMsgBox->error($MESSAGE['GENERIC_SECURITY_ACCESS'], $sRedirect);
+    exit();
 }
 
-// Check if group group_id is a valid number and doesnt equal 1
-$group_id = intval($admin->checkIDKEY('group_id', 0, $_SERVER['REQUEST_METHOD']));
-if (($group_id < 2)) {
-    // if($admin_header) { $admin->print_header(); }
-    $admin->print_header();
-    $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+if($admin->get_post('group_id') == '0'){
+    $admin = new Admin('Access', 'groups_add', false); 
+    $sAction = 'add_new_group';
+}else{
+    // Check if group group_id is a valid number and doesnt equal 1
+    $iGroupID = intval($admin->checkIDKEY('group_id', 0, $_SERVER['REQUEST_METHOD']));
+    $sAction = 'save_group';
+    
+    if( ($iGroupID < 2 ) ) {
+        $oMsgBox->error($MESSAGE['GENERIC_SECURITY_ACCESS'], $sRedirect);
+        exit();
+    }
 }
 
-// Gather details entered
-$group_name = $admin->get_post_escaped('group_name');
-
-// Check values
-if ($group_name == "") {
-    $admin->print_error($MESSAGE['GROUPS_GROUP_NAME_BLANK'], $js_back);
+$sGroupName = $database->escapeString(trim(strip_tags($admin->get_post('group_name'))));
+if($sGroupName == "") {
+    $oMsgBox->error($MESSAGE['GROUPS_GROUP_NAME_BLANK'], $sRedirect, true);
 }
-// After check print the header
-$admin->print_header();
+$sDescription = $database->escapeString(strip_tags($admin->get_post('description')));
+
+// check if name already in use
+$sSql = "SELECT COUNT(*) FROM `{TP}groups` WHERE `name`='".$sGroupName."'";
+if($sAction != 'add_new_group'){
+    $sSql .= " AND `group_id` <> '".$iGroupID."'";
+}
+if ($database->get_one($sSql)) {
+    $oMsgBox->error($MESSAGE['GROUPS_GROUP_NAME_EXISTS'], $sRedirect);
+}
 
 // Get system permissions
-require_once(ADMIN_PATH . '/groups/get_permissions.php');
+require_once(ADMIN_PATH.'/groups/posted_permissions.php');
 
 // Update the database
-$query = "UPDATE `" . TABLE_PREFIX . "groups` SET `name` = '$group_name', `system_permissions` = '$system_permissions', `module_permissions` = '$module_permissions', `template_permissions` = '$template_permissions' WHERE `group_id` = '$group_id'";
+$aData = array(
+    'name'                 => $sGroupName,
+    'description'          => $sDescription,
+    'system_permissions'   => $system_permissions,
+    'module_permissions'   => $module_permissions,
+    'template_permissions' => $template_permissions,
+);
 
-$database->query($query);
-if ($database->is_error()) {
-    $admin->print_error($database->get_error());
-} else {
-    $admin->print_success($MESSAGE['GROUPS_SAVED'], ADMIN_URL . '/groups/index.php');
+if($sAction == 'add_new_group'){
+    $database->insertRow('{TP}groups', $aData);
+    $iGroupID = $database->getLastInsertId();
+}else{    
+    $aData['group_id'] = $iGroupID;
+    $database->updateRow('{TP}groups', 'group_id', $aData);
 }
 
-// Print admin footer
-$admin->print_footer();
+if($database->is_error()) {   
+    $oMsgBox->error($database->get_error(), $sRedirect);
+} else {
+    $sMessage = ($sAction == 'add_new_group') ? 'ADDED' : 'SAVED';
+    $tmpID = $iGroupID;
+    if(isset($_POST['save'])){
+        $tmpID = $admin->getIDKEY($iGroupID);
+    }
+    $oMsgBox->success($MESSAGE['GROUPS_'.$sMessage], $sRedirect.'/index.php?group_id='.$tmpID);
+}

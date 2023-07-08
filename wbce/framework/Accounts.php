@@ -451,14 +451,16 @@ class Accounts extends Frontend
 
     public function get_users_overview($bExtendOnly = false)
     {
-        global $TEXT, $TOOL_TXT;
         $sJavaScriptArray = '';
         $aCollection = array();
         $aUsers = $this->get_userbase_array($bExtendOnly);
-        $sToolUri = ADMIN_URL . '/admintools/tool.php?tool=' . ADMIN_TOOL_DIR;
+        $sToolUri = "";
+        if(defined("ADMIN_TOOL_DIR")){
+            $sToolUri = ADMIN_URL . '/admintools/tool.php?tool=' . ADMIN_TOOL_DIR;
+        }
         ob_start(); ?>
         <a class="iconlink" href="<?= $sToolUri ?>&amp;pos=detail&amp;id=%d&amp;action=delete">
-            <img src="/delete_16.png" alt="<?= $TOOL_TXT['DELETE'] ?>">
+            <img src="/delete_16.png" alt="<?=L_('TEXT:DELETE');?>">
         </a>
         <?php
         $sLinkDelete = ob_get_clean();
@@ -466,7 +468,7 @@ class Accounts extends Frontend
 
         ob_start(); ?>
         <a class="iconlink" href="<?= $sToolUri ?>&amp;pos=detail&amp;id=%d&amp;action=edit">
-            <img src="/modify.png" alt="<?= $TEXT['MODIFY'] ?>"/>
+            <img src="/modify.png" alt="<?=L_('TEXT:MODIFY');?>"/>
         </a>
         <?php
         $sLinkEdit = ob_get_clean();
@@ -474,7 +476,7 @@ class Accounts extends Frontend
         $sPryFunc = '';
         if (defined('UB_MOD_URL')) {
             ob_start(); ?>
-            <a class="pry" title='<?= $TEXT['VIEW']; ?> User "%s"'
+            <a class="pry" title='<?=L_('TEXT:VIEW');?> User "%s"'
                href="<?= $sToolUri ?>&amp;pos=detail&amp;id=%d&amp;action=edit"
                rel="<?= UB_MOD_URL ?>/pry_profile.php?id=%d&action=edit">
                 <i class="fa fa-1x fa-address-card"></i>
@@ -485,19 +487,23 @@ class Accounts extends Frontend
 
         foreach ($aUsers as $rec) {
             $iID = $rec['user_id'];
-            $aCollection[$iID]['active'] = $rec['active'];
-            $aCollection[$iID]['reg_method'] = $this->_getRegMethod($rec['signup_confirmcode']);
-            $aCollection[$iID]['language'] = $rec['language'];
-            $aCollection[$iID]['user_id'] = $rec['user_id'];
-            $aCollection[$iID]['username'] = $rec['display_name'] . ' <i>(' . $rec['username'] . ')</i>';
-            $aCollection[$iID]['usernameCsv'] = $rec['display_name'] . ' (' . $rec['username'] . ')';
-            $aCollection[$iID]['email'] = $rec['email'];
-            $aCollection[$iID]['groups'] = $rec['user_groups'];
-            $aCollection[$iID]['actions'] = sprintf($sPryFunc, $rec['display_name'], $iID, $iID) . ' ';
-            $aCollection[$iID]['login_when'] = ($rec['login_when'] != 0) ? $rec['login_when'] + TIMEZONE : '';
-            $aCollection[$iID]['profile_url'] = sprintf($sToolUri . '&amp;pos=detail&amp;id=%d&amp;action=edit', $iID);
-            $aCollection[$iID]['signup_timestamp'] = ($rec['signup_timestamp'] != 0) ? $rec['signup_timestamp'] + TIMEZONE : '';
+
+            $aCollection[$iID] = [
+                'active'           => $rec['active'],
+                'reg_method'       => $this->_getRegMethod($rec['signup_confirmcode']),
+                'language'         => $rec['language'],
+                'user_id'          => $rec['user_id'],
+                'username'         => $rec['display_name'] . ' <i>(' . $rec['username'] . ')</i>',
+                'usernameCsv'      => $rec['display_name'] . ' (' . $rec['username'] . ')',
+                'email'            => $rec['email'],
+                'groups'           => $rec['user_groups'],
+                'actions'          => sprintf($sPryFunc, $rec['display_name'], $iID, $iID) . ' ',
+                'login_when'       => ($rec['login_when'] != 0) ? $rec['login_when'] + TIMEZONE : '',
+                'profile_url'      => sprintf($sToolUri . '&amp;pos=detail&amp;id=%d&amp;action=edit', $iID),
+                'signup_timestamp' => ($rec['signup_timestamp'] != 0) ? $rec['signup_timestamp'] + TIMEZONE : '',
+            ];
         }
+
         return $aCollection;
     }
 
@@ -587,11 +593,13 @@ function renderToolTabs(array $aTabs)
     $aRetVal = array();
     $i = 0;
     foreach ($aTabs as $sKey => $aValues) {
-        $aRetVal[$i]['pos'] = $sKey;
-        $aRetVal[$i]['a_class'] = ($sPos == $sKey) ? ' sel' : '';
-        $aRetVal[$i]['li_class'] = ($sPos == $sKey) ? ' class="actionSel"' : '';
-        $aRetVal[$i]['link_name'] = $aValues[0];
-        $aRetVal[$i]['icon'] = $aValues[1];
+        $aRetVal[$i] = [
+            'pos'       => $sKey,
+            'a_class'   => ($sPos == $sKey) ? ' sel' : '',
+            'li_class'  => ($sPos == $sKey) ? ' class="actionSel"' : '',
+            'link_name' => $aValues[0],
+            'icon'      => $aValues[1],
+        ];
         $i++;
     }
     return $aRetVal;

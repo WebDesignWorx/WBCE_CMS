@@ -1,0 +1,38 @@
+{% set TABLESORTER_DIR = WB_URL ~ "/modules/tool_account_settings/js/jquery.tablesorter" %}
+{{ insertCssFile(TABLESORTER_DIR ~ "/theme.wbEasy.css", "HEAD BTM-")}}
+{{ insertJsFile( WB_URL ~ "/templates/theme_fallbacks/jQueryPlugins/cpTableFilter/cpTableFilter.js", "BODY TOP-")}}
+<script> 
+ $(document).ready(function() {
+    $('#filterTable').cpTableFilter();
+  });
+</script>
+
+{{ insertCssCode(css_code) }}
+<h2 class="page_titel"> {{ L_('MENU:ACCESS') }}{% if POSITION != 'access' %} / {{ L_('MENU:'~POSITION|upper) }}{% endif %}</h2>
+<section class="cp-main">
+    <div class="cp-pageinfo"></div>
+    <nav class="cp-tabs">
+        {% include 'tabs.twig' %}	
+    </nav>  
+    <div class="cp-pane-inlay">   
+        <noscript>JavaScript disabled.</noscript>
+    {{ MESSAGE_BOX }}
+    {% block content %}
+    {% endblock %}
+    </div>
+</section>
+    
+    
+<script>
+$(document).ready(function() {
+    
+  // Add class cp-required to cp-setting-name if field is 
+  // Select all input fields within `.cp-setting-value` divs that have the `required` attribute
+  $('.cp-setting-value input[required], .cp-settings .cp-setting-value select[required]').each(function() {
+    // Find the closest preceding `.cp-setting-name` element
+    var $label = $(this).closest('.cp-setting-value').prev('.cp-setting-name');
+    // Add the class `cp-required` to the `cp-setting-name` element
+    $label.addClass('cp-required');
+  });
+});
+</script>

@@ -1,71 +1,55 @@
 <?php
 /**
- * WBCE CMS
- * Way Better Content Editing.
- * Visit https://wbce.org to learn more and to join the community.
  *
- * @copyright Ryan Djurovich (2004-2009)
- * @copyright WebsiteBaker Org. e.V. (2009-2015)
- * @copyright WBCE Project (2015-)
- * @license GNU GPL2 (or any later version)
+ *
+ *
  */
 
-require('../../config.php');
-require_once(WB_PATH . '/framework/class.admin.php');
-$admin = new admin('Access', 'access');
+require '../../config.php';
 
-// Setup template object, parse vars to it, then parse it
-// Create new template object
-$template = new Template(dirname($admin->correct_theme_source('access.htt')));
-// $template->debug = true;
-$template->set_file('page', 'access.htt');
+$oMsgBox = new MessageBox();
 
-$template->set_block('page', 'main_block', 'main');
-$template->set_block('main_block', 'users_block', 'user');
-$template->set_block('main_block', 'groups_block', 'group');
-
-// Insert values into the template object
-$template->set_var(
-    array(
-        'ADMIN_URL' => ADMIN_URL,
-        'THEME_URL' => THEME_URL,
-        'WB_URL' => WB_URL
-    )
+$aSettings = array(
+    'home_folders', 
+    'frontend_login', 
+    'frontend_signup'
 );
-
-/**
- *    Insert permission values into the template object
- *    Deprecated - as we are using blocks.
- */
-$display_none = "style=\"display: none;\"";
-if ($admin->get_permission('users') != true) {
-    $template->set_var('DISPLAY_USERS', $display_none);
-}
-if ($admin->get_permission('groups') != true) {
-    $template->set_var('DISPLAY_GROUPS', $display_none);
-}
-
-// Insert section names and descriptions
-$template->set_var(
-    array(
-        'USERS' => $MENU['USERS'],
-        'GROUPS' => $MENU['GROUPS'],
-        'ACCESS' => $MENU['ACCESS'],
-        'USERS_OVERVIEW' => $OVERVIEW['USERS'],
-        'GROUPS_OVERVIEW' => $OVERVIEW['GROUPS'],
-    )
-);
-
-if ($admin->get_permission('users') == true) {
-    $template->parse('main_block', "users_block", true);
-}
-if ($admin->get_permission('groups') == true) {
-    $template->parse('main_block', "groups_block", true);
+$bShowSettings = false;
+if(isset($_POST['save_settings'])){
+    $admin     = new Admin('Settings', 'settings_advanced', false);
+    $sRedirect = ADMIN_URL.'/access';    
+    // Create a javascript back link
+    if (!$admin->checkFTAN()) {
+        $oMsgBox->error($MESSAGE['GENERIC_SECURITY_ACCESS'], $sRedirect);
+        exit();
+    }
+    foreach($aSettings as $key){
+        Settings::Set($key, $admin->get_post($key));
+    } 
+    $bShowSettings = true; // check settings to be shown after save
+    $oMsgBox->success($MESSAGE['RECORD_MODIFIED_SAVED']);
 }
 
-// Parse template object
-$template->parse('main', 'main_block', false);
-$template->pparse('output', 'page');
+require __DIR__.'/functions.php';
 
-// Print admin footer
+$cfg = array();
+foreach($aSettings as $key){
+    $cfg[$key] = Settings::Get($key);
+}
+$sPos = 'access';
+$admin = new Admin('Access', $sPos);
+
+$aToTwig = [   
+    'MESSAGE_BOX'   => $oMsgBox->fetchDisplay(),
+    'POSITION'      => $sPos,
+    'TABS'          => renderAddonsTabs($sPos), 
+    'cfg'           => $cfg,
+    'SIGNUP_GROUPS' => $database->get_array(
+        "SELECT `name`, `group_id` as `id` FROM `{TP}groups` WHERE `group_id` <> 1"
+    ),
+    'show_settings' => $bShowSettings
+];
+
+    
+$admin->getThemeFile('access.twig', $aToTwig);
 $admin->print_footer();

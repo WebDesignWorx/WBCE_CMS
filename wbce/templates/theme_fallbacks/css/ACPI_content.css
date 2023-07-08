@@ -149,6 +149,15 @@ div.cpForm .formHeading {
     font-weight: bold;
     color: #5B7CA3;
 }
+div.cpForm .formHeading {
+    font-size: 1.35em;
+    color: #647086;
+    font-weight: bold;
+    padding: 0.6em;
+    padding-top: 1em;
+    background-color: white;
+    border-bottom: 1px solid #ececee;
+}
 
 div.cpForm>.buttonsRow {
     margin-top: 1em;

@@ -68,13 +68,21 @@ if ($toolCheck) {
     }
 
     // create admin-object but suppress headers if no page is set
-    // for example this offers opportunety to give back  files for download
-    if ($noPage) {
-        $admin = new admin('admintools', 'admintools', false);
-    } else {
-        $admin = new admin('admintools', 'admintools');
-    }
-
+    // for example this offers opportunity to give back  files for download
+    $doWriteHeader = ($noPage ? false : true);
+    $admin = new Admin('admintools', 'admintools', $doWriteHeader);
+    
+    // check if user has access to this specific AdminTool
+    if($admin->isAdmin() == false){  
+        if(!in_array($toolDir.'_tool', $admin->get_session('MODULE_PERMISSIONS'))){
+            echo $MESSAGE['ADMIN_INSUFFICIENT_PRIVELLIGES'].'!';
+            if (!$noPage) {
+                $admin->print_footer();
+            }
+            exit();
+        }
+    }    
+    
     // show title if not function 'save' is requested
     if (!$doSave and !$noPage and !preg_match("/backend/", $module_function)) {
         $sTPL = '<h4><a href="{{URL}}" title="{{HEADING_TOOLS}}">{{HEADING_TOOLS}}</a>&nbsp;&raquo;&nbsp;{{MODULE_NAME}}</h4>';

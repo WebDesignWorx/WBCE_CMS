@@ -1,0 +1,11 @@
+<h2 class="page_titel"> {{ L_('MENU:ADDONS') }}{% if POSITION != 'addons' %} / {{ L_('MENU:'~POSITION|upper) }}{% endif %}</h2>
+<section class="cp-main">
+    <div class="cp-pageinfo"></div>
+    {#<nav class="cp-tabs">{% include 'tabs.twig' %}</nav>  #}
+    <div class="cp-pane-inlay">   
+        <noscript>JavaScript disabled.</noscript>
+    {{ MESSAGE_BOX }}
+    {% block content %}
+    {% endblock %}
+    </div>
+</section>

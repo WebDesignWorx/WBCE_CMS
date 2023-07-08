@@ -1,0 +1,223 @@
+{% extends "access_framer.twig" %}
+{% block content %}    
+    
+    &nbsp;
+    {{ MESSAGE_BOX }}
+{% if has_permission('users_add') %}
+<form name="user" id="modify_user" action="{{ ACTION_URL }}" method="post">
+    {{ FTAN }}
+    <input type="hidden" name="user_id" value="{{ user.user_id }}" />
+    <div class="cp-settings">
+        <div class="cp-toggle-section">
+            <div class="formHeading">
+                <label><i class="fa fa-user-plus"></i> {% if do_modify_user %}{{ L_('{TEXT:MODIFY_RECORD}', '{TEXT:USER}') }}{% else %}{{ L_('{TEXT:ADD_RECORD}', '{TEXT:USER}') }} 
+                    <input type="checkbox" class="toggle" name="add_new_user" value="1" {% if user.add_new_user == true %}checked{% endif %} />
+                </label>{% endif %}
+            </div>
+
+            <div{% if do_modify_user == false %} id="add_user"{% endif %}>
+
+            <div class="cp-setting-row">
+                <label class="cp-setting-name" for="username">{{ L_('TEXT:USERNAME') }}</label>
+                <div class="cp-setting-value">
+                    <input type="text" name="username" id="username" maxlength="30" required value="{{ user.username }}">
+                </div>
+            </div>       
+
+            <div class="cp-setting-row">
+                <label class="cp-setting-name" for="email">{{ L_('TEXT:EMAIL') }}</label>
+                <div class="cp-setting-value">
+                    <input type="text" name="email" id="email" maxlength="255" required value="{{ user.email }}">
+                </div>
+            </div>
+
+
+            {% if do_modify_user %}
+            <div class="cp-setting-row">
+                <div class="cp-setting-name">
+                    <input type="checkbox" id="change_pswd" name="change_pswd"  value="1" class="toggle"{% if change_pswd == 1 %} checked{% endif %}>
+                </div>
+                <div class="cp-setting-value">
+                    <label for="change_pswd">{{ L_('TEXT:NEW_PASSWORD') }}</label>
+                </div>
+            </div>
+            <section id="renew_password" style="display: block;">
+            {% endif %}
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name{% if do_modify_user == false %} cp-required{% endif %}" for="password">{{ L_('TEXT:PASSWORD') }}</label>
+                    <div class="cp-setting-value">
+                        {{ INPUT_NEW_PASSWORD }}
+                    </div>
+                </div> 
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name{% if do_modify_user == false %} cp-required{% endif %}" for="">{{ L_('TEXT:RETYPE_PASSWORD') }}</label>
+                    <div class="cp-setting-value">
+                        <input type="password" name="password2"{% if do_modify_user == false %} required{% endif %} maxlength="30">
+                        {%if do_modify_user %}
+                            <div class="formHint">{{ L_('MESSAGE:USERS_CHANGING_PASSWORD') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if do_modify_user %}     
+            </section>
+            {% endif %}       
+
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name" for="display_name">{{ L_('TEXT:DISPLAY_NAME') }}</label>
+                    <div class="cp-setting-value">
+                        <input type="text" name="display_name" id="display_name" required maxlength="255" value="{{ user.display_name }}">
+                    </div>
+                </div>   
+
+                {% if use_home_folders %}
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name">{{ L_('TEXT:HOME_FOLDER') }}</label>
+                    <div class="cp-setting-value">
+                        <select name="home_folder">
+                            <option value="">{{ L_('TEXT:NONE') }}</option>
+                            {% for folder in home_folders %}
+                                <option value="{{ folder.dir }}"{%if folder.selected %} selected{% endif %}>{{ folder.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>          
+                {% endif %}      
+
+                <div class="cp-setting-row">
+                    <div class="cp-setting-name"><label>{{ L_('TEXT:GROUP') }}</label></div>
+                    <div class="cp-setting-value">
+                        <select id="select_groups" name="groups[]" multiple required>
+                            {% for group in groups %}                            
+                                <option value="{{ group.id }}"{%if group.id in user.groups_id %} selected{% endif %}>{{ group.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>   
+
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name" for="">Account</label>
+                    <div class="cp-setting-value">
+                        <label>
+                            <input type="radio" name="active[]" value="1" {%if user.active == true %}checked{% endif %} />
+                            {{ L_('TEXT:ACTIVE') }}
+                        </label>
+                        <label>
+                            <input type="radio" name="active[]" value="0" {%if user.active == false %}checked{% endif %} />
+                            {{ L_('TEXT:DISABLED') }}
+                        </label>
+                    </div>
+                </div>    
+                {% if do_modify_user == true %} 
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name" for="">GDRP Check</label>
+                    <div class="cp-setting-value">
+                            <input type="checkbox" disabled {% if user.gdpr_check == true %}checked /> {{ L_('TEXT:ACTIVE') }}{% else %}/> {{ L_('TEXT:DISABLED') }}{% endif %}                        
+                        <div class="formHint">Nur vom User selbst bei der FE Registrierung zu bestätigen.</div>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="cp-buttons-row">
+                    {#<button type="reset" class="button ico-reset" name="reset">{{ L_('TEXT:RESET') }}</button>#}
+                    <button onclick="window.location.href='{{ ADMIN_URL }}/users';" class="button ico-cancel">{{ L_('TEXT:CANCEL') }}</button>   
+                    {% if do_modify_user == 1 %} 
+                        <button type="submit" class="button ico-save pos-right" name="save_user_changes">{{ L_('TEXT:SAVE') }}</button>          
+                        <button type="submit" class="button ico-save-back pos-right" name="save_user_changes_and_close">{{ L_('TEXT:SAVE') }} & {{ L_('TEXT:BACK') }}</button>
+
+                    {% else %}                   
+                        <button type="submit" class="button ico-add pos-right" name="save_user_add">{{ L_('HEADING:ADD_USER') }}</button> 
+                    {% endif %}
+
+                </div>  
+            </div>
+        </div>
+    </div>
+</form>
+{% endif %}
+{% if do_modify_user == 0 %}
+<h4>{{ L_('OVERVIEW:USERS') }}</h4>
+    <input type="text" id="filterTable" class="cp-table-filter" data-filter-table="usersOverview" placeholder="{{ L_("TEXT:SEARCH") }} &hellip;">
+        <table id="usersOverview" class="cp-table table-bordered table-hover">
+            <thead>
+                <tr>
+                    {% block headings %}                	
+                    <th class="sort filter"><small title="{{ L_('TEXT:USER') }}-ID">ID</small></th>			
+                    <th class="sort filter">{{ L_('TEXT:DISPLAY_NAME') }} <i>({{ L_('TEXT:USERNAME') }})</i></th>
+                    <th class="sort filter"></th>
+                    <th class="sort filter">{{ L_('TEXT:EMAIL') }}</th>
+                    <th class="sort filter">{{ L_('MENU:GROUPS') }}</th>
+                    <th class="sort filter">{{ L_('TEXT:REGISTERATION_DATE') }}</th>
+                    <th class="sort filter">{{ L_('TEXT:LATEST_LOGIN') }}</th>
+                    <th class="sort filter" style="width:60px;">{{ L_('TEXT:ACTIVE') }}</th>
+                    {% endblock %}
+                </tr>
+            </thead>
+        <tbody>
+        {% for rec in USERLIST %}
+            {% set IDKEY = getIDKEY(rec.user_id) %}
+            <tr id="uid_{{ rec.user_id }}"{% if rec.user_id == hilite %} class="hilite"{% endif %}>
+                <td style="text-align:right;"><small>{{ rec.user_id }}</small></td>
+                <td class="edit-link-name">
+                    
+                    {% if has_permission('users_modify') and rec.user_id > 1 %}
+                        <a href="{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&modify=1" title="{{ L_('TEXT:MODIFY') }} {{ L_('TEXT:USER') }}">
+                        {{ rec.display_name }}
+                        </a> 
+                    {% else %} 
+                        <b>{{ rec.display_name }}</b> 
+                    {% endif %} <i>({{ rec.username }})</i>
+                    
+                    {% if rec.gdpr_check %} <small style="color: #73b53d;" title="GDPR check"><i class="fa fa-check-square"></i></small>{% endif %} 
+                </td>
+                <td data-sort="{{ rec.language }}">
+                    <img title="{{ rec.language }}" src="{{ WB_URL }}/languages/{{ rec.language }}.png" />
+                </td>
+                <td><nobr><small> {{ rec.email }}</small></nobr></td>
+                <td>
+                     {% for key, group_name in rec.groups %}
+                        <nobr><span class="usergroup" title="{{ L_('TEXT:GROUP')}}-ID: {{key}}"><i class="fa fa-group" style="color: grey;"></i> {{ group_name }} [{{key}}]</span></nobr>
+                     {% endfor %}
+                </td>
+                <td data-sort="{{ rec.signup_timestamp }}">
+                    <i title="{{ rec.signup_timestamp|date(DATE_FORMAT ~'  H:i')}}" class="fa fa-1x fa-calendar{% if rec.signup_timestamp == '' %}-o"  style="color: lightgrey;{% endif %}"></i>&nbsp;
+                    <small>{% if rec.signup_timestamp %}{{ rec.signup_timestamp|date(DATE_FORMAT)}}{% else %}N/A{% endif %}</small><br />
+                    <small style="color: darkgrey;"><nobr>{{ rec.reg_method }}</nobr></small>
+                </td>
+                <td data-sort="{% if rec.login_when == 0 %}1{% else %}{{ rec.login_when }}{% endif %}">
+                   
+                   <nobr><i class="fa fa-1x fa-calendar{% if rec.login_when == '' %}-o"  style="color: lightgrey;{% endif %}"></i> &nbsp;
+                    <small>{% if rec.login_when == 0 %}N/A{% else %}{{ rec.login_when|date(DATE_FORMAT ~'  H:i')}}{% endif %}</small></nobr>
+                </td>
+                <td class="center" >
+                    {% if rec.user_id > 1 %}
+                        <a href="{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&activation={% if rec.active %}0{% else %}1{% endif %}" title="{{ L_('TEXT:MODIFY') }} {{ L_('TEXT:USER') }}"><i class="fa fa-1x fa-user-circle{% if rec.active %}-o{% endif %}" style="color:{% if rec.active %}#48BF40{% else %}#EDABAB{% endif %}"
+                           title="{% if rec.active %}{{ L_('TEXT:ACTIVE')}}{% else %}{{ L_('TEXT:DISABLED')}}{% endif %}"></i></a>                    
+                        <a href="{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&modify=1" title="{{ L_('TEXT:MODIFY') }} {{ L_('TEXT:USER') }}"><i class="fa fa-pencil"></i></a> 
+                        {% set ACTION %}{% if rec.active %}DEACTIVATE_RECORD{% else %}DELETE_RECORD{% endif %}{% endset %}
+                        {% set onClick %} href="javascript:void(0)" onclick="confirm_link(
+                            ['{{ L_('{TEXT:'~ACTION ~'}. {TEXT:ARE_YOU_SURE}', 'TEXT:USER') }}'], '{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&delete=1')"
+                        {% endset %}
+                        <a class="delete-record" {{ onClick|trim }} title="{{ L_('TEXT:DELETE_RECORD', '{TEXT:USER}')}}"><i class="fa fa-trash"></i></a>                
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}        		        
+    </tbody>
+</table>    
+{% endif %}
+<script>    
+$.insert(WB_URL + '/templates/theme_fallbacks/jQueryPlugins/cpTableFilter/cpTableFilter.js');
+$(document).ready(function() {
+    $('#filterInput').cpTableFilter();
+   
+    $('.toggle').on('change', function () {                
+        $('#add_user').toggle(this.checked);  
+        //$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+    }).change(); //ensure visible state matches initially
+    
+    // Change Pswd Toggle
+    $('.toggle').on('change', function () {                
+        $('#renew_password').toggle(this.checked);
+    }).change(); 
+});
+</script>
+{% endblock %}

@@ -1,0 +1,865 @@
+/**
+-----------------------------------------------------------------------
+    This file contains the basic css framework for WBCE themes.
+    You can override this CSS by including a CSS file in 
+    {YOUR_THEME_DIR}/css/ folder and linking it in the file
+    {YOUR_THEME_DIR}/twig/_framer.twig
+-----------------------------------------------------------------------
+*/
+/**
+ * misc elements
+ */
+span.tt,
+var,
+kbd {
+    color: #a63f23;
+    font-family: monospace !important;
+    font-style: normal;
+}
+hr {
+    margin: 30px 0;
+    border: none;
+    border-top: 2px solid rgba(115, 127, 140, 0.25);
+    height: 0;
+    color: transparent;
+}
+input {
+    outline: 0 !important;
+}
+pre.code {
+    background-color: #FFFAD8;
+    border: 1px dashed orange;
+    text-align: left;
+    color: brown;
+    font-size: 16px;
+    padding: 10px;
+}
+i.fa {
+    font-size: 1.25em;
+}
+.code-textarea {
+    font-family: courier;
+    color: #900;
+}
+
+
+/* basic grid */
+.cp-half {
+    width: 48% !important;
+    float: left;
+    margin-left: 5px;
+}
+
+.cp-third {
+    width: 30% !important;
+    float: left;
+    margin: 0 1.4% 0 6px;
+}
+
+.cp-two-thirds {
+    width: 65% !important;
+    float: left;
+    margin: 0 0.5%;
+}
+
+
+
+/* .bcp-pane */
+.bcp-pane {
+    position: relative;
+    margin: 14px 0;
+    padding: 0;
+    word-wrap: break-word;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+
+.bcp-pane>p {
+    margin-bottom: 2px;
+    padding: 0 20px;
+}
+.bcp-pane section {
+    padding: 5px 0 0;
+    margin: 0 0;
+}
+
+.bcp-pane h2 {
+    background-color: transparent;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0.4em .42em;
+    color: #5B7CA3;
+}
+
+.bcp-pane h3 {    
+    margin: 0.4em 1em;
+    font-size: 1.1em;
+}
+
+.bcp-pane .alert{    
+    margin: 10px 20px;
+}
+
+
+/* .bcp-tabs */
+
+.bcp-pane>.bcp-tabs {
+    margin: -24px -24px 12px;
+    padding: 5px 32px 0px;
+    overflow: hidden;
+}
+
+.bcp-tabs:after {
+    content: '.';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.bcp-tabs .tab,
+.bcp-tabs span {
+    display: block;
+    padding: 9px 10px;
+    color: black;
+    white-space: nowrap;
+}
+
+.bcp-tabs span {
+    display: block;
+    padding: 9px 0 0 14px;
+    font-size: 16px;
+    white-space: inherit;
+}
+
+.bcp-tabs .tab.sel {
+    border-radius: 3px 3px 0 0;
+    color: #29323d;
+    cursor: default;
+}
+.bcp-pane>.bcp-tabs li {
+    display: inline-block;
+    float: right;
+    font-size: 13px;
+}
+
+.bcp-pane>.bcp-tabs li a span{
+    display: inline;
+    font-size: 13px;    
+    padding: 6px;
+}
+
+.bcp-pane>.bcp-tabs li a:not(.sel):hover{
+    text-decoration: underline
+}
+
+.bcp-pane>.bcp-tabs li .tab.sel {
+    background: #fff;
+}
+
+.bcp-pane>.bcp-tabs li.actionSel a span{  
+    color: black;
+}
+
+a.sel,
+li.sel a {
+    text-decoration: none;
+}
+
+span.usergroup, 
+span.bcp-label{
+    display: inline-block;
+    margin: 1px 2px 0 0;
+    padding: 0 3px;
+    border-radius: 4px;
+    border: 1px solid #b9c1cb;
+    background: #e4f0ff;
+    font-size: .65em;
+    color: #545454;
+    min-width: 33px;
+    text-align: right;
+    cursor: default;
+}
+
+div.bcp-pane div.page-id {
+    float: left;
+}
+
+
+
+
+/**
+ * cpForm 
+ * used for all settings forms in the backend. Primarly tables have been used
+ * for forms but tables don't allow for responsive layouts, so we move forward.
+ */
+div.cpForm {
+    margin-top: 0px;
+    width: 100%;
+    background: #fff;
+}
+
+div.cpForm:before,
+div.cpForm:after {
+    /* content: ""; */
+    display: table
+}
+
+div.cpForm section {
+    padding: 0;
+}
+
+
+div.cpForm:after,
+div.cpForm .settingName {
+    text-align: right;
+    padding-right: 10px;
+    font-weight: bold;
+    hyphens: auto;
+}
+div.cpForm .formRow:after {
+    clear: both
+}
+
+div.cpForm .formRow{
+    background-color:#fff;
+}
+
+div.cpForm .formRow:nth-of-type(odd) {
+}
+    
+div.cpForm .formRow:nth-of-type(even) {
+}
+
+section > .formRow:first-of-type{
+}
+
+div.cpForm .formRow,
+div.cpForm .buttonsRow {
+    position: relative;
+    padding: .12em .5% .12em;
+    width: 100%;
+    display: table;
+}
+div.cpForm .formDescription{ 
+    font-size: 105%;
+    padding: 1em 0.8em;
+    background-color: white;
+}
+
+div.cpForm .formHeading {
+    font-size: 1.35em;
+    color: #647086;
+    font-weight: bold;
+    padding: .6em;  
+    padding-top: 1em;
+    background-color: white;
+    border-bottom: 1px solid #ececee;
+}
+div.cpForm .formHeadingExtra {
+    font-size:85%;
+    float:right;
+}
+
+.formHeadingExtra input{
+    margin-right: 10px;
+}
+
+div.settingValue {
+    line-height: 1.2em;
+    padding-top: .35em;
+    width: 75%;
+}
+
+div.cpForm div.settingName,
+div.cpForm label.settingName {
+    width: 23%;
+    margin-top: .35em;
+    margin-right: 2px;    
+    color: #828282;
+
+}
+
+div.cpForm div.buttonsRow {
+    background-color: white;
+    padding: .4em .2em .6em .6em;
+    width: 100%;
+    display: block;
+}
+div.buttonRow {
+    margin-top: 10px;
+}
+
+/* button row */
+
+div.buttonRow:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+a.button,
+button.button,
+div.button,
+div.button input {
+    outline: 0 !important;
+    border: 0 !important;
+    font-weight: normal;
+    text-indent: 0;
+    border-spacing: 0;
+    margin-right: 0.6em;
+    text-decoration: none;
+    padding: .5em 1.0em 0.5em 0.9em; /* padding fix for a.button */
+}
+
+.button {
+    padding: .16em .7em .17em .5em;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+
+div.cpForm div.fullValue .settingValue{    
+    width: 98%;
+    margin: 0 2%;
+}
+div.cpForm div.fullValue .settingName{  
+    text-align: left;
+    width: 100%;
+    margin-left: 1.5em;
+}
+
+label.settingName:after,
+div.settingName label:after {
+    content: ':';
+}
+
+div.cpForm div.settingName,
+div.cpForm label.settingName,
+div.cpForm div.settingValue {
+    float: left
+}
+
+div.settingValue label {
+    padding-left: 0px;
+    padding-right: 12px;
+    margin: .26em 0 .26em;
+    cursor: pointer;
+}
+
+/* cpForm  input elements */
+div.cpForm input[type="file"],
+div.cpForm input[type="email"],
+div.cpForm input[type="text"],
+div.cpForm input[type="password"],
+div.cpForm textarea,
+div.cpForm select
+{
+    font-size: 1em;
+    border: 1px solid #dcdcdc;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #dcdcdc !important;
+    border-radius: 0 !important;
+}
+
+.select2-selection, 
+.select2-results__option {
+    font-size: 15px;
+}
+span.select2right{
+    float: right;
+    background-color: #D9E3E8;
+    color: #86909f;
+    font-weight: bold;
+    font-size: 85%;
+    text-align: center;
+    line-height: 16px;
+    border-radius: 3px;
+    padding: 2px 12px;
+}
+.select2-selection__rendered span.select2right{
+    margin-top: 3px;
+    margin-right: 3px;
+}
+img.sel2ico{
+    width:22px;    
+    margin-bottom: -1px;
+}
+
+#select2-visibility-container img.sel2ico,
+#select2-visibility-results img.sel2ico{
+    width:16px;    
+    margin-bottom: -2px;
+    width: 18px;
+    margin-bottom: -2px;
+    background-color: white;
+    border: white 2px solid;
+    border-radius: 4px;
+}
+.select2-results__option {
+    padding: 2px 6px;
+}
+ul.select2-results__options li.select2-results__option[aria-selected=true], option:checked{
+    color: #000;
+    background-color:#c1d2ee!important; 
+}
+ul.select2-results__options li:hover, option:hover{
+    color: #000!important; 
+    background-color:#bcd5ff!important; 
+}
+div.formRow input[type="file"],
+div.formRow input[type="email"],
+div.formRow input[type="text"],
+div.formRow input[type="password"],
+div.formRow textarea,
+div.formRow select {
+    margin: 0 0 .27em 0;
+    padding: .3em .3em;
+    width: 99%;
+    outline: 0;
+}
+
+div.formRow input.has-file-ext {
+    width: 83%;
+    padding-right: 0;
+    margin-right: 0;
+}
+
+div.formRow input.file-ext {
+    color: #b1b1b1;
+    width: 15%;   
+    padding-left: .2em;
+    margin-left: 0;
+}
+
+div.formRow label {
+    font-weight: bold;
+}
+
+div.settingValue textarea {
+    width: 99%;
+    min-height: 80px;
+}
+
+div.settingValue select option.selected-item {
+    font-weight: bold;
+}
+
+div.settingValue select option.disabled-item {
+    color: grey;
+}
+
+div.cpForm .buttonsRow {
+    position: relative;
+    text-align: left;    
+    padding: .15em .3em .6em .5em;
+}
+
+div.cpForm .buttonsRow * {}
+
+div.buttonsRow .pos-right {
+    float: right;
+}
+div.buttonsRow:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* Form Hints and Warnings */
+div.formHint,
+div.warningHint,
+div.recommendHint {
+    padding: 0 0 .4em;
+    font-size: .9em;
+    font-style: italic;
+    color: #6b6b6b;
+}
+
+div.warningHint {
+    color: #cc0033;
+}
+
+div.recommendHint {
+    color: #009933;
+}
+
+tr.even td{
+    background-color: #fff!important;
+}
+tr.odd td{
+    background-color: #f2faff!important;
+}
+tr.hilite td{
+    background-color: #e1ffd2!important;
+}
+tr.hilite.odd td{
+    background-color: #d5f9c3!important;
+}
+
+/**
+ * list for checkboxes 
+ * (used with page-permissions and other places)
+ */
+ul.operatorList {
+    padding: .5em 1.2em ;
+    margin: 0;
+    list-style: none;
+}
+ul.operatorList li label{
+    margin: 0px;
+}
+ul.operatorList li:first-child {
+    font-weight: bold;
+}
+
+
+div.sectioninfo>div.section-id {
+    float: right;
+}
+
+div.sectioninfo>div.block-id {
+    float: right;
+}
+
+.topinfo {
+    margin: 6px;
+    display: table;         
+    width: 99%;              
+    border-spacing: 2px; /* cellspacing:poor IE support for  this */
+}
+
+.topinfo-row {
+    display: table-row;
+    width: 100%;
+    clear: both;
+}
+
+.topinfo-col {
+    float: left; 
+    display: table-column;
+    vertical-align: middle;
+}
+
+.topinfo-col:last-child {   
+    text-align: right;
+}
+
+.cpPageTitle{    
+    padding: 3px 5px;
+}
+
+.cpLastchange{    
+    padding: 6px 3px;
+    font-size: .85em;
+    float:right;
+}
+
+.cpChangeTime {
+    font-style: italic;
+}
+
+.bcp-pane div.topinfo:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+
+/*
+    Subpages links (like start, admin-tools, addons, access)
+ */
+div.subpages {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: auto auto;
+    margin-bottom: 2em;
+}
+
+div.subpages div.subpage{ 
+    margin: 3px 3px 3px 3px;
+    border: 1px solid grey;
+    min-height: 70px;
+    display: grid;
+    grid-template-columns: 76px auto;
+    grid-template-areas: 
+        "illu title"
+        "illu description"
+        "illu description";
+    background: rgba(254,254,254,1);
+}
+
+.subpage-title {
+    grid-area: title;
+}
+.subpage-description {
+    grid-area: description;
+}
+.subpage div.subpage-icon, 
+.subpage div.subpage-img{
+    grid-area: illu;
+    vertical-align: middle;
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    margin: 12px 10px;
+}
+
+.subpage div.subpage-icon{    
+    border: 1px solid grey;
+    padding: 8px 3px;
+    background-color: #fff;
+}
+
+.subpage div.subpage-img img{
+    width: 64px;
+}
+
+.subpage div.subpage-icon i.fa{
+    font-size: 48px;
+}
+.fa-toggle-off{
+    color: #d81212;
+}
+.fa-toggle-on{
+    color: #6DB553;
+}
+
+.subpage div.subpage-title{
+    margin: 10px 10px 2px;
+}
+.subpage div.subpage-description{
+    margin: 2px 10px;
+}
+
+.subpage a{
+    font-weight: bold;
+}
+
+div.subpage-title a{
+    font-size: 1.1em;
+}
+
+div.subpage a:hover{
+    text-decoration: none;
+}
+
+.row_om_over{
+    cursor: pointer;
+    background: #f1f3f4 !important;
+}
+
+@media (max-width: 890px) {
+    div.subpages {
+        grid-template-columns: 99%;
+    }
+}
+/*
+    Groups > select permissions
+*/
+div.permission-area-section{
+    margin: 0;
+    padding: 0;
+}
+div.permission-area-section.active{
+    margin: 0;
+    padding: 0;
+}
+div.permission-area{
+    display: grid;
+    grid-template-columns: 65px auto;
+    grid-template-rows: auto;
+}
+div.permission-area div{
+    margin: 10px 10px -6px; 
+}
+section > div.permission-area div{
+    margin: -6px 10px; 
+}
+div.permission-area ul{
+    padding: 5px 0 12px; 
+    margin-left: 1.24em;
+}
+div.permission-area div.area-icon{
+    vertical-align: middle;
+    width: 56px;
+    height: 56px;
+    text-align: center;   
+    padding: 7px 5px;
+    background-color: #fff;
+}
+div.permission-area-section.active div.area-icon{
+    color: #42a042;
+}
+div.permission-area-section.active div.area-icon i.fa{
+    color: #74a95b;
+}
+div.permission-area div.area-icon i.fa{
+    color:#5D729B;
+    font-size: 40px;
+}
+div.permission-area div.area-name label{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+div.permission-area div.area-name p{
+    margin-left: 1.24em;
+}
+
+/*
+    Groups > permissions table
+*/
+ul.permissions{
+    margin: 0;
+    padding: 0;
+}
+.permissions li {    
+    display: inline;
+    list-style-type: none; 
+    margin-right: 5px;
+}   
+.permissions li i{    
+    color: #d4d4d4;
+} 
+.permissions li i.access{    
+    color: #74a95b;
+}   
+.check_selection li {
+    list-style-type: none; 
+    margin-left: 18px;
+}
+.check_selection li:first-child {
+    font-weight: bold;
+    font-size: 110%;
+    margin-left: 0;
+}
+.check_selection li:nth-child(2) {
+    font-style: italic;  
+    margin-left: 0;
+}
+
+
+
+/*  blinking
+ *  we use blinking for sections with time restrictions
+ *  and for Droplets that are malfunctioning
+ */
+.blinking {
+        -webkit-animation-name: blinker;
+        -webkit-animation-duration: 1.2s;
+        -webkit-animation-timing-function: linear;
+        -webkit-animation-iteration-count: infinite;
+
+        -moz-animation-name: blinker;
+        -moz-animation-duration: 1.2s;
+        -moz-animation-timing-function: linear;
+        -moz-animation-iteration-count: infinite;
+
+        animation-name: blinker;
+        animation-duration: 1.2s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+}
+
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+
+@media (max-width: 890px) {
+    .bcp-pane>.bcp-tabs li a span{
+        display: none;
+    }
+
+    .topinfo-col:nth-child(2) {  
+        float:left;
+        text-align: left;
+        width: 99%;  
+    }
+
+    .topinfo-col:last-child {  
+        float:left;
+        text-align: left;
+        width: 99%;  
+    }
+    
+}
+
+
+/*
+ ***********************************
+*/
+
+
+
+/*--------------------------------------------------------------
+General styles
+--------------------------------------------------------------*/
+.bcp-split-container {
+    background: #fff;
+}
+.bcp-split-container .island{
+    margin: 0;
+}
+.bcp-split-main,
+.bcp-split-second,
+.bcp-split-twin {
+    padding: .5em;
+}
+.bcp-split-second {
+}
+
+
+/*--------------------------------------------------------------
+CSS Grid layout for wider screens, when browser supports grid:
+--------------------------------------------------------------*/
+
+@media screen and (min-width: 600px) {
+    .bcp-split-container {
+        display: grid;
+        grid-template-columns: 1fr repeat(6, minmax(auto, 12em)) 1fr;
+        grid-template-rows: minmax(0em, auto) 1fr auto minmax(0em, auto);
+    }
+
+    .bcp-split-main {
+        grid-column: 2/6;
+    }
+
+    .bcp-split-second {
+        grid-column: 6/8;
+    }
+
+    .bcp-split-twin {
+        grid-column: 2/5;
+        grid-row: 3/4;
+    }
+
+    .bcp-split-twin:last-of-type {
+        grid-column: 5/8;
+    }
+}
