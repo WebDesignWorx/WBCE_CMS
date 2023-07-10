@@ -1,5 +1,8 @@
 <?php
 
+if($database->field_exists("{TP}groups", "description") == false){
+    $database->field_add("{TP}groups", "description", "VARCHAR(255) NOT NULL AFTER `name`");
+} 
 
 // Get existing groups (except for admins) and get amount of users in that group
 function get_groups_w_userscount($bAllData = false){
