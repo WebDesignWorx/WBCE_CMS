@@ -17,6 +17,14 @@
 <link href="{THEME_URL}/css/normalize.css" rel="stylesheet" type="text/css">
 <link href="{THEME_URL}/css/fitrgrid.css" rel="stylesheet" type="text/css">
 <link href="{THEME_URL}/css/theme.css" rel="stylesheet" type="text/css">
+<link href="{THEME_URL}/css/colors.css" rel="stylesheet" type="text/css">
+<link href="{THEME_URL}/../theme_fallbacks/css/ACPI_backend.cs s" rel="stylesheet" type="text/css">
+<link href="{THEME_URL}/../theme_fallbacks/css/cp_framework.css" rel="stylesheet" type="text/css">
+<link href="{THEME_URL}/../theme_fallbacks/css/cp_content.css" rel="stylesheet" type="text/css">
+
+<link href="{THEME_URL}/../theme_fallbacks/css/ACPI_content.cs s" rel="stylesheet" type="text/css">
+<link href="{THEME_URL}/../theme_fallbacks/css/ACPI_buttons.css" rel="stylesheet" type="text/css">
+<link href="{THEME_URL}/../theme_fallbacks/css/bcp_framework.cs s" rel="stylesheet" type="text/css">
 <!--(PH) CSS HEAD TOP- -->
 
 <!--(PH) JS HEAD TOP+ -->

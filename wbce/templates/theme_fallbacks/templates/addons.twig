@@ -40,7 +40,7 @@
     
     
 {% if has_permission('settings_advanced') %}  
-<form action="http://localhost/WBCE_CMS/wbce/admin/addons/reload.php" method="post">
+<form action="{{ ADMIN_URL }}/addons/reload.php" method="post">
     {{ FTAN }}
     <div class="cp-settings">
         <div class="cp-toggle-section">

@@ -1,0 +1,311 @@
+pre.code {
+    background-color: #FFFAD8;
+    border: 1px dashed orange;
+    text-align: left;
+    color: brown;
+    font-size: 16px;
+    padding: 10px;
+}
+
+.bcp-pane {
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 8px -2px rgba(0, 0, 0, 0.1);
+}
+
+.bcp-pane>.bcp-tabs {
+    border-top: 2px solid #556C87;    
+    background: #596887;
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+.bcp-tabs .tab, .bcp-tabs span {
+    color: #fff;
+}
+.bcp-pane h2 {
+    font-size: 1.25em;
+    margin: .4em .5em;
+    padding-bottom: .5em;
+    color: #5B7CA3;
+}
+
+/**
+ * cpForm 
+ * used for all settings forms in the backend. Primarly tables have been used
+ * for forms but tables don't allow for responsive layouts, so we move forward.
+ */
+div.cpForm {    
+    margin-top: 0;
+}
+
+div.formHeading + .formRow{
+    margin-top: 5px;
+}
+
+div.cpForm .formRow:after {
+}
+div.cpForm .formRow:nth-of-type(odd) {
+    background-color:#fffdfd;
+}
+    
+div.cpForm .formRow:nth-of-type(even) {
+    background-color:#fff;
+}
+div.cpForm .formRow{
+    border-bottom: 1px solid #ececee;
+}
+section > .formRow:first-of-type{
+    border-top: 1px solid #ececec;
+}
+
+div.cpForm .formRow,
+div.cpForm .buttonsRow,
+div.cpForm .formDescription,
+div.cpForm .formHeading {
+    position: relative;
+    padding: .12em .5% .12em;
+    width: 100%;
+    display: table;
+}
+div.cpForm .formDescription{ 
+    font-size: 105%;
+    padding: .8em 1.2em;
+    margin-bottom: .6em;
+}
+
+div.cpForm .formHeading {
+    font-size: 1.25em;
+    color: #5B7CA3;
+    padding: .3em .6em;  
+    background-color: #e8ecef;
+    border-bottom: 1px solid #ececee;
+}
+
+div.cpForm .formHeadingExtra {
+    font-size:85%;
+    float:right;
+}
+.formHeadingExtra input{
+    margin-right: 10px;
+}
+
+div.settingValue {
+    line-height: 1.2em;
+    padding-top: .35em;
+    width: 75%;
+}
+
+div.cpForm div.settingName,
+div.cpForm label.settingName {
+    width: 23%;
+    margin-top: .35em;
+    margin-right: 2px;    
+    color: #828282;
+
+}
+div.cpForm div.buttonsRow {
+    background-color: #f2faff;
+    padding: .3em .2em .6em .6em;
+    width: 100%;
+    display: table;
+}
+
+
+div.cpForm div.fullValue .settingValue{    
+    width: 98%;
+    margin: 8px 2%;
+}
+
+
+tr.even td{
+    background-color: #fff!important;
+}
+tr.odd td{
+    background-color: #f2faff!important;
+}
+tr.hilite td{
+    background-color: #e1ffd2!important;
+}
+tr.hilite.odd td{
+    background-color: #d5f9c3!important;
+}
+
+
+span.usergroup, 
+span.bcp-label{
+    background: #D4DDE0;
+}
+
+div.bcp-pane div.page-id {
+    float: left;
+}
+
+div.sectioninfo>div.section-id {
+    float: right;
+}
+
+div.sectioninfo>div.block-id {
+    float: right;
+}
+
+.topinfo {
+    margin: 6px;
+    display: table;         
+    width: 99%;              
+    border-spacing: 2px; /* cellspacing:poor IE support for  this */
+}
+.topinfo-row {
+    display: table-row;
+    width: 100%;
+    clear: both;
+}
+.topinfo-col {
+    float: left; 
+    display: table-column;
+    vertical-align: middle;
+}
+.topinfo-col:last-child {   
+    text-align: right;
+}
+.cpPageTitle{    
+    padding: 3px 5px;
+}
+.cpLastchange{    
+    padding: 6px 3px;
+}
+
+.bcp-pane div.topinfo:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.bcp-pane>.bcp-tabs li {
+    display: inline-block;
+    float: right;
+    font-size: 13px;
+}
+
+.bcp-pane>.bcp-tabs li a span{
+    display: inline;
+    font-size: 13px;    
+    padding: 6px;
+}
+
+.bcp-pane>.bcp-tabs li a:not(.sel):hover{
+    color: #fff;
+    text-decoration: none
+}
+
+.bcp-pane>.bcp-tabs li .tab.sel {
+    background: #fff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 8px -2px rgba(0, 0, 0, 0.1);
+}
+.bcp-pane>.bcp-tabs li.actionSel a span{  
+    color: black;
+}
+
+
+a.sel,
+li.sel a {
+    cursor: default !important;
+    text-decoration: none;
+}
+
+/*
+    Groups > select permissions
+*/
+div.permission-area-section{
+    background: rgba(254,254,254,1);
+    background: linear-gradient(360deg, rgba(209,226,236,1) 0%, rgba(248,251,252,1) 0.3em);
+}
+div.permission-area-section.active{
+    background: rgba(254,254,254,1);
+    background: linear-gradient(360deg, rgba(209,226,236,1) 0%, #fafff5 0.3em);
+}
+div.permission-area div.area-name label{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+div.permission-area div.area-name p{
+    margin-left: 1.24em;
+}
+
+/* permission area ICON 
+div.permission-area div.area-icon{
+    border: 2px solid #c2cbdc;
+    border-radius: 6px;
+}
+div.permission-area-section.active div.area-icon{
+    border: #9cd49c 2px solid;
+    color: #42a042;
+}
+div.permission-area-section.active div.area-icon i.fa{
+    color: #74a95b;
+}
+div.permission-area div.area-icon i.fa{
+    color:#5D729B;
+    font-size: 40px;
+}
+*/
+
+
+
+
+/**
+http://viralpatel.net/blogs/css-radio-button-checkbox-background/
+*/
+
+/*
+input[type=radio], input[type=checkbox] {
+	display:none;
+}
+
+
+input[type=radio]+label,
+input[type=checkbox]+label {
+    display: inline-block;
+    margin: -2px;
+    padding: 4px 12px !important;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: grey;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-image: linear-gradient(to bottom, #fff, #e6e6e6);
+    background-repeat: repeat-x;
+    border: 1px solid #ccc;
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-bottom-color: #b3b3b3;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+input[type=radio]+label:hover,
+input[type=checkbox]+label:hover {
+    color: #333;
+}
+
+input[type=radio]:checked+label,
+input[type=checkbox]:checked+label {
+    color: #333;
+    background-image: none;
+    font-weight: 600;
+    outline: 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
+    background-color: #e0e0e0;
+}
+*/
+
+a.delete-record{    
+    color: #d54a4a;
+}
+a.delete-record.inactive{    
+    color: #b4a2a2;
+    cursor: not-allowed;
+}
+

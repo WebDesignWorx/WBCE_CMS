@@ -82,7 +82,6 @@ div.cp-settings .formHeading {
 }
 div.cp-buttons-row {
     background-color: #f2faff;
-    margin-top: 1em;
     padding: .5em 0;
     width: 100%;
     display: table;
@@ -98,7 +97,7 @@ div.cp-settings label.cp-setting-name {
 }
 .cp-settings .cp-setting-value-full .cp-setting-value{    
     width: 100%;
-    padding-right: 28px;
+    padding-right: 14px;
 }
 .cp-settings .cp-setting-value-full .cp-setting-name{  
     text-align: left;
