@@ -104,18 +104,6 @@ switch ($action) {
             // add errors if already in use or wrong format
             $aErrors += $checkEmail; 
         }
-        
-        // check password if necessary
-        $sEncodedPassword = '';
-        if(isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1 || $action == 'save_user_add'){ 
-            // validate and encode Password
-            $mCheckPassword = validatePassword($admin->get_post('password'), $admin->get_post('password2'));
-            if(is_array($mCheckPassword)){
-                $aErrors[] = $mCheckPassword;
-            } else {
-                $sEncodedPassword = $checkPassword;                
-            }
-        }
 
         $aSaveData = array(
             'user_id'      => $iUserID,
@@ -131,8 +119,22 @@ switch ($action) {
             'signup_confirmcode' => 'by admin uid: '.$admin->get_user_id(),
         );
 
-        if ($sEncodedPassword != "")
-            $aSaveData['password'] = $sEncodedPassword;
+        // check password if necessary
+        if(isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1 || $action == 'save_user_add'){ 
+             $sEncodedPassword = '';
+             
+            // validate and encode Password            
+             $mCheckPassword = validatePassword($admin->get_post('password'), $admin->get_post('password2'));
+            if(is_array($mCheckPassword)){
+                $aErrors[] = $mCheckPassword;
+            } else {
+                $sEncodedPassword = $mCheckPassword;                
+            }
+            
+            if ($sEncodedPassword != "") {
+                $aSaveData['password'] = $sEncodedPassword;
+            }
+        }
 
         // if no errors write or update the data 
         if (empty($aErrors)) {
