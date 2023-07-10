@@ -14,12 +14,10 @@ require '../../config.php';
 $sPos = 'users';
 $isHeaderSet = false;
 $admin   = new Admin('Access', $sPos, $isHeaderSet); // suppress header output
-
 $oMsgBox = new MessageBox();
 
 require ADMIN_PATH . '/access/functions.php';
 require __DIR__ . '/functions.php';
-
 
 // based on GET & POST, let's determin which $action we will perform
 $action = 'overview';
