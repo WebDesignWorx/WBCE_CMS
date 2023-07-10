@@ -107,18 +107,6 @@ switch ($action) {
             $aErrors += $checkEmail; 
         }
         
-        // check password if necessary
-        $sEncodedPassword = '';
-        if(isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1 || $action == 'save_user_add'){ 
-            // validate and encode Password
-            $mCheckPassword = validatePassword($admin->get_post('password'), $admin->get_post('password2'));
-            if(is_array($mCheckPassword)){
-                $aErrors[] = $mCheckPassword;
-            } else {
-                $sEncodedPassword = $checkPassword;                
-            }
-        }
-
         $aSaveData = array(
             'user_id'      => $iUserID,
             'groups_id'    => $groups_id,
@@ -133,8 +121,26 @@ switch ($action) {
             'signup_confirmcode' => 'by admin uid: '.$admin->get_user_id(),
         );
 
-        if ($sEncodedPassword != "")
-            $aSaveData['password'] = $sEncodedPassword;
+        // check password if necessary
+        if(isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1 || $action == 'save_user_add'){ 
+            $sEncodedPassword = '';
+            
+            // validate and encode Password
+            $mCheckPassword = validatePassword(
+                $admin->get_post('password'), 
+                $admin->get_post('password2')
+            );
+            if(is_array($mCheckPassword)){
+                $aErrors[] = $mCheckPassword;
+            } else {
+                $sEncodedPassword = $mCheckPassword;                
+            }
+            
+            // add passwort to $aSaveData array
+            if ($sEncodedPassword != ""){
+                $aSaveData['password'] = $sEncodedPassword;
+            }
+        }
 
         // if no errors write or update the data 
         if (empty($aErrors)) {
@@ -170,7 +176,8 @@ switch ($action) {
             // Errors present
             if ($action == 'save_user_add') {
                 // Error in adding user, set error message on top of the queue
-                $aErrors[0] = '<b>' . $MESSAGE['GENERIC_FILL_IN_ALL'] . '</b>'; 
+                $errorHeadline = '<b>' . $MESSAGE['GENERIC_FILL_IN_ALL'] . '</b>:';                 
+                array_unshift($aErrors, $errorHeadline);
                 $aSaveData['add_new_user'] = 1;
                 
                 $isModifyView = false; 
@@ -233,6 +240,7 @@ switch ($action) {
         }
         // do we have some Error Messages to display?
         if (!empty($aErrors)) {
+            debug_dump($aErrors);
             $sErrors = (implode('<br>', $aErrors));
             $oMsgBox->error($sErrors);
         }
@@ -271,111 +279,3 @@ switch ($action) {
     default:
         break;
 }
-
-/*
-switch ($action) {
-    case 'save_user_add':
-    case 'save_user_changes':
-    case 'save_user_changes_and_close':
-        $sAdminArea = ($action === 'save_user_add') ? 'users_add' : 'users_modify';
-        $admin = new Admin('Access', $sAdminArea, false);
-        $aErrors = [];
-        $aSuccess = [];
-
-        if (!$admin->checkFTAN()) {
-            header("Location: index.php");
-            exit(0);
-        }
-
-        $iUserID = '0'; // temporarily
-        if ($action !== 'save_user_add') {
-            // Check if user id is a valid number and doesn't equal 1
-            if (!isset($_POST['user_id']) || !is_numeric($_POST['user_id']) || $_POST['user_id'] == 1) {
-                header("Location: index.php");
-                exit(0);
-            }
-            $iUserID = $_POST['user_id'];
-        }
-
-        // Gather details entered
-        $groups_id = (isset($_POST['groups'])) ? implode(",", $admin->add_slashes($_POST['groups'])) : '';
-        $username = strtolower($admin->get_post_escaped('username'));
-        $email = $admin->get_post_escaped('email');
-        $display_name = $admin->get_post_escaped('display_name');
-
-        // Check values
-        if (!preg_match('/^[a-z]{1}[a-z0-9_-]{2,}$/i', $username)) {
-            $aErrors[] = '[2] ' . $MESSAGE['USERS_NAME_INVALID_CHARS'] . ' / ' . $MESSAGE['USERS_USERNAME_TOO_SHORT'];
-        }
-        if ($display_name === "") {
-            $aErrors[] = true;
-        }
-        if (empty($_POST['groups'])) {
-            $aErrors[] = '[1] ' . $MESSAGE['USERS_NO_GROUP'];
-        }
-
-        if (isset($_POST['change_pswd']) && $_POST['change_pswd'] == 1 || $action === 'save_user_add') {
-            $sNewPassword = $admin->get_post('password');
-            $sRePassword = $admin->get_post('password2');
-            // validate and encode Password
-            $sEncodedPassword = '';
-            $mCheckPassword = validatePassword($sNewPassword, $sRePassword);
-            if (is_array($mCheckPassword)) {
-                $aErrors[] = $mCheckPassword;
-            } else {
-                $sEncodedPassword = sha1($sNewPassword);
-            }
-        }
-
-        // Check for duplicate username and email
-        if (empty($aErrors)) {
-            $usernameExists = $admin->get_user_by_username($username);
-            $emailExists = $admin->get_user_by_email($email);
-
-            if ($usernameExists && $usernameExists['user_id'] != $iUserID) {
-                $aErrors[] = '[2] ' . $MESSAGE['USERS_USERNAME_EXISTS'];
-            }
-            if ($emailExists && $emailExists['user_id'] != $iUserID) {
-                $aErrors[] = '[3] ' . $MESSAGE['USERS_EMAIL_EXISTS'];
-            }
-        }
-
-        // Process the user data
-        if (empty($aErrors)) {
-            $aData = array(
-                'user_id' => $iUserID,
-                'groups_id' => $groups_id,
-                'username' => $username,
-                'email' => $email,
-                'display_name' => $display_name,
-            );
-
-            if (isset($sEncodedPassword) && $sEncodedPassword !== '') {
-                $aData['password'] = $sEncodedPassword;
-            }
-
-            $admin->save_user($aData);
-
-            if ($action === 'save_user_add') {
-                $aSuccess[] = $MESSAGE['USERS_ADDED'];
-            } else {
-                $aSuccess[] = $MESSAGE['USERS_UPDATED'];
-            }
-        }
-
-        $smarty->assign('sUserName', $username);
-        $smarty->assign('sEmail', $email);
-        $smarty->assign('sDisplayName', $display_name);
-        $smarty->assign('iUserID', $iUserID);
-        $smarty->assign('aUser', $admin->get_user_by_id($iUserID));
-        $smarty->assign('aGroups', $admin->get_groups());
-        $smarty->assign('aErrors', $aErrors);
-        $smarty->assign('aSuccess', $aSuccess);
-        $smarty->assign('admin', $admin);
-        $smarty->display('users_modify.tpl');
-        exit(0);
-
-    default:
-        header("Location: index.php");
-        exit(0);
-}*/
