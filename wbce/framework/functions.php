@@ -1235,22 +1235,28 @@ function getFilePart($sFilePath, $size = 0)
 }
 
 /**
- * @brief  replace Placeholder-Tokens with values in a string
+ * @brief  replace Placeholder-Tokens with corresponding values within a string
  *
- * @param string $sString string with Placeholder-Tokens
- * @param array $aReplace values to replace vars placeholder
- * @param string $sHem The delimiters on both sides that are being used
- *                            in PH-Tokens: '[%s]' or '{%s}'. Default is: '{{%s}}'
- * @return string  The string with replaced Placeholder Tokens
+ * @param string  $str           string with Placeholder-Tokens
+ * @param array   $replaceArray  key-value pairs to replace 
+ * @param string  $hem           The delimiters on both sides that are being used
+ *                               in Placeholder-Tokens: '[%s]' or '{%s}'. 
+ *                               Default is: '{{%s}}'
+ * @return string The string with replaced Placeholder Tokens
  */
-function replace_vars($sString = '', &$aReplace = array(), $sHem = '{{%s}}')
+function replace_vars($str = '', $replaceArray = [], $hem = '{{%s}}')
 {
-    if (!empty($aReplace) && $sString!=null) {
-        foreach ($aReplace as $sKey => $sValue) {
-            $sString = str_replace(sprintf($sHem, $sKey), $sValue, $sString);
+    if (!empty($replaceArray) && $str !== null) {
+         
+        $placeholders = []; // Create a new array
+        foreach ($replaceArray as $key => $value) {
+            // add delimiters to the original keys of the array
+            $placeholders[sprintf($hem, $key)] = $value;
         }
+        
+        $str = strtr($str, $placeholders);
     }
-    return $sString;
+    return $str;
 }
 
 /**
