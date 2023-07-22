@@ -104,11 +104,13 @@ div.cp-settings label.cp-setting-name {
     width: 100%;
 }
 
-label.cp-setting-name:after,
-.cp-setting-name:after {
+/* show colon after text of .cp-setting-name 
+   leave (completely) empty if no colon is to be shown */
+.cp-setting-name:not(:empty):after {
     content: ":";
     margin-left: 1px;
 }
+
 
 .cp-settings .cp-setting-name,
 .cp-settings label.cp-setting-name,

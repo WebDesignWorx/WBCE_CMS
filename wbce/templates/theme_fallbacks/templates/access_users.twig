@@ -1,6 +1,6 @@
 {% extends "access_framer.twig" %}
 {% block content %}    
-    
+    {#{ debug_dump(dump(LANGUAGE)) }#}
     &nbsp;
     {{ MESSAGE_BOX }}
 {% if has_permission('users_add') %}
@@ -10,7 +10,7 @@
     <div class="cp-settings">
         <div class="cp-toggle-section">
             <div class="formHeading">
-                <label><i class="fa fa-user-plus"></i> {% if do_modify_user %}{{ L_('{TEXT:MODIFY_RECORD}', '{TEXT:USER}') }}{% else %}{{ L_('{TEXT:ADD_RECORD}', '{TEXT:USER}') }} 
+                <label><i class="fa fa-user-plus"></i> {% if do_modify_user %}{{ L_('{TEXT:EDIT_RECORD}', '{TEXT:USER}') }}{% else %}{{ L_('{TEXT:ADD_RECORD}', '{TEXT:USER}') }} 
                     <input type="checkbox" class="toggle" name="add_new_user" value="1" {% if user.add_new_user == true %}checked{% endif %} />
                 </label>{% endif %}
             </div>
@@ -34,10 +34,9 @@
 
             {% if do_modify_user %}
             <div class="cp-setting-row">
-                <div class="cp-setting-name">
-                    <input type="checkbox" id="change_pswd" name="change_pswd"  value="1" class="toggle"{% if change_pswd == 1 %} checked{% endif %}>
-                </div>
+                <div class="cp-setting-name"></div>
                 <div class="cp-setting-value">
+                    <input type="checkbox" id="change_pswd" name="change_pswd"  value="1" class="toggle"{% if change_pswd == 1 %} checked{% endif %}>
                     <label for="change_pswd">{{ L_('TEXT:NEW_PASSWORD') }}</label>
                 </div>
             </div>
@@ -52,7 +51,7 @@
                 <div class="cp-setting-row">
                     <label class="cp-setting-name{% if do_modify_user == false %} cp-required{% endif %}" for="">{{ L_('TEXT:RETYPE_PASSWORD') }}</label>
                     <div class="cp-setting-value">
-                        <input type="password" name="password2"{% if do_modify_user == false %} required{% endif %} maxlength="30">
+                        <input type="password" name="password2"{% if do_modify_user == false %} required{% endif %} maxlength="50" class="wdt250">
                         {%if do_modify_user %}
                             <div class="formHint">{{ L_('MESSAGE:USERS_CHANGING_PASSWORD') }}</div>
                         {% endif %}
@@ -61,19 +60,50 @@
                 {% if do_modify_user %}     
             </section>
             {% endif %}       
-
                 <div class="cp-setting-row">
                     <label class="cp-setting-name" for="display_name">{{ L_('TEXT:DISPLAY_NAME') }}</label>
                     <div class="cp-setting-value">
                         <input type="text" name="display_name" id="display_name" required maxlength="255" value="{{ user.display_name }}">
                     </div>
                 </div>   
+                    
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name" for="timezone">{{ L_('TEXT:TIMEZONE') }}</label>
+                    <div class="cp-setting-value">
+                        <select name="timezone" id="timezone">
+                            <option value="-20" disabled>{{ L_('TEXT:PLEASE_SELECT') }}&mldr;</option>
+                            {% for rec in TIME_ZONES %}
+                                <option value="{{ rec.VALUE }}"{% if rec.VALUE == user.timezone / 60 / 60 %} selected{% endif %}{% if rec.SELECTED == true %} selected{% endif %}>{{ rec.NAME }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                        
+                <div class="cp-setting-row">
+                    <label class="cp-setting-name" for="language">{{ L_('TEXT:LANGUAGE') }}</label>
+                    <div class="cp-setting-value">
+                        <select name="language" id="language">
+                            {% set sFlagFlag = 'data-left="' ~ WB_URL ~ '/languages/%s.svg"' %}
+                            <option value="" disabled>{{ L_('TEXT:PLEASE_SELECT') }}&mldr;</option>
+                            {% for lang in LANGUAGES %}
+                                <option value="{{ lang.CODE }}"
+                                    data-right="{{ lang.CODE }}"  {{ sFlagFlag|format(lang.CODE) }}
+                                    {% if do_modify_user %}
+                                        {% if lang.CODE == user.language %} selected{% endif %}
+                                    {% else %}
+                                        {% if lang.CODE == LANGUAGE %} selected{% endif %}
+                                    {% endif %}
+                                >{{ lang.NAME }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
 
                 {% if use_home_folders %}
                 <div class="cp-setting-row">
                     <label class="cp-setting-name">{{ L_('TEXT:HOME_FOLDER') }}</label>
                     <div class="cp-setting-value">
-                        <select name="home_folder">
+                        <select name="home_folder" id="home_folder">
                             <option value="">{{ L_('TEXT:NONE') }}</option>
                             {% for folder in home_folders %}
                                 <option value="{{ folder.dir }}"{%if folder.selected %} selected{% endif %}>{{ folder.name }}</option>
@@ -86,7 +116,7 @@
                 <div class="cp-setting-row">
                     <div class="cp-setting-name"><label>{{ L_('TEXT:GROUP') }}</label></div>
                     <div class="cp-setting-value">
-                        <select id="select_groups" name="groups[]" multiple required>
+                        <select data-placeholder="{{ L_('TEXT:PLEASE_SELECT') }}&mldr;" id="select_groups" name="groups[]" multiple required class="multi-select">
                             {% for group in groups %}                            
                                 <option value="{{ group.id }}"{%if group.id in user.groups_id %} selected{% endif %}>{{ group.name }}</option>
                             {% endfor %}
@@ -97,12 +127,17 @@
                 <div class="cp-setting-row">
                     <label class="cp-setting-name" for="">Account</label>
                     <div class="cp-setting-value">
+                        {% if do_modify_user == false %}
+                            {% set active = true %}
+                        {% else %}                            
+                            {% set active = user.active %}
+                        {% endif %}
                         <label>
-                            <input type="radio" name="active[]" value="1" {%if user.active == true %}checked{% endif %} />
+                            <input type="radio" name="active[]" value="1" {%if active == true %}checked{% endif %} />
                             {{ L_('TEXT:ACTIVE') }}
                         </label>
                         <label>
-                            <input type="radio" name="active[]" value="0" {%if user.active == false %}checked{% endif %} />
+                            <input type="radio" name="active[]" value="0" {%if active == false %}checked{% endif %} />
                             {{ L_('TEXT:DISABLED') }}
                         </label>
                     </div>
@@ -117,7 +152,6 @@
                 </div>
                 {% endif %}
                 <div class="cp-buttons-row">
-                    {#<button type="reset" class="button ico-reset" name="reset">{{ L_('TEXT:RESET') }}</button>#}
                     <button onclick="window.location.href='{{ ADMIN_URL }}/users';" class="button ico-cancel">{{ L_('TEXT:CANCEL') }}</button>   
                     {% if do_modify_user == 1 %} 
                         <button type="submit" class="button ico-save pos-right" name="save_user_changes">{{ L_('TEXT:SAVE') }}</button>          
@@ -191,7 +225,7 @@
                     {% if rec.user_id > 1 %}
                         <a href="{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&activation={% if rec.active %}0{% else %}1{% endif %}" title="{{ L_('TEXT:MODIFY') }} {{ L_('TEXT:USER') }}"><i class="fa fa-1x fa-user-circle{% if rec.active %}-o{% endif %}" style="color:{% if rec.active %}#48BF40{% else %}#EDABAB{% endif %}"
                            title="{% if rec.active %}{{ L_('TEXT:ACTIVE')}}{% else %}{{ L_('TEXT:DISABLED')}}{% endif %}"></i></a>                    
-                        <a href="{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&modify=1" title="{{ L_('TEXT:MODIFY') }} {{ L_('TEXT:USER') }}"><i class="fa fa-pencil"></i></a> 
+                        <a href="{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&modify=1" title="{{ L_('TEXT:EDIT_RECORD', 'TEXT:USER') }}"><i class="fa fa-pencil"></i></a> 
                         {% set ACTION %}{% if rec.active %}DEACTIVATE_RECORD{% else %}DELETE_RECORD{% endif %}{% endset %}
                         {% set onClick %} href="javascript:void(0)" onclick="confirm_link(
                             ['{{ L_('{TEXT:'~ACTION ~'}. {TEXT:ARE_YOU_SURE}', 'TEXT:USER') }}'], '{{ ADMIN_URL }}/users/index.php?user_id={{ IDKEY }}&delete=1')"
@@ -204,17 +238,26 @@
     </tbody>
 </table>    
 {% endif %}
+
 <script>    
-$.insert(WB_URL + '/templates/theme_fallbacks/jQueryPlugins/cpTableFilter/cpTableFilter.js');
+$.insert(JQUERY_PLUGINS + '/cpTableFilter/cpTableFilter.js');
+$.insert(JQUERY_PLUGINS + '/chosen/chosen.min.css');
+$.insert(JQUERY_PLUGINS + '/chosen/chosen.jquery.min.js');
 $(document).ready(function() {
-    $('#filterInput').cpTableFilter();
-   
+    // initiate table filter and search
+    $('#filterInput').cpTableFilter();  
+    
+    // initiate chosen for select elements
+    $("select").chosen({
+        disable_search_threshold: 7 //show the search bar in select if > 7 elements
+    });
+    
+    // add user toggle
     $('.toggle').on('change', function () {                
         $('#add_user').toggle(this.checked);  
-        //$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
     }).change(); //ensure visible state matches initially
     
-    // Change Pswd Toggle
+    // change password toggle
     $('.toggle').on('change', function () {                
         $('#renew_password').toggle(this.checked);
     }).change(); 

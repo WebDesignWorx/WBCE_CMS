@@ -620,21 +620,18 @@ _JsCode;
      * @param string
      * @return  string
      */
-    public function validate_email($email)
-    {
-        if (function_exists('idn_to_ascii')) {
-            // use pear if available
-            $email = @idn_to_ascii($email);
+    function validate_email($email) {
+        // Remove leading/trailing whitespace
+        $email = trim($email);
+
+        // Validate email using filter_var
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) {
+            return true;
         } else {
-            require_once WB_PATH . '/include/idna_convert/idna_convert.class.php';
-            $IDN = new idna_convert();
-            $email = $IDN->encode($email);
-            unset($IDN);
+            return false;
         }
-        // regex from NorHei 2011-01-11
-        $retval = preg_match("/^((([!#$%&'*+\\-\/\=?^_`{|}~\w])|([!#$%&'*+\\-\/\=?^_`{|}~\w][!#$%&'*+\\-\/\=?^_`{|}~\.\w]{0,}[!#$%&'*+\\-\/\=?^_`{|}~\w]))[@]\w+(([-.]|\-\-)\w+)*\.\w+(([-.]|\-\-)\w+)*)$/", $email);
-        return ($retval != false);
     }
+
 
     /**
      * @brief   set one or more bit in a integer value
@@ -903,11 +900,11 @@ _JsCode;
                 break;
             case 'js':
                 // insert system vars to be ready for all JS code
-				if (defined("URL_VAR_COMPATIBILITY_MODE") && URL_VAR_COMPATIBILITY_MODE==true) {
-					$sJsSysvars = "\t\tvar URL = WB_URL = '" . WB_URL . "';";
-				} else {
-					$sJsSysvars = "\t\tvar WB_URL = '" . WB_URL . "';";
-				}
+                if (defined("URL_VAR_COMPATIBILITY_MODE") && URL_VAR_COMPATIBILITY_MODE==true) {
+                        $sJsSysvars = "\t\tvar URL = WB_URL = '" . WB_URL . "';";
+                } else {
+                        $sJsSysvars = "\t\tvar WB_URL = '" . WB_URL . "';";
+                }
 
                 if (defined("LANGUAGE")) {
                     $sJsSysvars .= "\n\t\tvar LANGUAGE     = '" . strtolower(LANGUAGE) . "';";
@@ -930,6 +927,7 @@ _JsCode;
                 if (defined("ADMIN_URL") && !defined("WB_FRONTEND")) {
                     $sJsSysvars .= "\n\t\tvar ADMIN_URL    = '" . ADMIN_URL . "';";
                 }
+                $sJsSysvars .= "\n\t\tvar JQUERY_PLUGINS  = WB_URL + '/templates/theme_fallbacks/jQueryPlugins';";
 
                 $sJsSysvars .= "\n\t\tvar SESSION_TIMEOUT = '" . $this->get_session_timeout() . "';";
                 $sJsSysvars .= "\n";
