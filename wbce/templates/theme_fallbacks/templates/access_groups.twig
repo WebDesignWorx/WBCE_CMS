@@ -227,8 +227,12 @@
     </div>
 {% endif %}
 
+<!-- HTML content -->
 
-<script>   
+<!-- HTML content -->
+
+<script>
+    // Convert Twig array to JavaScript array
     var area_checkboxes = [
         'pages',
         'addons',
@@ -252,7 +256,7 @@
     ];
 
     // Include the cpTableFilter.js script
-    $.insert(WB_URL + '/templates/theme_fallbacks/jQueryPlugins/cpTableFilter/cpTableFilter.js');
+    $.insert(JQUERY_PLUGINS + '/cpTableFilter/cpTableFilter.js');
 
     // Function to add the 'active' class to the parent element
     function add_active_style(child) {
@@ -316,19 +320,18 @@
 
     $(document).ready(function () {
         // Iterate over the JavaScript array area_checkboxes
-        area_checkboxes.forEach(function (area) {
-            area(area);
-        });
-        
+        area_checkboxes.forEach(function (i) {
+            area(i);
+        }); 
         // Iterate over the JavaScript array advanced_checkboxes
-        advanced_checkboxes.forEach(function (advanced_area) {
-            advanced_area(advanced_area);
+        advanced_checkboxes.forEach(function (k) {
+            advanced_area(k);
         });
 
         // Event handler for the '.toggle' class checkboxes
         $('.toggle').on('change', function () {
             $('#add_group').toggle(this.checked);
-        }).change(); 
+        }).change(); //ensure visible state matches initially
 
     });
 </script>
