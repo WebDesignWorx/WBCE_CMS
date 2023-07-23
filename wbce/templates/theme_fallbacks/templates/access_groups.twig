@@ -227,72 +227,109 @@
     </div>
 {% endif %}
 
-{% set area_checkboxes = [
-    'pages',
-    'addons',
-    'modules',
-    'media',
-    'languages',
-    'templates',
-    'admintools',
-    'admintools_tools',
-    'preferences',
-    'settings',
-    'users',
-    'groups',
-    'module_permissions',
-    'template_permissions',
-    'theme_permissions',
-    'tool_permissions',
-    'setting_permissions',
-] %}
-<script>
-    
+
+<script>   
+    var area_checkboxes = [
+        'pages',
+        'addons',
+        'modules',
+        'media',
+        'languages',
+        'templates',
+        'admintools',
+        'admintools_tools',
+        'preferences',
+        'settings',
+        'users',
+        'groups',
+        'setting_permissions'
+    ];
+    var advanced_checkboxes = [
+        'module_permissions',
+        'template_permissions',
+        'theme_permissions',
+        'admintools_tools'
+    ];
+
+    // Include the cpTableFilter.js script
     $.insert(WB_URL + '/templates/theme_fallbacks/jQueryPlugins/cpTableFilter/cpTableFilter.js');
-    $(document).ready(function() {
-        $('#filterInput').cpTableFilter();
-    });
-    function add_active_style(child){
+
+    // Function to add the 'active' class to the parent element
+    function add_active_style(child) {
         var obj = $('#section_' + child).parent();
         obj.addClass('active');
-    }    
-    function remove_active_style(child){
+    }
+
+    // Function to remove the 'active' class from the parent element
+    function remove_active_style(child) {
         var obj = $('#section_' + child).parent();
         obj.removeClass('active');
     }
-    
-    function area(area){
-        if ($("input.child_" + area + ":checkbox:checked").length >0) {  
-                $("article#section_" + area).toggle(); 
-                add_active_style(area); 
+
+    // Function to handle the behavior of the advanced_checkboxes
+    function advanced_area(area) {
+        var masterCheckbox = $("#cb_" + area);
+        var childCheckboxes = $("input.child_" + area);
+
+        function updateMasterCheckbox() {
+            var numChecked = $("input.child_" + area + ":checkbox:checked").length;
+            masterCheckbox.prop("checked", numChecked === childCheckboxes.length);
+        }
+
+        masterCheckbox.on("change", function () {
+            $(".child_" + area).prop("checked", this.checked);
+        });
+
+        childCheckboxes.on("change", function () {
+            updateMasterCheckbox();
+        });
+
+        // Call the function initially to set the correct state
+        updateMasterCheckbox();
+    }
+
+
+    // Function to handle the behavior of a collapsible section
+    function area(area) {
+        if ($("input.child_" + area + ":checkbox:checked").length > 0) {
+            $("article#section_" + area).toggle();
+            add_active_style(area);
         }
         $("article#section_" + area).toggle();
-        $("#cb_" + area).on('change', function() {
+        $("#cb_" + area).on('change', function () {
             $('.child_' + area).prop('checked', $(this).prop('checked'));
-            $("article#section_" + area).toggle(); 
-            if ($("input.child_" + area + ":checkbox:checked").length == 0) {  
-                remove_active_style(area); 
+            $("article#section_" + area).toggle();
+            if ($("input.child_" + area + ":checkbox:checked").length == 0) {
+                remove_active_style(area);
             } else {
-                add_active_style(area); 
+                add_active_style(area);
             }
         });
-        $('.child_' + area).on('change', function() {
+        $('.child_' + area).on('change', function () {
             $('#cb_' + area).prop('checked', $('.child_' + area + ':checked').length ? true : false);
-            if ($("input.child_" + area + ":checkbox:checked").length == 0) {               
+            if ($("input.child_" + area + ":checkbox:checked").length == 0) {
                 $("article#section_" + area).toggle();
-                remove_active_style(area); 
+                remove_active_style(area);
             }
         });
     }
-    $(function () {
-    {% for area in area_checkboxes %}    
-        area('{{ area }}');
-    {% endfor %}
-    $('.toggle').on('change', function () {                
-        $('#add_group').toggle(this.checked);  
-        //$(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
-    }).change(); //ensure visible state matches initially
-    
-});
+
+    $(document).ready(function () {
+        // Iterate over the JavaScript array area_checkboxes
+        area_checkboxes.forEach(function (area) {
+            area(area);
+        });
+        
+        // Iterate over the JavaScript array advanced_checkboxes
+        advanced_checkboxes.forEach(function (advanced_area) {
+            advanced_area(advanced_area);
+        });
+
+        // Event handler for the '.toggle' class checkboxes
+        $('.toggle').on('change', function () {
+            $('#add_group').toggle(this.checked);
+        }).change(); 
+
+    });
 </script>
 {% endblock %}
