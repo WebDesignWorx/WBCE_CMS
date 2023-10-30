@@ -29,13 +29,13 @@
 <form name="access_settings" method="post">
     {{ FTAN }}
     <div class="cp-settings">
-        <div class="cp-toggle-section">
+        <div class="cp-toggle-section cp-toggle-section-closed">
             <div class="formHeading">
                 <label><i class="fa fa-sliders"></i> {{ L_('TEXT:CHANGE_SETTINGS') }} 
-                    <input type="checkbox" class="toggle" {% if show_settings == true %}checked{% endif %} />
+                    <input type="checkbox" class="toggle-section" {% if show_settings == true %}checked{% endif %} />
                 </label>
             </div>
-            <div id="settings">
+            <section id="settings">
                 <div class="cp-setting-row">
                     <div class="cp-setting-name">{{ L_('TEXT:HOME_FOLDERS') }}</div>
                     <div class="cp-setting-value">
@@ -67,7 +67,7 @@
                 <div class="cp-setting-row">
                     <div class="cp-setting-name">{{ L_('TEXT:SIGNUP') }}</div>
                     <div class="cp-setting-value">
-                        <select name="frontend_signup" id="frontend_signup">
+                        <select name="frontend_signup" id="frontend_signup" class="chosen">
                             <option value="false"{% if 'false' == cfg.frontend_signup %} selected{% endif %}>{{ L_('TEXT:DISABLED') }}</option>
                             {% for group in SIGNUP_GROUPS %}
                                 <option value="{{ group.id }}" data-right="{{ group.id }}"{% if group.id == cfg.frontend_signup %} selected{% endif %}>{{ group.name }}</option>
@@ -81,14 +81,18 @@
                     <button type="reset" class="button ico-reset" name="reset">{{ L_('TEXT:RESET') }}</button>   
                     <button type="submit" class="button ico-save pos-right" name="save_settings">{{ L_('TEXT:SAVE') }}</button> 
                 </div>  
-            </div>  
+            </section>  
         </div>
     </div>
 </form>
-<script>
-     $('.toggle').on('change', function () {                
-        $('#settings').toggle(this.checked);  
-    }).change(); 
+<script>    
+$(document).ready(function() { 
+    // change password toggle
+    $('.toggle').on('change', function () {                
+        $('#renew_password').toggle(this.checked);
+    }).change();     
+    
+});
 </script>
 {% endif %}    
 {% endblock %}

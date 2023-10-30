@@ -43,13 +43,13 @@
 <form action="{{ ADMIN_URL }}/addons/reload.php" method="post">
     {{ FTAN }}
     <div class="cp-settings">
-        <div class="cp-toggle-section">
+        <div class="cp-toggle-section cp-toggle-section-closed">
             <div class="formHeading">
                 <label><i class="fa fa-sliders"></i> {{ L_('{TEXT:SETTINGS} {TEXT:ADMIN}') }} 
-                    <input type="checkbox" class="toggle" {% if show_settings == true %}checked{% endif %} />
+                    <input type="checkbox" class="toggle-section" {% if show_settings == true %}checked{% endif %} />
                 </label>
             </div>
-            <div id="settings">
+            <section id="settings">
                 <div class="cp-setting-row">
                     {{ L_('MESSAGE:ADDON_RELOAD') }}
                 </div>
@@ -68,14 +68,9 @@
                 <div class="cp-buttons-row">  
                     <button type="submit" name="submit" class="button ico-reload pos-right">{{ L_('TEXT:RELOAD') }}</button> 
                 </div>  
-            </div>  
+            </section>  
         </div>
     </div>
 </form>
-<script>
-     $('.toggle').on('change', function () {                
-        $('#settings').toggle(this.checked);  
-    }).change(); 
-</script>
 {% endif %}
 {% endblock %}

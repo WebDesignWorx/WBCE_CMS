@@ -927,7 +927,7 @@ _JsCode;
                 if (defined("ADMIN_URL") && !defined("WB_FRONTEND")) {
                     $sJsSysvars .= "\n\t\tvar ADMIN_URL    = '" . ADMIN_URL . "';";
                 }
-                $sJsSysvars .= "\n\t\tvar JQUERY_PLUGINS  = WB_URL + '/templates/theme_fallbacks/jQueryPlugins';";
+                $sJsSysvars .= "\n\t\tvar JQUERY_PLUGINS  = WB_URL + '/templates/theme_fallbacks/js';";
 
                 $sJsSysvars .= "\n\t\tvar SESSION_TIMEOUT = '" . $this->get_session_timeout() . "';";
                 $sJsSysvars .= "\n";

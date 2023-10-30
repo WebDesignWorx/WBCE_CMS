@@ -91,6 +91,26 @@
     box-sizing: border-box;
     background: #fff;
 }
+div.cp-settings .cp-toggle-section-closed .formHeading{
+    /*    
+    border: 2px solid #dcdcdc;
+    color: #e5e9f3;
+    background: #505B6D;
+    */
+}
+.cp-toggle-section-closed section{
+    /*display: none;*/
+}
+.formHeading label i{
+    padding-right: 5px;
+}
+
+.cp-toggle-section .toggle-section {
+    display:none;    
+}
+div.cp-settings:has(> .cp-toggle-section-closed) {
+    width: fit-content;
+}
 /**
  * tabs 
  */

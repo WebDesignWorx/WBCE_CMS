@@ -21,6 +21,8 @@
 <!--(PH) JS BODY BTM+ -->
 {BACKEND_BODY_MODULE_JS}
 <!--(PH) JS BODY BTM- -->
+
+<script type="text/javascript" src="{WB_URL}/templates/theme_fallbacks/js/common.js"></script>
 </body>
 </html>
 

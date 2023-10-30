@@ -7,18 +7,18 @@
     {{ FTAN }}
     <input type="hidden" name="group_id" value="{% if GROUP_ID == 0 %}0{% else %}{{ getIDKEY(GROUP_ID) }}{% endif %}"> 
     <div class="cp-settings">
-        <div class="cp-toggle-section">
+        <div class="cp-toggle-section cp-toggle-section-closed">
             <div class="formHeading">
                 {% if GROUP_ID == 0 %}
                     <label><i class="fa fa-plus"></i> 
                     {{ L_('HEADING:ADD_GROUP') }}
-                    <input type="checkbox" class="toggle" name="add_new_group" value="1" {% if user.add_new_group == true %}checked{% endif %} />
+                    <input type="checkbox" class="toggle-section" name="add_new_group" value="1" {% if user.add_new_group == true %}checked{% endif %} />
                     </label>
                 {% else %}
                     {{ L_('HEADING:MODIFY_GROUP') }}
                 {% endif %}
             </div>
-            <div id="add_group">
+            <section id="add_group">
                 <div class="cp-setting-row">
                    <label class="cp-setting-name" for="group_name">{{ L_('TEXT:NAME') }}</label>
                     <div class="cp-setting-value">
@@ -151,7 +151,7 @@
                     {% if GROUP_ID != '0' %}<button type="submit" class="button ico-save-back pos-right" name="save_and_close">{{ L_('TEXT:SAVE') }} & {{ L_('TEXT:BACK') }}</button>{% endif %}
                     <button type="submit" name="save" class="button ico-save pos-right"> {{ L_(TEXT_SUBMIT|trim) }} </button>
                 </div>  
-            </div>
+            </section>
         </div>  
     </div>
 </form>
@@ -226,11 +226,6 @@
         </table>
     </div>
 {% endif %}
-
-<!-- HTML content -->
-
-<!-- HTML content -->
-
 <script>
     // Convert Twig array to JavaScript array
     var area_checkboxes = [
@@ -254,9 +249,6 @@
         'theme_permissions',
         'admintools_tools'
     ];
-
-    // Include the cpTableFilter.js script
-    $.insert(JQUERY_PLUGINS + '/cpTableFilter/cpTableFilter.js');
 
     // Function to add the 'active' class to the parent element
     function add_active_style(child) {
@@ -327,12 +319,6 @@
         advanced_checkboxes.forEach(function (k) {
             advanced_area(k);
         });
-
-        // Event handler for the '.toggle' class checkboxes
-        $('.toggle').on('change', function () {
-            $('#add_group').toggle(this.checked);
-        }).change(); //ensure visible state matches initially
-
     });
 </script>
 {% endblock %}

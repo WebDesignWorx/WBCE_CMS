@@ -547,7 +547,7 @@ h2.page_titel {
     overflow: hidden;
     white-space: nowrap;
     color: #f3f3f3;
-    background-color: #28609B;
+    background-color: #3f5478;
 }
 
 h2.page_titel a {
@@ -1405,3 +1405,31 @@ form.advanced-options {
 	cursor:not-allowed;
 	text-decoration:none !important;
 } 
+
+
+/**
+ * stylesheet overrides for chosen jquery multi-select element
+ */
+.chosen-container-multi .chosen-choices {
+    border: 1px solid #999 !important;
+    background-color: #fff !important;
+    background-image: linear-gradient(#eee 1%,#eee 15%) !important;
+}
+.chosen-container-multi .chosen-choices li.search-choice {
+    color: #3c4150 !important;
+    background-image: linear-gradient(#fff 20%,#fff 50%,#f3f3f3 52%,#f3f3f3 100%)!important;
+}
+.chosen-container {    
+    width: 99% !important;
+}
+.chosen-container-multi .chosen-choices li.search-field input[type=text] {
+    color: #6c6c6c !important;    
+    font-size: 14px !important;
+}
+.chosen-container-active .chosen-choices {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+label.cp-required:before, .cp-required label:before {
+    color: #cb0000;
+}
