@@ -3,7 +3,19 @@
  * @link https://craftcms.com/
  * @copyright Copyright (c) Pixel & Tonic, Inc.
  * @license https://craftcms.github.io/license/
+ *
+ * This file includes code from the Craft CMS project, developed by Pixel & Tonic, Inc.
+ * The original code can be found at: 
+ * https://github.com/craftcms/cms/blob/3.8/src/web/twig/nodes/SwitchNode.php
+ * 
+ * The original code from Craft CMS is subject to its own license terms. 
+ * Please refer to the original project's license for more details.
+ * 
+ * Portions of this code have been modified and added by WBCE CMS Team.  
+ * Visit https://wbce.org to learn more about our work
+ * 
  */
+
  /**
         {% set setting = "blue" %}
         {% switch setting %}
