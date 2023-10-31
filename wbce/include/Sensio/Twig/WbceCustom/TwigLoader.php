@@ -5,7 +5,7 @@ spl_autoload_register(function ($class) {
     $prefix = 'Twig';
 
     // base directory for the namespace prefix
-    $base_dir = __DIR__;
+    $base_dir = dirname(__DIR__);
 
     // does the class use the namespace prefix?
     $len = strlen($prefix);
@@ -133,6 +133,9 @@ if (!function_exists('getTwig')) {
         }
 
         $oTwig->addExtension(new \Twig\Extension\DebugExtension());
+        $oTwig->addExtension(new \Twig\WbceCustom\Extension\UnserializeExtension());
+        
+        $oTwig->addTokenParser(new \Twig\WbceCustom\TokenParser\SwitchTokenParser());
         return $oTwig;
     }
 
@@ -151,7 +154,7 @@ if (!function_exists('getTwig')) {
         $aSection = array(); // collect Section Details here
         if ($iSectionID != null) {
             global $database;
-            $sSql = 'SELECT s.`module`, s.`publ_start`, s.`publ_end`, s.`block`';
+            $sSql = 'SELECT s.`module`, s.`publ_start`, s.`publ_end`, s.`block`, s.`position`';
             $sSql .= ', p.`page_id`, p.`link`, p.`page_title`';
             #$sSql = ', s.`visibility`'; //there is no visibility status for sections in WBCE yet
             $sSql .= ' FROM `{TP}sections` s';
@@ -170,6 +173,7 @@ if (!function_exists('getTwig')) {
                 $aSection['LAYOUT_BLOCK'] = $rec['block'];
                 $aSection['PUBLIC_START'] = $rec['publ_start'];
                 $aSection['PUBLIC_END']   = $rec['publ_end'];
+                $aSection['SECTION_POSITION'] = $rec['position'];   // (int)
                 #$aSection['SECTION_VISIBILITY'] = $rec['visibility'];
                 unset($rec);
             }
