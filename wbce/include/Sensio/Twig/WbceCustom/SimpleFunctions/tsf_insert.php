@@ -1,5 +1,26 @@
 <?php
 /**
+ * insertFile  
+ * insert a single JS or CSS File
+ */
+$oTwig->addFunction(new \Twig\TwigFunction("insertFile", 
+    function ($sFileLoc = '', $sDomPos = '', $sType = '') {
+        if($sFileLoc == '') return; // return early if no loc is set
+        if($sType == ''){
+          $sType = pathinfo($sFileLoc, PATHINFO_EXTENSION);
+        }
+        if($sDomPos == ''){
+            $sDomPos == 'BODY BTM-';
+            if(strtolower($sType) == 'css'){
+                $sDomPos == 'HEAD BTM-';
+            }
+        }
+        $call = 'insert'.strtolower(ucfirst($sType)).'File';
+        I::$call($sFileLoc, $sDomPos); 
+    }
+));
+
+/**
  * insertJsFile  // Twig adaptation of the Insert class method
  */
 $oTwig->addFunction(new \Twig\TwigFunction("insertJsFile", 
