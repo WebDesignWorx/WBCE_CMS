@@ -26,15 +26,19 @@ if(!defined('WB_PATH')) {
 }
 /* -------------------------------------------------------- */
 
-
-
 function opff_mod_opf_remove_system_ph (&$content, $page_id, $section_id, $module, $wb) {
     if(!class_exists('Settings')
         || (Settings::Get('opf_remove_system_ph', true) && ($page_id != 'backend'))
         || (Settings::Get('opf_remove_system_ph'.'_be', true) && ($page_id == 'backend'))){
 
-        $content=preg_replace("/[\s\t]*<!--\(PH\).*?-->[\s\t]*[\r\n]?/s" ,"", $content);
+        // Replacements array
+        $arr = [
+            // Matche the <!--(PH) ... --> placeholders and replaces with ""
+            "/<!--\(PH\).*?-->/s" => "",    
+            // Matches excess new lines and replaces with a single newline character
+            "/\n\s*\n+/s" => "\n"           
+        ];
+        $content = preg_replace(array_keys($arr), array_values($arr), $content);
     }
     return(TRUE);
 }
-
