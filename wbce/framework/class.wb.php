@@ -718,21 +718,43 @@ _JsCode;
         }
     }
 
-    public function getThemeFile($sTplName = '', $aToTwig = array())
+    /**
+     * Retrieves a Twig BE Theme file and renders or displays it using the Twig TE.
+     *
+     * @param string $sTplName   The name of the twig file to use.
+     * @param array  $aToTwig    Variables to be passed to the template for rendering.
+     * @param bool   $doRender   Flag indicating whether to render the template or just display it.
+     *
+     * @return void
+     */
+    public function getThemeFile($sTplName = '', $aToTwig = [], $doRender = false)
     {
-        $aTemplateLocs = array();
-        $aCheckDirs = array(
+        // possible locations where the Twig file may be found
+        $aCheckDirs = [
             THEME_PATH . '/templates/',
             WB_PATH . '/templates/theme_fallbacks/templates/'
-        );
+        ];
+
+        // Loop through each directory and add it to the $aTemplateLocs array if it exists
+        $aTemplateLocs = [];
         foreach ($aCheckDirs as $dir) {
             if (is_dir($dir)) {
                 $aTemplateLocs[] = $dir;
             }
         }
+
+        // Get an instance of the Twig TE
         $oTwig = getTwig($aTemplateLocs);
+
+        // Load the template specified by $sTplName
         $oTemplate = $oTwig->load($sTplName);
-        $oTemplate->display($aToTwig);
+
+        // Render or display the template based on the $doRender flag
+        if ($doRender) {
+            $oTemplate->render($aToTwig); // output can be saved in a variable
+        } else {
+            $oTemplate->display($aToTwig); // output will echo immediately
+        }
     }
 
     /**
