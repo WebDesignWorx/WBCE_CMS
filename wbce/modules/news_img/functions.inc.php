@@ -586,7 +586,7 @@ function mod_nwi_post_activate($value)
 			}
 			
 		} else{
-			$filename = WB_PATH.PAGES_DIRECTORY.'/'.$post['link'].PAGE_EXTENSION;
+			$filename = WB_PATH.PAGES_DIRECTORY.$post['link'].PAGE_EXTENSION;
 			mod_nwi_create_file($filename, '', $post_id, $post['section_id'], $page['page_id']);
 		}
 
@@ -859,10 +859,12 @@ function mod_nwi_post_get($post_id)
     $sql = sprintf(
         "SELECT `t1`.*, " .
         "  (SELECT `link` FROM `%smod_news_img_posts` AS `t2` WHERE `t2`.`$order_by` > `t1`.`$order_by` AND `section_id`=$section_id AND (`published_when` = '0' OR `published_when` <= $t) AND (`published_until` = '0' OR `published_until` >= $t) AND `active`=1 $query_group ORDER BY `$order_by` $prev_dir LIMIT 1 ) as `prev_link`, ".
-        "  (SELECT `link` FROM `%smod_news_img_posts` AS `t3` WHERE `t3`.`$order_by` < `t1`.`$order_by` AND `section_id`=$section_id AND (`published_when` = '0' OR `published_when` <= $t) AND (`published_until` = '0' OR `published_until` >= $t) AND `active`=1 $query_group ORDER BY `$order_by` $direction LIMIT 1 ) as `next_link` " .
+        "  (SELECT `post_id` FROM `%smod_news_img_posts` AS `t2b` WHERE `t2b`.`$order_by` > `t1`.`$order_by` AND `section_id`=$section_id AND (`published_when` = '0' OR `published_when` <= $t) AND (`published_until` = '0' OR `published_until` >= $t) AND `active`=1 $query_group ORDER BY `$order_by` $prev_dir LIMIT 1 ) as `prev_id`, ".
+        "  (SELECT `link` FROM `%smod_news_img_posts` AS `t3` WHERE `t3`.`$order_by` < `t1`.`$order_by` AND `section_id`=$section_id AND (`published_when` = '0' OR `published_when` <= $t) AND (`published_until` = '0' OR `published_until` >= $t) AND `active`=1 $query_group ORDER BY `$order_by` $direction LIMIT 1 ) as `next_link`, " .
+        "  (SELECT `post_id` FROM `%smod_news_img_posts` AS `t3b` WHERE `t3b`.`$order_by` < `t1`.`$order_by` AND `section_id`=$section_id AND (`published_when` = '0' OR `published_when` <= $t) AND (`published_until` = '0' OR `published_until` >= $t) AND `active`=1 $query_group ORDER BY `$order_by` $direction LIMIT 1 ) as `next_id` " .
         "FROM `%smod_news_img_posts` AS `t1` " .
         "WHERE `post_id`=%d",
-        TABLE_PREFIX, TABLE_PREFIX, TABLE_PREFIX, $post_id
+        TABLE_PREFIX, TABLE_PREFIX, TABLE_PREFIX, TABLE_PREFIX, TABLE_PREFIX, $post_id
     );
     $query_content = $database->query($sql);
     if(!empty($query_content)) {
@@ -875,11 +877,11 @@ function mod_nwi_post_get($post_id)
 		
 		$filename_next = WB_PATH.PAGES_DIRECTORY.'/'.$post['next_link'].PAGE_EXTENSION;
 		if ($post['next_link']!=='' && !file_exists($filename_next)) {
-			mod_nwi_create_file($filename_next, '', $post['post_id'], $post['section_id'], $this_page_id);
+			mod_nwi_create_file($filename_next, '', $post['next_id'], $post['section_id'], $this_page_id);
 		}
 		$filename_prev = WB_PATH.PAGES_DIRECTORY.'/'.$post['prev_link'].PAGE_EXTENSION;
 		if ($post['prev_link']!=='' && !file_exists($filename_prev)) {
-			mod_nwi_create_file($filename_prev, '', $post['post_id'], $post['section_id'], $this_page_id);
+			mod_nwi_create_file($filename_prev, '', $post['prev_id'], $post['section_id'], $this_page_id);
 		}
 		
         // get users
@@ -1044,7 +1046,7 @@ function mod_nwi_post_show(int $post_id)
         }
 		return false;
 	} else{
-		$filename = WB_PATH.PAGES_DIRECTORY.'/'.$post['link'].PAGE_EXTENSION;
+		$filename = WB_PATH.PAGES_DIRECTORY.$post['link'].PAGE_EXTENSION;
         mod_nwi_create_file($filename, '', $post_id, $section_id, $page['page_id']);
 	}
 
@@ -1119,7 +1121,7 @@ function mod_nwi_posts_getall(int $section_id, bool $is_backend, string $query_e
         "  (SELECT `post_id` FROM `%smod_news_img_posts` AS `t3` WHERE `t3`.`$order_by` > `t1`.`$order_by` AND `section_id`='$section_id' $active ORDER BY `$order_by` $direction LIMIT 1 ) as `next`, ".
         "  (SELECT `post_id` FROM `%smod_news_img_posts` AS `t3` WHERE `t3`.`$order_by` < `t1`.`$order_by` AND `section_id`='$section_id' $active ORDER BY `$order_by` $prev_dir LIMIT 1 ) as `prev` " .
         "FROM `%smod_news_img_posts` AS `t1` WHERE `section_id`='$section_id' $filter ".
-        "$query_extra ORDER BY gposition ASC, `$order_by` $direction $limit",
+        "$query_extra ORDER BY `$order_by` $direction $limit",
         TABLE_PREFIX, TABLE_PREFIX, TABLE_PREFIX, TABLE_PREFIX, TABLE_PREFIX
     );
 
@@ -1146,7 +1148,7 @@ function mod_nwi_posts_getall(int $section_id, bool $is_backend, string $query_e
             	$posts[] = $post;
             }			
 			$sectionArray = mod_nwi_get_section_array($post['section_id']);
-			$filename = WB_PATH.PAGES_DIRECTORY.'/'.$post['link'].PAGE_EXTENSION;
+			$filename = WB_PATH.PAGES_DIRECTORY.$post['link'].PAGE_EXTENSION;
 			
 			// check if accessfile should be created...
 			$createFile = true;																				// by default: yes.
@@ -1388,7 +1390,7 @@ function mod_nwi_post_process($post,$section_id,$users)
 {
     global $MOD_NEWS_IMG, $TEXT, $admin;
 	
-	$filename = WB_PATH.PAGES_DIRECTORY.'/'.$post['link'].PAGE_EXTENSION;
+	$filename = WB_PATH.PAGES_DIRECTORY.$post['link'].PAGE_EXTENSION;
 
     // get groups
     $groups = mod_nwi_get_groups(intval($section_id));
@@ -1849,11 +1851,11 @@ function mod_nwi_create_file(string $filename, ?string $filetime=null, ?string $
 
     // We need to create a new file
     // First, delete old file if it exists
-    if (file_exists(WB_PATH.PAGES_DIRECTORY.$filename.PAGE_EXTENSION)) {
-        $filetime = isset($filetime) ? $filetime :  filemtime($filename);
-        unlink(WB_PATH.PAGES_DIRECTORY.$filename.PAGE_EXTENSION);
+    if (file_exists($filename)) {
+        $filetime = !empty($filetime) ? $filetime :  filemtime($filename);
+        unlink($filename);
     } else {
-        $filetime = isset($filetime) ? $filetime : time();
+        $filetime = !empty($filetime) ? $filetime : time();
     }
     // The depth of the page directory in the directory hierarchy
     // '/pages' is at depth 1
