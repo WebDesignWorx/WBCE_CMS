@@ -142,7 +142,7 @@ WbAuto::AddFile("MessageBox", "/framework/MessageBox.php"); // child class
 // Auto Load phpLib (the ancient Templating Engine)
 WbAuto::AddFile("Template", "/include/phplib/template.inc");
 
-// Connect to Twig TE (the contemporary Templating Engine)
+// Connect to Twig TemplateEngine
 require_once WB_PATH . '/include/Sensio/Twig/WbceCustom/TwigLoader.php';
 
 // SETUP SYSTEM CONSTANTS (GLOBAL SETTINGS)
