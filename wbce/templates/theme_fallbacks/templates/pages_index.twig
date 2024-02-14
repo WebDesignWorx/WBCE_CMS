@@ -7,22 +7,22 @@
  */
 #}
 
-{{ insertCssFile(theme_file('css/pageTree.css')) }}
 
 <script>
-    var PAGETREE_USE_DRAG_DROP = {{ USE_DRAG_DROP ? 'true':'false' }};
-    var USE_PAGE_LANGUAGES = {{ getSetting('page_languages') ? 'true':'false' }};
+    var PAGETREE_USE_DRAG_DROP = Boolean({{ USE_DRAG_DROP }});
+    var USE_PAGE_LANGUAGES = Boolean({{ getSetting('page_languages') }});
 </script>
 
 
+{{ insertCssFile(theme_file('css/pageTree.css')) }}
 {{ insertJsFile(ADMIN_URL ~ '/pages/ajax/pages_index.js', 'BODY BTM') }}
 {{ insertJsFile(theme_file('js/url_slugify.js')) }}
 {{ insertCssFile(theme_file('js/selectee/selectee.css')) }}
 {{ insertJsFile(theme_file('js/selectee/selectee.jquery.min.js')) }}
 
 
+<div style="padding-bottom:3rem;">{{ MESSAGE_BOX }}</div>
 <div class="bcp-pane">
-    {{ MESSAGE_BOX }}   
     <div{% if USE_DRAG_DROP %} id="dndPages"{% endif %}>	
         <ol id="pageTree" class="sortable">
             <li class="pageTreeHeader staticItem">
@@ -109,7 +109,7 @@
                             </div>                    
                         </div>
                         {% endif %}
-                        {#{ debug_dump(getSetting('multiple_menus') )}#}
+                        
                         {% if getSetting('page_languages') %}
                         <!-- ~~~~~ language ~~~~ -->
                         <div class="cp-setting-row">
@@ -121,7 +121,6 @@
                                         {% for lang in languages %}               
                                             <option value="{{ lang.lc }}"
                                                 data-right="{{ lang.lc }}"  {{ sFlagFlag|format(lang.lc) }}
-
                                                 {% if lang.lc == getSetting('default_language') %} selected="selected"{% endif %}
                                                 >{{ lang.name }}
                                             </option>
@@ -155,11 +154,14 @@
                         <label class="cp-setting-name" for="parent">{{ L_('TEXT:PARENT') }}</label>
                         <div class="cp-setting-value">
                            <select name="parent" id="parent_page" data-search-label="{{ L_('TEXT:SEARCH') }} ... [{{ L_('TEXT:PAGE') }}-ID, {{ L_('TEXT:MENU_TITLE') }}]">
-                               <option value="0" data-left="{{ WB_URL ~ '/languages/'~ p.language ~'.svg' }}" style="font-style:italic">({{ L_('TEXT:NONE')|lower }})</option>
+                               <option value="0" style="font-style:italic">({{ L_('TEXT:NONE')|lower }})</option>
                                {% for p in parent_list %} 
-                               {% set sFlagFlag = WB_URL ~ '/languages/'~p.language~'.svg' %}
+                                    {% set sFlagFlag = '' %}
+                                    {% if getSetting('page_languages') %}
+                                        {% set sFlagFlag = WB_URL ~ '/languages/'~p.language~'.svg' %}
+                                    {% endif %}
                                    <option data-id="{{ p.page_id }}" value="{{ p.page_id }}" title="{{ p.page_title }}"
-                                    data-right="{{ p.page_id }}"  data-left="{{ sFlagFlag }}"  data-class="type-{{ p.visibility }} mid-{{ p.menu }}"
+                                    data-right="{{ p.page_id }}" data-left="{{ sFlagFlag }}" data-class="type-{{ p.visibility }} mid-{{ p.menu }}"
                                    >{{ p.menu_title }}</option>
                                {% endfor %}
                            </select>
