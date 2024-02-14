@@ -2070,7 +2070,31 @@ function resolveTranslation($inputStr) {
     return $inputStr;
 }
 
+/**
+ * Get the correct theme JS, CSS or image file
+ * Will retrieve overrides.
+ * Gets theme file URL, checking actual then fallback themes.
+ * Also checks for overrides. Returns URL string or array.
+ * 
+ * @param  string $fileLoc File location
+ * @return string|array URL(s)
+ */
 
-
-
-
+function theme_file($fileLoc = '') {
+   $fileLoc = ltrim($fileLoc, '/');
+   $mRetVal = WB_URL.'/templates/theme_fallbacks/'.$fileLoc;
+   $sThemeLoc = THEME_PATH.'/'.$fileLoc;        
+   $sFallbackLoc = WB_PATH.'/templates/theme_fallbacks/'.$fileLoc;
+   if(file_exists($sThemeLoc)){
+       $mRetVal = get_url_from_path($sThemeLoc);
+   } elseif (file_exists($sFallbackLoc)){
+       $mRetVal = get_url_from_path($sFallbackLoc);
+   } 
+   $sExt = '.'.pathinfo($sThemeLoc)['extension'];
+   $sOverride = str_replace($sExt, '.override'.$sExt, $sThemeLoc);
+   if (file_exists($sOverride)){
+       $mRetVal = array($mRetVal);
+       $mRetVal[] = get_url_from_path($sOverride);
+   } 
+   return $mRetVal;
+}
