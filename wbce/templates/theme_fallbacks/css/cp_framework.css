@@ -115,7 +115,7 @@ div.cp-settings:has(> .cp-toggle-section-closed) {
  * tabs 
  */
 .cp-tabs {    
-    margin: -24px 0 0;
+    margin: -24px 0 1.5em;
     padding: 5px 30px 0px 6px;
     overflow: hidden;
     border-top: 2px solid #556C87;
@@ -129,6 +129,7 @@ div.cp-settings:has(> .cp-toggle-section-closed) {
     clear: both;
     visibility: hidden;
 }
+
 .cp-tabs .tab,
 .cp-tabs span {
     display: block;
@@ -286,7 +287,7 @@ ul.selectAction li.actionSel a{
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 8px -2px rgba(0, 0, 0, 0.1);
     position: relative;
     margin: 14px 0;
-    padding: 12px 0px 0;
+    padding: 12px 0px 1px;
     border-radius: 3px;
     word-wrap: break-word;
     box-sizing: border-box;

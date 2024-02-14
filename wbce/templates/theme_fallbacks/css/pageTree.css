@@ -1,0 +1,397 @@
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
+ */
+
+/**
+ * Default PageTree css file
+ *
+ * In order to override this settings in your Admin_Theme, use a override file at
+ * {theme_url}/css/override_pageTree.css
+ *
+ * Don't change this file! If you have sugestions on improvement, use GitHub 
+ * issue tickets or contact the development team of WBCE
+ */
+.select2-container--default .select2-selection--single {
+    border: 1px solid #dcdcdc !important;
+    border-radius: 0 !important;
+}
+.pt_icon:before {
+	content: '\00a0';
+	font-family: FontAwesome;
+	text-align: center;
+	font-size: 1.2em;
+	padding: 0 0.3em 0 -0.1em;
+        pointer-events: none;
+	font-style: normal;	
+	font-weight: normal;
+	width: 16px; 
+	display:inline-block;
+        margin-top: .15em;
+	color: #476788
+}
+.pt_modify .pt_icon:before {
+	color: #476788;
+}
+a .pt_icon, a .pt_icon:before{
+	cursor: pointer;	
+}
+
+#pageTree a:hover {
+	text-decoration: none;
+	opacity: 0.85;
+}
+#pageTree span{
+  display: inline-block;
+  text-decoration: none;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+/* ICONS */
+.ico-empty:before      { content: '\00a0'; }
+.vis-public:before     { content: '\f15b';color: #5db327}
+.vis-registered:before { content: '\f23e';color: #efac2a}
+.vis-private:before    { content: '\f2bd';color: #03a9f4}
+.vis-none:before       { content: '\f05e';color: #d49898}
+.vis-hidden:before     { content: '\f15b';color: #b1b1b1}
+.vis-deleted:before    { content: '\f014';color: grey}
+.vis-intro:before      { content: '\f1c9';color: grey}
+
+.ico-modify:before     { content: '\f040';}
+.ico-settings:before   { content: '\f013';}
+.ico-menu_link:before  { content: '\f0c1';color: #efac2a;}
+.ico-trash:before     { content: '\f1f8'; color: #af1a1a;}
+.ico-restore:before    { content: '\f064';color: #6ca137}
+.ico-frontview:before  { content: '\f06e';}
+.ico-add_child:before  { content: '\f149';}
+.ico-move_up:before    { content: '\f077';}
+.ico-move_down:before  { content: '\f078';}
+
+/* sections */
+.ico-clock_red:before  { content: '\f017';color: #c70f0f;}
+.ico-clock:before      { content: '\f017';color: #4aa949;}
+.ico-noclock:before    { content: '\f233';}
+
+
+
+#pageTree ul, ol, li, dl, dt{
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+}
+#pageTree {
+	font-family:arial, verdana;
+	font-size: 1.05em;
+	display: block; 
+	list-style: none;
+	border:1px #E1E9F5 solid; 
+	padding:6px; 
+	padding-left:6px; 
+        line-height: 1.05;
+	padding-bottom: 0; 
+	background-color: #c0d2dc;
+}
+#pageTree ol { list-style: none;}
+#pageTree li.pageTreeHeader dt, #pageTree li.pageTreeHeader dd { 
+	margin-top: 3px;
+	margin-left: 3px;
+	
+}
+#pageTree li.pageTreeHeader dl {
+	background: none;
+	background-color:#464E5E;
+	color: #DCE1EA;
+	border: none;
+	margin-bottom:3px;   
+	border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px;
+}
+#pageTree li.pageTreeHeader dd span{
+	padding-right: 2em;
+}
+#dragableResult{
+	float:right;
+	text-align:right;
+	width:70px;
+}
+#pageTree li.pageTreeHeader dd {
+	color: #ECF7D9;
+	float:right;
+	line-height: 130%;
+	padding-right: 2em;
+}
+#pageTree .highlight {
+	position: relative; 
+	display: block; 
+	height: 20px; 
+	border: 1px solid #C5D6E2;
+}
+#pageTree dl {
+	color: #303030;
+	position: relative; 
+	display: block; 
+	height: 32px; 
+	border: 1px solid #C5D6E2;
+	/* border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px;
+	*/
+        border-left: 4px solid #7fa0b799;
+}
+
+#pageTree li.introPage dl{
+	background: white !important;
+}
+#pageTree dl:hover {
+    background:#f2fbe4; 
+    background: linear-gradient(
+        to bottom,
+        #f2fbe4 70%, 
+        #dee9d3  
+    );
+}
+#pageTree li.highlite>dl {
+    background: #e8fdd7;
+    background: linear-gradient( 
+        to bottom, 
+        #e8fdd7 70%, 
+        #cbecb0 
+    );
+}
+
+#pageTree dt {
+	float: left;   
+	margin-left: 16px;
+	padding: 2px 0 0 9px; 
+}
+a.pt_title{	
+	font-weight: bold;
+	line-height: 120%;
+}
+#pageTree dd {
+    float: left;
+}
+#pageTree dl:hover dd, #pageTree dd:hover {
+    display: block;
+}
+#pageTree a {
+    border: none;
+}
+#pageTree .pt_expander {
+	position: absolute; 
+	left: 2px; 
+	top: 4px;
+	line-height: 135%;
+}
+#pageTree .pt_expanded > dl > dt > .pt_expander:before, 
+#pageTree .pt_collapsed > dl > dt > .pt_expander:before 
+{	
+	content: '\00a0';
+	font-style: normal !important;	
+	font-family: FontAwesome;
+        color: #7cadcd;
+	width: 1em;
+	text-align: center;
+	font-size: 1.4em;
+	margin: 0 0.4em 0 .2em !important;
+	padding: 0 0.3em 0 -0.1em;
+        pointer-events: none;
+	content: '\f0d7';
+}
+#pageTree .pt_collapsed > dl > dt > .pt_expander:before {
+	margin: 0 0.4em 0 .30em !important;
+	content: '\f0da';
+}
+#pageTree .pt_collapsed ol {
+	display: none;
+}
+
+
+li.deleted dl{
+	border: none;
+	background-color:#EDE8E8 !important;
+	background-image:none !important;	
+}
+dl.page_deleted {
+	zoom: 1;
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+dl.page_deleted:hover {
+	zoom: 1;
+	filter: alpha(opacity=80);
+	opacity: 0.8;
+}
+#pageTree  dl {
+    background-attachment: scroll;
+    padding-top: 1px;
+    background: #f4f7f9; 
+    background: linear-gradient(
+        to bottom, 
+        #f4f7f9 65%,
+        #e6ebf1  
+    ); 
+}
+#pageTree  dl.pt_notEditable {
+	background-image: none; 
+}
+#pageTree .pt_moveable {
+	padding: 0 0 0 5px;
+}
+#dndPages .moveable:hover {
+	cursor: move;
+}
+#pageTree dd.pt_pageTitle {
+	display: none; 
+        padding-top: 5px;
+	padding-left: 15px;
+	line-height:100%;
+}
+#pageTree dd.pt_status {
+	position: absolute; 
+	right: 0.1em;
+	display:block;
+}
+#pageTree dd.pt_status a{
+	padding: 0 2px; 
+}
+#pageTree .pt_last {		
+	padding: 0 2px; 
+}
+#pageTree .pid, 
+#pageTree .mid{
+	line-height:1.1em;
+	font-weight: bold;
+	color: #626F8B;
+	background-color: #E1E9F5;
+	width: 39px !important;
+	height: 23px !important;
+	float: left;
+	text-align: right;
+	padding: 4px 5px;
+	margin: 2px 0.75em 0 0;
+}
+#pageTree .mid{
+    color:whitesmoke;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-size: .82em;
+    font-weight: 100;
+    text-align: center;
+    width: auto !important;
+    min-width: 18px !important;
+    height: 18px !important;
+    padding: 3px 5px;
+    margin-top: 5px;
+    border-radius: 50%;
+}
+
+#pageTree span.mid-1 {
+    background: #476788;
+}
+#pageTree span.mid-2 {
+    background: salmon;
+}
+#pageTree span.mid-3 {
+    background: orchid;
+}
+#pageTree span.mid-4 {
+    background: #94c48d;
+}
+#pageTree span.mid-5 {
+    background: goldenrod;
+}
+#pageTree span.mid-99 {
+    background: crimson;
+}
+#pageTree div.pt_test{
+	width: 120px;
+}
+#selectator_parent_page li img{
+    max-width: 24px;
+    margin-right:4px;
+    
+}
+
+span.pt3{
+	margin-right:24px;
+	padding: 1px 2px 1px 2px;  
+}
+#pageTree div.pt_actions{
+}
+.ui-nestedSortable-error {
+	background:#fbe3e4;
+	color:#8a1f11;
+}
+#pageTree ol {
+	padding-left: 20px;
+        padding-top: 0.5px;	
+}
+ol.sortable ol{
+	margin-bottom: 0.1em;
+}
+span.flag img {
+        padding: 0px;    
+}
+.placeholder {
+	background-color: #cfcfcf;
+}
+li.placeholder {
+	height:22px;
+	border: 2px dotted #BAD18A;
+	background-color:#E4FFBA !important;
+	visibility:block !important;
+	width:98% !important;
+}
+ol.sortable{
+	padding: 3px 4px 4px 0px !important;
+}
+ol.sortable li{
+	margin: 3px 0px 3px 4px;
+	padding: 0;
+}
+
+ul.visibilityLegend{
+	padding: 8px;
+        background: #e2e7ea;
+        border-bottom: solid 4px #c0d2dc;
+}
+ul.visibilityLegend li {
+	display: inline;
+        color: black;
+	padding:0 3px 0;
+	margin:0 2px 0;
+        text-decoration: none;
+}
+ul.visibilityLegend li:first-child {
+        font-weight: bold;
+}
+ul.visibilityLegend li.pagesTotal span {
+        font-weight: bold;    
+}
+div.be_operators{
+	margin-top:60px;
+}
+span.moveUpDown, span.moveUpDownDisabled, span.pt_modify{
+	/* top  right bottom left */ 
+	padding: 3px 0px 1px 6px;
+        margin: 0px 2px;
+	background-color: #e4ecf1;   
+        white-space: nowrap;
+}
+span.moveUpDownDisabled{
+	background-color: transparent;   
+	border-radius: 0; -moz-border-radius: 0; -webkit-border-radius: 0;
+	box-shadow: none;
+}
+span.pt_modify{
+	/* top right bottom left */ 
+        padding: 1px 0px 3px 4px;
+        margin-top: 1px;
+}
+
+span.pt_delete {
+	padding-left: 12px;
+}

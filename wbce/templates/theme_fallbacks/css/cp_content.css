@@ -76,7 +76,7 @@ div.cp-settings .cp-buttons-row,
 div.cp-settings .formDescription,
 div.cp-settings .formHeading {
     position: relative;
-    padding: .5em 1.2em;
+    padding: .5em .75em;
     width: 100%;
     display: table;
 }
@@ -87,13 +87,13 @@ div.cp-buttons-row {
     display: table;
 }
 div.cp-setting-value {
-    width: 78%;
+    width: 74%;
 }
 div.cp-settings div.cp-setting-name,
 div.cp-settings label.cp-setting-name {
-    width: 20%;
+    width: 25%;
     margin-top: .005em;
-    margin-right: 2px;
+    margin-right: 1px;
 }
 .cp-settings .cp-setting-value-full .cp-setting-value{    
     width: 100%;
@@ -141,10 +141,9 @@ div.cp-settings .formHeading {
     font-size: 1.35em;
     color: #647086;
     font-weight: bold;
-    padding: 0.35em 0.5em 0.5em 0.8em;
+    padding: .05em 0.5em 0.5em 0.8em;
     background-color: white;
     border-bottom: 1px solid #ececee;
-    border-top: 0.11em solid #90bfdb;
 }
 /**  
  * input elements
@@ -168,6 +167,12 @@ div.cp-setting-row select {
 }
 div.cp-setting-row input.has-file-ext {
     width: 85%;
+    margin-right:0;
+}
+#file_name.has-file-ext + .file-ext {
+  width: 13%;
+  color: #818181;
+  margin-left:0;
 }
 
 div.cp-setting-value textarea {
@@ -211,6 +216,7 @@ tr.hilite td{
 tr.hilite.odd td{
     background-color: #d5f9c3!important;
 }
+
 
 @media (max-width: 750px) {
 
@@ -690,7 +696,17 @@ section.subpage a:hover{
 }
 
 
+.operatorList{
+    padding: 10px 20px;
+}
+.operatorList li{
+    margin-left: 20px;
+}
 
+.operatorList li:first-child{
+    font-weight: 600;
+    margin-left: 0;
+}
 /* 
  *  bootstrap like alert boxes
  */
@@ -811,4 +827,331 @@ button.close {
     color: #000;
     text-shadow: 0 1px 0 #fff;
     opacity: .2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * This is the default cp_content.css file which handles the default 
+ * CSS settings for the Content Area of the Admin Control Panel 
+ */
+
+
+
+
+.pos-right {
+    float: right;
+}
+
+.pos-center {
+    float: right;
+}
+
+
+.pi-page-title {
+    line-height: 30px;
+}
+
+
+.cpSecLabel{
+    background-color: #f7f7f7;
+    border: 1px solid #f7f7f7;
+    text-shadow: none;
+    color: #303641;
+    margin: 2px 1px;
+    padding: 0px 5px;
+    border-radius: 3px;
+    font-size: .8em;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cpSectioninfo a:hover{
+    text-decoration: none;
+}
+.idLabel  {
+    background-color: #e6f3fd;
+    border-top: 1px solid #5373B4;
+    border-left: 1px solid #5373B4;
+    border-right: 1px solid #C4CFE5;
+    border-bottom: 1px solid #C4CFE5;
+    text-shadow: none;
+    color: #303641;
+    margin: 2px 1px;
+    padding: 0px 5px;
+    border-radius: 3px;
+    font-size: .95em;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+div.hilite {
+	border: 2px solid #B3DE73 !important;	
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(117,177,186,1) !important;	
+	-moz-box-shadow: 0px 0px 5px 0px rgba(117,177,186,1) !important;	
+	box-shadow: 0px 0px 5px 0px rgba(117,177,186,1) !important;	
+}
+li.hilite {
+	background: #B3DE73 !important;	
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(117,177,186,1) !important;	
+	-moz-box-shadow: 0px 0px 5px 0px rgba(117,177,186,1) !important;	
+	box-shadow: 0px 0px 5px 0px rgba(117,177,186,1) !important;	
+}
+
+/**
+ *  Section Pane
+ *  Used for single sections in [root]/pages/modify.php
+ */
+div.cpSectionpane {
+    margin: 5px 5px 6px;
+    border: 2px solid #dfe1e8;
+    display: block;
+    background-color: #fff;
+}
+
+div.cpSectioninfo>.si-section-id {}
+
+div.cpSectioninfo>.si-block-id {
+    float: right;
+}
+
+div.cpSectioninfo:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+div.cpSectioninfo {
+    background-color: #e5e8f0;
+    margin: 0px;
+    padding: 6px 5px 0px 10px;
+    border-bottom: .1em solid #dfe1e8;
+    display: block;
+}
+div.cpSectionpane.secActive0{
+    border-color: #d23b30;
+}
+.secActive0 div.cpSectioninfo,    
+.secActive0 div.buttonsRow{    
+    background-color: #f9dae0!important;
+}
+.secActive0 div.cpSectioninfo .cpSecLabel { 
+    color: white;
+    background-color: #d23b30;
+    border-color: #d23b35;
+}
+div.cpSectionpane.secActive1{
+    border-color: #89BF49;
+}
+.secActive1 div.cpSectioninfo,    
+.secActive1 div.buttonsRow{    
+    background-color: #f7fdf1!important;
+}
+.secActive1 div.cpSectioninfo .cpSecLabel { 
+    background-color: #e2e2e2;
+    border-color: #89BF49;
+}
+div.cpSectionpane.secActive2{
+    border-color: #FFD403;
+}
+.secActive2 div.cpSectioninfo,    
+.secActive2 div.buttonsRow{    
+    background-color: #fff5c6!important;
+}
+.secActive2 div.cpSectioninfo .cpSecLabel { 
+    background-color: #ffe877;
+    border-color: #FFD403;
+}
+.secActive1 div.cpSectioninfo{    
+}
+.secActive0 {    
+    border-left: .2em solid #d23b30 !important;
+}
+.secActive1 {    
+    border-left: .2em solid #89bf49 !important;
+}
+.secActive2 {    
+    border-left: .2em solid #ffd403 !important;
+}
+
+
+
+
+
+/* 
+ *   CHMOD Settings
+ */
+table.chmod {
+    border: 1px solid #f2f2f2;
+    box-shadow: 1px 1px 3px -1px rgba(0, 0, 0, 0.75);
+    display: table;
+    width: 50%;
+    margin-left:auto; margin-right:auto; 
+}
+table.chmod caption{    
+    caption-side: top;
+    text-align: center;    
+    padding-top: .35rem;
+    padding-bottom: .35rem;
+    font-weight: bold;
+} 
+table.chmod input.total {
+    font-family: courier, monospace; 
+    max-width: 110px!important;
+    min-width: 110px!important;
+    border: none; 
+}
+table.chmod tr {
+    background-image: linear-gradient(#f2f2f2, #fff);
+    display: table-row;
+}
+table.chmod td{
+    border-bottom: 1px solid #ddd;
+    display: table-cell;
+    list-style: outside none none;
+    padding: 6px 3px;
+    text-align: center;
+    min-width: 80px!important;
+}
+table.chmod td:first-child{
+    padding: 4px 6px;
+    font-weight: bold;
+    text-align: right;
+}
+table.chmod body td:first-child:after {
+    content: ':';
+}
+
+table.chmod thead td{
+    background-image: linear-gradient(#677d96, #859ab2);
+    color: #fff;
+    font-weight: bold;
+}
+table.chmod tfoot td {
+    background-image: linear-gradient(#c8d5e4, #b3cdea);
+    color: #40638a;
+    font-weight: bold;
+}
+
+
+
+.ico-color-trash, .ico-color-trash:focus, 
+.ico-color-red, .ico-color-red:focus{
+    color: #de5555;
+}
+.ico-color-trash:hover,
+.ico-color-red:hover{
+    color: #d21c1c;
+}
+.ico-color-trash-off, .ico-color-trash-off:hover{
+    color: #bec6ce;
+}
+.ico-color-off{
+    color: #bec6ce;
+}
+.ico-color-off:hover{
+    color: #f9c578;
+}
+.ico-color-on, .ico-color-on:hover, .ico-color-on:focus{
+    color: #ff9800;
+    cursor: default;
+}
+
+.seo-counter{
+    font-size: .85em;
+    padding: 0 .7em .4em 0;
+    float:right;
+}
+
+/* ################ */
+@media (max-width: 890px) {
+    .cp-half{
+        width: 99% !important;
+        clear: both;
+        float: none;
+    }
+    .cpWrap div.cpLastchange {
+        display: block;
+        float: left;
+        text-align: left;
+        font-size: .8em;
+        line-height: 1.9em;
+    }
+
+    div.cpForm {
+        clear: both;
+    }
+
+    div.cpForm label.settingName,
+    div.cpForm div.settingName {
+        text-align: left;
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+    }
+
+    div.cpForm label.settingValue {
+        display: inline;
+        width: 100%;
+        margin-bottom: 5px;
+
+    }
+
+    div.cpForm label.settingName,
+    div.cpForm div.settingName,
+    div.cpForm div.settingValue {
+        float: inherit;
+        width: 100%;
+    }
+
+    div.cpForm label.settingName,
+    div.cpForm div.settingName {
+        padding-top: 5px;
+        padding-left: 12px;
+    }
+
+    div.cp-third,
+    div.cp-two-thirds {
+        width: 95% !important;
+        float: left;
+        padding: 12px 6px;
+    }
+
+    div.buttonsRow .pos-right {
+        float: none;
+    }
+}
+
+.ace-editor{
+    font-size: 1.2em;
+    width: 98%;
+    min-height: 250px;
+}
+
+
+/** SECTION 1 **/
+
+/* Hide the OS/Browser checkboxes/radio buttons */
+.sec_access input[class^="toggle"],
+.sec_addons input[class^="toggle"] {
+  visibility: hidden!important;
+  margin: 0!important;
+  width: 0!important;
 }

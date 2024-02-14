@@ -1,0 +1,398 @@
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
+ */
+
+/**
+----------------------------------------------------------------
+	default manage sections CSS
+----------------------------------------------------------------
+*/
+#dragableResult{
+    width:45px;
+    padding-right: 6px;
+}
+#dndSections{	
+    font-weight: bold;
+    background: #e4ffba;
+}
+
+ul.cpSort {
+    font-family: arial, verdana;
+    display: block;
+    list-style: none;
+    border: 1px #E1E9F5 solid;
+    width:100%;
+    background-color: #c0d2dc;
+    padding: 2px 3px 3px !important
+}
+
+ul.cpSort li.row{
+    outline: 0;
+    vertical-align: baseline;
+    display: table;	
+    margin:0px;
+    width: 100%;
+    border: 1px solid #C5D6E2;
+    padding: 2px 0 2px 1px;
+    background: #f4f7f9;
+    background: linear-gradient(to bottom, #f4f7f9 51%,#deedf4 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f7f9', endColorstr='#deedf4',GradientType=0 );
+}
+.cpSort li.row div {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 5px 0px;
+}
+.cpSort li.row div:first-child {
+    padding-right: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: right;
+}
+.cpSort li.row div:last-child {
+    padding-right: 0;
+    text-align: right;
+    white-space: nowrap;
+}
+.cpSort li:not(.tableHeader):hover div{
+    background-color:#ECF7D9; 
+}
+ul.visibilityLegend {
+    padding: 8px;
+    background-color: #d9e3e8;
+    border-bottom: solid 4px #c0d2dc;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-block-end: 0;
+    margin-block-start: 0;
+    padding-inline-start: 0;
+}
+ul.visibilityLegend li {
+    display: inline;
+    color: black;
+    padding: 0 3px 0;
+    margin: 0 2px 0;
+    text-decoration: none;
+}
+li.row a {
+    text-decoration: none;
+}
+
+li[data-visibility="0"], 
+li[data-visibility="2"]{
+    zoom: 1;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+    border-left: .3em solid #d23b30 !important;
+}
+li[data-visibility="2"]{
+    border-left: .3em solid #ffd403 !important;
+}
+li[data-visibility="1"]{
+    border-left: .3em solid #89bf49 !important;
+}
+
+li[data-visibility="0"]:hover,
+li[data-visibility="2"]:hover {
+    zoom: 1;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+
+.cellModName {
+    white-space: nowrap;
+}
+.module-name{
+    white-space: nowrap;
+    width: 125px; 
+    font-size: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cellNamesection input{
+    width: 118px;
+}
+.cellDate input{
+    width: 112px;
+    font-size: .9em;
+    height: 20px;
+}
+.namesection input{
+    font-size: .9em;
+    height: 20px;
+}
+.layout-block{
+    width: 157px;
+}
+.namesection, .module-name, .layout-block{
+    margin-top: 3px;
+    float: left; 
+    display: inline-grid;
+}
+.namesection input, .module-name input, .layout-block select{
+    margin-right: 2px;
+}
+.cpSort .tableHeader.secVisibilityStatus, 
+.cpSort .tableFooter {
+    font-size: .95em;
+    border-left: .3em solid #ffffffaa;
+}
+
+.cpSort .tableHeader div{
+    padding: 4px 2px;
+}
+ul.cpSort li.tableHeader,
+ul.cpSort li.tableHeader:hover{
+    color: #ECF7D9;
+    background: #464E5E;
+    font-weight: normal;    
+}
+.cpSort .tableFooter div  {
+    background-image: linear-gradient(#A8BCCB, #D5E3ED); 
+    color: #677D96;
+}
+
+.cpWrap div.cpPageinfo {
+    display: block;
+    width: 100%;
+    padding-bottom: 30px;
+}
+.cpWrap div.cpPagetitle {
+    display: block;
+    float: left;
+    text-align: left;
+    font-size: 1em;
+}
+
+.cpWrap div.cpPagetitle, .cpWrap div.cpLastchange {
+    display: block;
+    float: right;
+    text-align: right;
+    font-size: .8em;
+    line-height: 1em;
+}
+.cpWrap div.cpPagetitle, .cpWrap div.cpLastchange {
+    display: block;
+    float: right;
+    text-align: right;
+    font-size: .8em;
+    line-height: 1em;
+}
+.calwrap input{
+    width: 150px;
+}
+.calwrap input:placeholder-shown {
+    color: #e3e3e3 !important;
+}
+.calwrap.publ_start input:not(:placeholder-shown) {
+  background-color: #f0ffed;
+  color: #36b444; /*green;*/
+}
+.calwrap.publ_end input:not(:placeholder-shown) {
+  background-color: #fff3ed;
+  color: #CC6864; /*red;*/
+}
+
+.cpSort li.row div.zweier {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+}
+.cpSort li.row div.dreier {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(145px, 1fr), auto-fit);
+}
+.cpSort li.row div.zweier div,
+.cpSort li.row div.dreier div{
+    text-align: left;
+}
+
+.idLabel{
+    font-size: .8em;
+    line-height: 1.1em;
+    color: #78839c;
+    background-color: #E1E9F5;
+    height: 23px !important;
+    float: left;
+    text-align: right;
+    border: 1px #CDD9EA solid;
+    padding: .3em;
+    margin: 0 .2em;
+    border-radius: 3px;
+}
+.idLabelHeading{
+    width: 40px !important; 
+    text-align: center;   
+}
+
+span.moveUpDown, span.moveUpDownDisabled, span.pt_modify {
+    padding: 3px 0px 1px 4px;
+    margin: 0px;
+    background-color: #e4ecf1;
+    border-radius: 3px;
+    box-shadow: inset 3px 2px 3px rgba(166,186,216,0.7);
+    white-space: nowrap;
+}
+.moveUpDown i{    
+    font-size: .8em;
+}
+a .pt_icon, a .pt_icon:before {
+    cursor: pointer;
+}
+.pt_icon:before {
+    content: '\00a0';
+    font-family: FontAwesome;
+    text-align: center;
+    font-size: 1.1em;
+    padding: 0 0.3em 0 -0.1em;
+    pointer-events: none;
+    font-style: normal;
+    font-weight: normal;
+    width: 16px;
+    display: inline-block;
+    color: #476788;
+}
+.ico-move_up:before {
+    content: '\f077';
+}
+.ico-move_down:before {
+    content: '\f078';
+}
+.ico-empty:before {
+    content: '\00a0';
+}
+.ico-trash:before {
+    content: '\f1f8';
+    color: #af1a1a;
+}
+.ico-active:before {
+    content: '\f111';
+    color: #89bf49;
+}
+.ico-inactive:before {
+    content: '\f111';
+    color: #d23b30;
+}
+.ico-preview:before {
+    content: '\f042';
+    color: #eac319;
+}
+.ico-off:before{    
+    color: #c0d2dc;
+}
+
+.cpActiveState{
+    margin: 2px 1px;
+    padding: 0;
+    font-size: .9em;
+    white-space: nowrap;
+    display: inline-block;
+    max-width: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+    
+/*
+
+grid based sections
+-------------------
+    gtd-id
+
+    gtd-secinfo
+        gtd-type
+        gtd-block
+        gtd-namesection
+
+    gtd-datetime
+        gtd-start
+        gtd-end
+
+    gtd-action
+
+*/
+ul#sortSections{
+    margin: 0px;
+    padding: 0px;
+}
+
+.gtd-id{
+  grid-area: id;
+  text-align: right;
+}
+.gtd-type{
+  grid-area: type;
+    width: 99%;
+    word-wrap: break-word;
+}
+.gtd-block{
+  grid-area: block;
+}
+.gtd-namesection{
+  grid-area: namesec;
+}
+.gtd-datetime{
+  grid-area: datetime;
+    vertical-align: bottom;
+}
+.gtd-start{
+  grid-area: start;
+}
+.gtd-end{
+  grid-area: end;
+}
+.gtd-action{
+  grid-area: action;
+  text-align: right;
+        white-space: nowrap;
+}
+.gtd-block select,
+.gtd-namesection input{
+    width: 99%;
+}
+
+.calwrap input {
+    width: calc(99% - 40px);
+}
+ul#sortSections li a, 
+ul#sortSections input, 
+ul#sortSections select{
+    font-size:80%;
+}
+ul#sortSections li:not(:first-child){    
+    margin:0px;
+    width: 100%;
+    border: 1px solid #C5D6E2;
+    padding: 2px 0 2px 1px;
+    background: #f4f7f9;
+    background: linear-gradient(to bottom, #f4f7f9 51%,#deedf4 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f7f9', endColorstr='#deedf4',GradientType=0 );
+}
+ul#sortSections li{
+    display: grid;
+    grid-template-columns: 50px minmax(80px,220px) minmax(100px,220px) minmax(100px,170px) 170px 170px;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        "id type namesec  block start end action"
+        "id type namesec  block start end action";
+    grid-gap: .1rem;
+    align-items: center;
+  text-align: left;
+}
+.closedsidebar ul#sortSections li{    
+    grid-template-areas: "id type namesec block start end action";
+}
+@media screen and (max-width: 760px) {
+    ul#sortSections li{
+        display: grid;
+        grid-template-rows: auto;
+        grid-template-areas: 
+            "id type action"
+            "namesec namesec action"
+            "block block action"
+            "datetime datetime action";
+    }
+
+}
