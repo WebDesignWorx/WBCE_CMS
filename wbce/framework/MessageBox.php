@@ -9,8 +9,9 @@
  * @copyright WBCE Project (2015-)
  * @license GNU GPL2 (or any later version)
  *
- * @brief      This extend is applying processTranslation() methods to message strings
- *             and implements class Insert methods for jQuery handling.
+ * @brief      This extend is applying translation processing using 
+ *             the function L_() to message strings and implements 
+ *             class Insert methods for jQuery handling.
  *
  * @category   framework
  * @package    Message extend class for FlashMessages
@@ -25,7 +26,7 @@
  */
 
 
-require_once WB_PATH . "/include/FlashMessages/src/FlashMessages.php"; // get parent class
+WbAuto::AddFile("FlashMessages", "/include/FlashMessages/src/FlashMessages.php"); // get parent class
 
 class MessageBox extends FlashMessages
 {
@@ -70,9 +71,9 @@ class MessageBox extends FlashMessages
     /**
      * @brief  Display the flash messages
      *
-     * @param mixed $mTypes (null)  print all of the message types
-     *                          (array)  print the given message types
-     *                          (string)   print a single message type
+     * @param mixed $mTypes (null)   print all of the message types
+     *                      (array)  print the given message types
+     *                      (string) print a single message type
      * @param bool $bPrint Whether to print the data or return it
      * @return string
      *
@@ -102,7 +103,6 @@ class MessageBox extends FlashMessages
             $mTypes = [strtolower($mTypes[0])];
         }
 
-
         // Retrieve and format the messages, then remove them from session data
         foreach ($mTypes as $type) {
             if (!isset($_SESSION['flash_messages'][$type]) || empty($_SESSION['flash_messages'][$type])) {
@@ -112,7 +112,7 @@ class MessageBox extends FlashMessages
                 if (
                     strpos($msgData['message'], ':') !== false
                 ) {
-                    $msgData['message'] = $this->processTranslation($msgData['message']);
+                    $msgData['message'] = L_($msgData['message']);
                 }
                 $sRetVal .= $this->formatMessage($msgData, $type);
             }
@@ -124,93 +124,6 @@ class MessageBox extends FlashMessages
             echo $sRetVal;
         } else {
             return $sRetVal;
-        }
-    }
-
-    /**
-     *    processTranslation
-     *    -----------------------
-     *
-     * Correct formats are:
-     *    'ARRAY:KEY' or
-     *    '{ARRAY:KEY}' (with curling braces)
-     * example:
-     *     processTranslation('TEXT:ACTIVE');
-     *     processTranslation('{TEXT:ACTIVE}');
-     *
-     * May also contain numbers as in
-     *  'TEXT:LEVEL5'
-     * or
-     *  'MOD_7:CLOSE'
-     *
-     * @param string
-     * @return   string Translated String
-     * @author   Christian M. Stefan <stefek@designthings.de>
-     * @license  MIT, GNU/GPL v.2 and any higher
-     */
-    public function processTranslation($sStr)
-    {
-        $sRetVal = $sStr;
-        $sPattern = "/[A-Z0-9]:[A-Z0-9]/"; // ARRAY:KEY (uppercase on both sides of the semicolon)
-        if (preg_match($sPattern, $sStr)) {
-
-            // Check if string contains curling brackets.
-            // If so, it may contain several {ARRAY:KEY} occurances
-            if (strposm($sStr, '{') !== false) {
-                $aToks = array();
-                $aReplacements = array();
-
-                // Get all occurances of {ARRAY:KEY} into array
-                preg_match_all('/{(.*?)}/', $sStr, $out);
-                $aParts = array();
-                foreach ($out[0] as $sToken) {
-                    preg_match_all('/{(.*?)}/', $sToken, $out);
-                    $aParts[] = explode(':', $out[1][0]);
-                    //$aToks[] = $sToken;
-                }
-
-                // Translate strings of all occurances
-                foreach ($aParts as $aTmp) {
-                    $aReplacements[] = $this->_translate($aTmp[0], $aTmp[1]);
-                }
-                // Replace the string with translations
-                $sRetVal = str_replace($aToks, $aReplacements, $sStr);
-            } else {
-                // Single string using the ARRAY:KEY pattern
-                $aTmp = explode(':', $sStr);
-                // Replace the string with translations
-                $sRetVal = $this->_translate($aTmp[0], $aTmp[1]);
-            }
-        }
-        return $sRetVal;
-    }
-
-    /**
-     * This private method is only used with processTranslation method
-     */
-    private function _translate($sArrName, $sKey)
-    {
-        $sMissingKeyTPL = '<span style="color:purple">
-        <b>Missing Translation: </b>
-        <input style="width:450px" type="text" value="$%s[\'%s\']"></span>';
-        #debug_dump($sArrName, $sKey);
-        if (is_array(@$GLOBALS[$sArrName])) {
-            if (array_key_exists($sKey, $GLOBALS[$sArrName])) {
-                return $GLOBALS[$sArrName][$sKey];
-            } else {
-                if ($this->ShowMissingKeys == true) {
-                    return sprintf($sMissingKeyTPL, $sArrName, $sKey);
-                } else {
-                    return '<span style="color:purple">' . str_replace('_', ' ', $sKey) . '</span>';
-                }
-            }
-        } else {
-            if ($this->ShowMissingKeys == true) {
-                return 'Array <b>' . $sArrName . '</b> does not exist.<br>'
-                    . sprintf($sMissingKeyTPL, $sArrName, $sKey);
-            } else {
-                return '<span style="color:purple">' . str_replace('_', ' ', $sKey) . '</span>';
-            }
         }
     }
 
@@ -304,8 +217,4 @@ class MessageBox extends FlashMessages
         return $this;
     }
 
-    public function L_($sStr)
-    {
-        return $this->processTranslation($sStr);
-    }
 }
