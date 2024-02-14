@@ -1,0 +1,116 @@
+{#
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
+ */
+#}
+{% set pagesAreaLink = ADMIN_URL ~ '/pages/%s.php?page_id=%s' %}
+{% set pagesFuncLink = ADMIN_URL ~ '/pages/index.php?func=%s&page_id=%s' %}
+{% for p in pages %}   
+    <li id="pageID_{{ p.page_id }}" rel="{{ p.page_id }}" class="p{{ p.parent }} pt_page{% if p.children %} pt_expanded{% endif %}{% if p.children and p.children == "deleted" %} deleted{% endif %}">
+        <dl id="idKey_{{ getIDKEY(p.page_id) }}" class="{% if p.menu > 1 %}mid-{{ p.menu }} {% endif %}{% if p.pageIsMovable %}moveable {% endif %}{% if p.canModifyPage == 0 %} pt_notEditable{% else %} pt_editable{% endif %} page_{{ p.visibility|lower }}">
+            <dt><a href="#" class="pt_expander"></a>		
+                <i class="pt_icon vis-{{ p.visibility }}" title="{{ L_('TEXT:VISIBILITY') }}: {{ L_('TEXT:'~ p.visibility) }}">&nbsp;</i>
+                {% if p.canModifyPage %}
+                    <a class="pt_title" href="{{ pagesAreaLink|format('modify', p.page_id) }}">
+                        {{ p.menu_title }}
+                    </a>
+                {% else %}
+                    {{ p.menu_title }}
+                {% endif %}
+            </dt> 
+            <dd class="pt_pageTitle"><i>{{ p.page_title }}</i></dd> 		
+            <dd class="pt_status">		
+                {% if p.menu > 1 %}<span class="mid mid-{{ p.menu }}" title="{{ L_('TEXT:MENU') }}-ID: {{ p.menu }}">{{ p.menu }}</span>{% endif %}
+                <span class="pid" title="{{ L_('TEXT:PAGE') }}-ID: {{ p.page_id }}">{{ p.page_id }}</span>
+                {% if constant('PAGE_LANGUAGES') == 1 %}
+                    <span class="flag"><img src="{{ WB_URL }}/languages/{{ p.language }}.svg" width="20" alt="{{ p.language }}"/></span>	
+                    {% endif %}			
+                <span class="pt_modify">
+                    {% if p.canModifyPage %}
+                        <a href="{{ pagesAreaLink|format('modify', p.page_id) }}" title="{{ L_('PAGES_TEXT:MANAGE_PAGE_CONTENTS') }}">
+                            <i class="pt_icon ico-modify">&nbsp;</i>
+                        </a>
+                    {% else %}
+                        <a><i class="pt_icon ico-empty">&nbsp;</i></a>
+                    {% endif %}			
+                    {% if p.canManageSections %}
+                        {% if p.sectionCase == "menu_link" %}
+                            <a class="section-infos" title="{{ L_('TEXT:LINK') }} ">
+                                <i class="pt_icon ico-menu_link">&nbsp;</i>
+                            </a>
+                        {% else %}
+                            <a href="{{ pagesAreaLink|format('sections', p.page_id) }}" title="{{ L_('HEADING:MANAGE_SECTIONS') }}" class="section-infos">
+                                <i class="pt_icon ico-{{ p.sectionCase }}{% if p.sectionCase == "clock_red" %} blinking{% endif %}">&nbsp;</i>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a><i class="pt_icon ico-empty">&nbsp;</i></a>
+                    {% endif %}		
+                    {% if p.canModifySettings %}	
+                        {% if p.visibility == "deleted" %}	
+                            <a href="javascript:void(0);" data-confirm="restore{% if p.children %}_multiple{% endif %}">
+                                <i class="pt_icon ico-restore">&nbsp;</i>
+                            </a>
+                        {% else %}
+                            <a href="{{ pagesAreaLink|format('settings', p.page_id) }}" title="{{ L_('HEADING:MODIFY_PAGE_SETTINGS') }}">
+                                <i class="pt_icon ico-settings">&nbsp;</i>
+                            </a>							
+                        {% endif %}	
+                    {% else %}<a><i class="pt_icon ico-empty">&nbsp;</i></a>
+                    {% endif %}	
+                </span>
+                {% if getSetting('pages_drag_drop') == 0 %}
+                <span class="{% if p.canMoveUP == 1 or p.canMoveDOWN == 1 %}moveUpDown{% else %}moveUpDownDisabled{% endif %}">
+                    {% if p.canMoveUP == 1 %}
+                        <a href="{{ pagesFuncLink|format('move_up', getIDKEY(p.page_id)) }}" title="{{ L_('TEXT:MOVE_UP') }}">
+                            <i class="pt_icon ico-move_up">&nbsp;</i>
+                        </a>
+                    {% else %}
+                        <a><i class="pt_icon ico-empty">&nbsp;</i></a>
+                    {% endif %}		
+                    {% if p.canMoveDOWN == 1 %}
+                        <a href="{{ pagesFuncLink|format('move_down', getIDKEY(p.page_id)) }}" title="{{ L_('TEXT:MOVE_DOWN') }}">
+                            <i class="pt_icon ico-move_down">&nbsp;</i>
+                        </a>
+                    {% else %}
+                        <a><i class="pt_icon ico-empty">&nbsp;</i></a>
+                    {% endif %}	
+                </span>
+                {% endif %}	
+                <span class="pt_delete">
+                    {% if p.canDeleteAndModify %}
+                        <a href="javascript:void()" data-confirm="{% if p.visibility == "deleted" %}remove{% else %}trash{% endif %}{% if p.children %}_multiple{% endif %}">
+                            <i class="pt_icon ico-trash">&nbsp;</i>
+                        </a>
+                    {% else %}
+                        <a><i class="pt_icon ico-empty">&nbsp;</i></a>
+                    {% endif %}					
+                </span>						
+                <span>			
+                    <a href="{{ WB_URL }}{{ p.frontend_link }}" target="_blank" title="{{ L_('TEXT:VIEW') }} (frontend)">
+                        <i class="pt_icon ico-frontview">&nbsp;</i>
+                    </a>&nbsp;		
+                    {% if p.visibility != 'none' and p.level + 1 != constant('PAGE_LEVEL_LIMIT') %}
+                        <a href="#" class="add_child" title="{{ L_('HEADING:ADD_CHILD_PAGE') }}">
+                            <i class="pt_icon ico-add_child" name="addpage_{{ p.page_id }}" >&nbsp;</i>
+                        </a>
+                    {% else %}
+                        <a><i class="pt_icon ico-empty">&nbsp;</i></a>
+                    {% endif %}	
+                </span>
+            </dd> 
+        </dl>
+        {# 
+            Recursivley include the file itself for nested rendering
+            TUTORIAL: http://stackoverflow.com/questions/12583177/symfony2-twig-unlimited-child-depth?rq=1
+        #}
+        {% if p.children %}
+            <ol id="level_{{ p.level }}">
+                {% include 'pages_pageTree.twig' with {'pages': p.children, 'level': p.level + 1} %}
+            </ol>
+        {% endif %}
+    </li>
+{% endfor %}

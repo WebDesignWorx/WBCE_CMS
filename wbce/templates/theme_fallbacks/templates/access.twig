@@ -67,7 +67,7 @@
                 <div class="cp-setting-row">
                     <div class="cp-setting-name">{{ L_('TEXT:SIGNUP') }}</div>
                     <div class="cp-setting-value">
-                        <select name="frontend_signup" id="frontend_signup" class="chosen">
+                        <select name="frontend_signup" id="frontend_signup" data-search-label="{{ L_('TEXT:SEARCH') }} ... [{{ L_('TEXT:GROUP') }}-ID, {{ L_('TEXT:NAME') }}]">
                             <option value="false"{% if 'false' == cfg.frontend_signup %} selected{% endif %}>{{ L_('TEXT:DISABLED') }}</option>
                             {% for group in SIGNUP_GROUPS %}
                                 <option value="{{ group.id }}" data-right="{{ group.id }}"{% if group.id == cfg.frontend_signup %} selected{% endif %}>{{ group.name }}</option>
@@ -92,6 +92,12 @@ $(document).ready(function() {
         $('#renew_password').toggle(this.checked);
     }).change();     
     
+    $.insert(JQUERY_PLUGINS + '/selectee/selectee.css');
+    $.insert(JQUERY_PLUGINS + '/selectee/selectee.jquery.js');
+    // initiate chosen for select elements
+    $("select#frontend_signup").selectee({
+         disable_search_threshold: 3 //show the search bar in select if > 7 elements
+    });
 });
 </script>
 {% endif %}    

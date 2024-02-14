@@ -1,0 +1,32 @@
+{#
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
+ */
+#}
+<h2>{{ L_('TEXT:INTRO_PAGE') }}</h2>
+<h3>{{ L_('HEADING:MODIFY_INTRO_PAGE') }}</h3>
+{{ MESSAGE_BOX }}
+<form action="" method="post">
+    {{ FTAN }}
+    <input type="hidden" name="intro" />
+    <input type="hidden" name="page_id" value="{PAGE_ID}" />
+    <table cellpadding="0" cellspacing="0" border="0" class="form_submit">
+        <tr>
+            <td colspan="2">
+                <textarea id="code" name="code" style="width:99%;height:500px">{{ code }}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td class="left">
+                <input name="save" type="submit" value="{{ L_('TEXT:SAVE') }}" />
+                <input name="save_back" type="submit" value="{{ L_('TEXT:SAVE') }} &amp; {{ L_('TEXT:BACK') }}" />
+            </td>
+            <td class="right">
+                <input type="button" value="{{ L_('TEXT:CANCEL') }}" onclick="javascript: window.location = ADMIN_URL + '/pages/';" />
+            </td>
+        </tr>
+    </table>
+</form>

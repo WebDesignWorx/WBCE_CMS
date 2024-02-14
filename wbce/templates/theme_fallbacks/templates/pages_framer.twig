@@ -1,0 +1,35 @@
+<div class="cp-main">
+    <div class="cp-pageinfo">
+        <div class="topinfo-row">
+            <div class="topinfo-col">
+                <span class="idLabel pi-pid" title="{{ L_('PAGES_TEXT:PAGE_ID') }}: {{ page_id }}" data-redirect-location="index.php?latest_page={{ page_id }}#pageID_{{ page_id }}">
+                    {{ L_('TEXT:PAGE_ID') }}: <strong>{{ page_id }}</strong>
+                </span>
+            </div>
+            <div  class="topinfo-col cpPageTitle">
+                {{ L_('TEXT:CURRENT_PAGE') }}: <strong title="{{ data.page_title }}">{{ data.menu_title }}</strong>
+            </div>
+            <div  class="topinfo-col cpLastchange">
+            {% if data.author %}
+                {{ L_('MESSAGE:PAGES_LAST_MODIFIED') }} <a href="" title="{{ data.author.login_name }} [user-id: {{ data.author.id }}]">
+                    {{ data.author.name|trim }}</a>{% if data.modified_time %}, <span class="cpChangeTime">{{ data.modified_date }} - {{ data.modified_time }}</span>{% endif %}
+            {% endif %}
+            </div>
+        </div>
+    </div>
+            
+    <nav class="cp-tabs">
+        <ul>
+        {% for tab in TABS|reverse %}
+            <li {{ tab.li_class }}>
+                <a class="tabHelp tab{{ tab.a_class }}" href="{{ ADMIN_URL }}/{{ tab.pos }}" title="{{ tab.link_name }}"><i class="fa fa-{{ tab.icon }}"></i> {{ tab.link_name }}</a>
+            </li>
+        {% endfor %}
+        </ul>					
+    </nav> 
+    <div class="wrapBody">		
+        {{ MESSAGE_BOX }} 
+        <noscript>{{ L_('PAGES_TEXT:NOSCRIPT_MESSAGE') }}</noscript>  
+        {% block content %}{% endblock %}
+    </div>
+</div>

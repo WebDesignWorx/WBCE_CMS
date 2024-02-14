@@ -1,0 +1,154 @@
+{% extends "pages_framer.twig" %}
+{% block content %}  
+{{ insertCssFile(theme_file('css/manageSections.css')) }}
+{% if USE_DRAG_DROP == true %}				
+{{ insertJsFile(ADMIN_URL ~ '/pages/ajax/pages_sections.js', 'BODY BTM') }}
+{% endif %}	
+<form name="section_properties" action="" method="post">
+    {{ FTAN }}
+    <input type="hidden" name="page_id" value="{{ page_id }}" />
+    {% if is_menu_link %}         
+        {# // page is of type menu_link #}
+        <div class="error">{{ L_('PAGES_TEXT:IS_PAGE_MENULINK') }}</div>
+    {% else %}
+
+        <div id="dragableResult"></div>
+        <div id="dndSections">
+            <ul class="cpSort" id="sortSections">
+                <!-- The first list item is the header of the table -->
+                <li class="item gtr tableHeader{% if dbCfg.use_section_visibility_states %} secVisibilityStatus{% endif %}">
+                    <div class="gtd-id" data-name="sID"><span class="idLabel" title="{{ L_('TEXT:SECTION') }}-ID">sID</span></div>
+                    
+                    <div class="gtd-type" data-name="{{ L_('TEXT:SECTION') }}-{{ L_('TEXT:TYPE') }}">{{ L_('TEXT:SECTION') }}-{{ L_('TEXT:TYPE') }}</div>
+
+                    {% if SECTION_BLOCKS %}
+                        <div class="gtd-block" data-name="Layout-{{ L_('TEXT:BLOCK') }}">Layout-{{ L_('TEXT:BLOCK') }}</div>
+                    {% endif %}
+
+                    <div class="gtd-namesection">{{ L_('PAGES_TEXT:SECTION_NAME') }}</div>
+                                                    
+                    <div class="gtd-start" data-name="{{ L_('TEXT:PUBL_START_DATE') }}">{{ L_('TEXT:PUBL_START_DATE') }}</div>
+                    <div class="gtd-end" data-name="{{ L_('TEXT:PUBL_END_DATE') }}">{{ L_('TEXT:PUBL_END_DATE') }}</div>
+                   
+                    <div class="gtd gtd-action" data-name="{{ L_('TEXT:ACTION') }}">
+                </li>
+                
+                {% for section in sections %}
+                    {% set iSID = section.section_id  %}
+                    {% set IDKEY = getIDKEY( iSID ) %}
+                    {% macro section_func(action = "down", iSID) %}{{ ADMIN_URL }}/pages/sections.php?func={{ action }}&amp;page_id={{ page_id }}&amp;section_id={{ iSID }}{% endmacro %}
+
+                <li id="sectionID_{{ section.section_id }}" class=" grid-row moveable{% if hilite == iSID %} hilite{% endif %}" {% if dbCfg.use_section_visibility_states %}data-visibility="{{ section.active }}"{% endif %}>
+
+                    <div class="gtd gtd-id" data-name="sID">
+                        <span class="idLabel" title="{{ L_('TEXT:SECTION') }}-ID">{{ iSID }}</span>
+                    </div> 
+                        <div class="gtd-type" data-name="{{ L_('TEXT:SECTION') }}-{{ L_('TEXT:TYPE') }}">
+                            <a href="{{ section.anchor_url }}" title="{{ section.module_name }}">{{ section.module_name }}</a>
+                        </div>
+                       
+                        {% if SECTION_BLOCKS %}
+                            {% if  section.blockSelect %}	
+                            <div class="gtd-block" data-name="Layout-{{ L_('TEXT:BLOCK') }}">
+                                <select name="block{{ section.section_id }}"> 
+                                    <option value="" style="font-weight: bold;" disabled="disabled">{{ L_('TEXT:PLEASE_SELECT') }}...</option>
+                                    {% for key, block in section.blockSelect %}
+                                        <option value="{{ block.value }}"  {% if block.selected %}  selected="selected"{% endif %} data-right="{{ key }}">&nbsp;{{ block.name }}</option>
+                                    {% endfor %} 
+                                </select>	
+                            </div>
+                            {% endif %}			
+                        {% endif %}
+                        <div class="gtd-namesection" data-name="{{ L_('PAGES_TEXT:SECTION_NAME') }}">
+                            <input type="text" id="namesection{{ section.section_id }}" name="namesection{{ section.section_id }}" value="{{ section.namesection }}" title="{{ section.namesection }}" />
+                        </div>
+                        <div class="gtd-start" data-name="{{ L_('TEXT:PUBL_START_DATE') }}">
+                            <span class="calwrap publ_start"><input type="text" id="publ_start{{ section.section_id }}" name="publ_start{{ section.section_id }}" rel="DateTimePicker" value="{{ section.publ_start }}"  placeholder="{{ L_('TEXT:PUBL_START_DATE') }}" /></span>
+                        </div>
+                        <div class="gtd-end" data-name="{{ L_('TEXT:PUBL_END_DATE') }}">
+                            <span class="calwrap publ_end"><input type="text" id="publ_end{{ section.section_id }}" name="publ_end{{ section.section_id }}" rel="DateTimePicker" value="{{ section.publ_end }}"  placeholder="{{ L_('TEXT:PUBL_END_DATE') }}" /></span>                            
+                        </div>
+                        
+                    <div class="gtd gtd-action" data-name="{{ L_('TEXT:ACTION') }}">
+                        {% if dbCfg.use_section_visibility_states %}
+                            {% if section.active == 1 %}
+                                <a href="{{ _self.section_func('active2', getIDKEY(iSID)) }}" title="{{ L_('TEXT:ACTIVE') }}">                                    
+                                    <i class="pt_icon ico-active">&nbsp;</i>
+                                </a>
+                            {% elseif section.active == 2 %}
+                                <a href="{{ _self.section_func('active0', getIDKEY(iSID)) }}" title="{{ L_('TEXT:PREVIEW') }}">                                    
+                                    <i class="pt_icon ico-preview">&nbsp;</i>
+                                </a>
+                            {% else %}
+                                <a href="{{ _self.section_func('active1', getIDKEY(iSID)) }}" title="{{ L_('TEXT:DISABLED') }}">                                    
+                                    <i class="pt_icon ico-inactive">&nbsp;</i>
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                        {% if can_delete_sections %}
+                            <a onclick="javascript: confirm_link('{{ L_('TEXT:ARE_YOU_SURE') }}', '{{ _self.section_func('delete_section', IDKEY) }}');" href="#" title="{{ L_('TEXT:DELETE') }}">
+                                <i class="pt_icon ico-trash">&nbsp;</i>
+                            </a>
+                        {% else %}
+                            <i class="pt_icon ico-trash ico-off">&nbsp;</i>
+                        {% endif %}
+                    </div>
+                </li>                
+                {% endfor %} 
+            </ul>
+            <ul class="visibilityLegend">
+                <li><button type="submit" name="change_sections_settings" class="button ico-save">{{ L_('TEXT:SAVE') }}</button></li>
+                
+                {#% if DRAG_DROP_SWITCH_URL %#}        
+                    <li style="float:right">
+                        <a title="{{ L_('PAGES_TEXT:DRAG_DROP_STATUS') }}" href="{{ DRAG_DROP_SWITCH_URL }}">
+                            {{ L_('PAGES_TEXT:DRAG_DROP_STATUS') }}
+                        </a>
+                    </li>	
+                {#% endif %#}	
+            </ul>
+        </div>
+    </form>
+    <br>        
+    <form name="add" action="" method="post">
+        {{ FTAN }}
+        <input type="hidden" name="page_id" value="{{ page_id }}"  />
+        <div class="cpForm cp-two-thirds">
+            <div class="island">            
+                <div class="formHeading">{{ L_('TEXT:ADD_SECTION') }}</div>
+                {% if add_section_select %}
+                    <div class="formRow">
+                        <label class="settingName" for="module">{{ L_('TEXT:SECTION') }}-{{ L_('TEXT:TYPE') }}</label>
+                        <div class="settingValue">	
+                            <select class="input_large" id="module" name="module">
+                                <option value="" style="font-weight: bold;" disabled="disabled">{{ L_('TEXT:PLEASE_SELECT') }}...</option>
+                                {% for module in add_section_select %}
+                                    {%  if module.directory != 'menu_link' %}
+                                        <option value="{{ module.directory }}" {{ module.selectControl }}>&nbsp;{{ module.name }}</option>
+                                    {% endif %}  
+                                {% endfor %}  
+                            </select>	
+                        </div>
+                    </div>
+                {% endif %}   	
+                {% if layout_blocks %}
+                    <div class="formRow">
+                        <label class="settingName" for="layoutblock">Layout-{{ L_('TEXT:BLOCK') }}</label>
+                        <div class="settingValue">
+                            <select class="input_large" id="layoutblock" name="layoutblock"> 
+                                <option value="" style="font-weight: bold;" disabled="disabled">{{ L_('TEXT:PLEASE_SELECT') }}...</option>
+                                {% for key, blockname in layout_blocks %}
+                                    <option value="{{ key }}" {% if key == 1 %} selected="selected" {% endif %} data-right="{{ key }}">&nbsp;{{ blockname }} </option>
+                                {% endfor %}  
+                            </select>
+                        </div> 
+                    </div>
+                {% endif %}   	
+                <div class="cp-buttons-row">
+                    <button type="submit" name="add_section"  class="button ico-add pos-right">{{ L_('TEXT:ADD') }}</button>
+                </div>
+            </div>
+        </div>
+    </form>                
+{% endif %}
+{% endblock %}

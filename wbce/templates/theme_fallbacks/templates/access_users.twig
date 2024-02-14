@@ -80,12 +80,11 @@
                 <div class="cp-setting-row">
                     <label class="cp-setting-name" for="language">{{ L_('TEXT:LANGUAGE') }}</label>
                     <div class="cp-setting-value">
-                        <select name="language" id="language">
-                            {% set sFlagFlag = 'data-left="' ~ WB_URL ~ '/languages/%s.svg"' %}
+                        <select name="language" id="language" data-search-label="{{ L_('TEXT:SEARCH') }} ... ">
                             <option value="" disabled>{{ L_('TEXT:PLEASE_SELECT') }}&mldr;</option>
                             {% for lang in LANGUAGES %}
                                 <option value="{{ lang.CODE }}"
-                                    data-right="{{ lang.CODE }}"  {{ sFlagFlag|format(lang.CODE) }}
+                                    data-right="{{ lang.CODE }}"  data-left="{{ WB_URL ~ '/languages/'~ lang.CODE ~'.svg' }}" data-class=""
                                     {% if do_modify_user %}
                                         {% if lang.CODE == user.language %} selected{% endif %}
                                     {% else %}
@@ -94,6 +93,7 @@
                                 >{{ lang.NAME }}</option>
                             {% endfor %}
                         </select>
+                       
                     </div>
                 </div>
 
@@ -114,9 +114,9 @@
                 <div class="cp-setting-row">
                     <div class="cp-setting-name"><label>{{ L_('TEXT:GROUP') }}</label></div>
                     <div class="cp-setting-value">
-                        <select data-placeholder="{{ L_('TEXT:PLEASE_SELECT') }}&mldr;" id="select_groups" name="groups[]" multiple required class="multi-select chosen">
+                        <select data-placeholder="{{ L_('TEXT:PLEASE_SELECT') }}&mldr;" id="select_groups" name="groups[]" multiple required>
                             {% for group in groups %}                            
-                                <option value="{{ group.id }}"{%if group.id in user.groups_id %} selected{% endif %}>{{ group.name }}</option>
+                                <option value="{{ group.id }}" data-right="{{ group.id }}"{%if group.id in user.groups_id %} selected{% endif %}>{{ group.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -201,7 +201,7 @@
                     {% if rec.gdpr_check %} <small style="color: #73b53d;" title="GDPR check"><i class="fa fa-check-square"></i></small>{% endif %} 
                 </td>
                 <td data-sort="{{ rec.language }}">
-                    <img title="{{ rec.language }}" src="{{ WB_URL }}/languages/{{ rec.language }}.png" />
+                    <img title="{{ rec.language }}" src="{{ WB_URL }}/languages/{{ rec.language }}.svg" style="width: 24px;"/>
                 </td>
                 <td><nobr><small> {{ rec.email }}</small></nobr></td>
                 <td>
@@ -244,6 +244,17 @@ $(document).ready(function() {
         $('#renew_password').toggle(this.checked);
     }).change();     
     
+    $.insert(JQUERY_PLUGINS + '/selectee/selectee.css');
+    $.insert(JQUERY_PLUGINS + '/selectee/selectee.jquery.js');
+    $("select#select_groups").selectee({
+        keepOpen: true,
+    });
+    $('#language').selectee({
+        customSelector: 'flag-right'
+    });
+    $('#timezone').selectee({
+        customSelector: 'title_only'
+    });;
 });
 </script>
 {% endblock %}

@@ -1,0 +1,307 @@
+{#
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
+ */
+
+ #}
+{% extends "pages_framer.twig" %}
+{% block content %}  
+        
+{#{ debug_dump(_context) }#}
+{# // NOTE: we use FlagStyle often here, that's why we define this variable right on the top #}
+{% set sFlagStyle =' style="background: url(' ~ WB_URL ~ '/languages/%s.png) no-repeat center left;margin-right:5px; padding-left: 20px;"' %}
+<form name="settings" id="settings" action="" method="post">
+    <input type="hidden" name="page_id" value="{{ page_id }}" />    
+    {{ FTAN }}
+    <div  class="bcp-pane">
+   <div class="cp-two-thirds">
+         <div class="cp-settings">            
+            <div class="formHeading">{{ L_('TEXT:SETTINGS') }}</div> 
+            
+            <!-- ~~~~~ menu_title ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:MENU_TITLE') }}</label>
+                <div class="cp-setting-value"> 
+                    <input type="text" id="menu_title" name="menu_title" value="{{ page.menu_title }}" />
+                </div>                    
+            </div>
+            
+            <!-- ~~~~~ page_title ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:PAGE_TITLE') }}</label>
+                <div class="cp-setting-value"> 
+                    <input type="text" id="page_title" name="page_title" value="{{ page.page_title }}" />
+                </div>
+            </div>
+            <!-- ~~~~~ file_name ~~~~ --> 
+            {% if WB_SHORTURL_ONELEVEL == false %}
+            <div class="cp-setting-row">
+                <label for="file_name" class="cp-setting-name">{{ L_('TEXT:FILENAME') }}</label>
+                <div class="cp-setting-value">
+                    {% set bExt = constant('PAGE_EXTENSION') != ''  %}
+                    <input type="text" id="file_name" name="file_name" {% if bExt %}class="has-file-ext"{% endif %} value="{{ page.file_name }}" />
+                    {% if bExt %}<input type="text" disabled class="file-ext" title="{{ L_('TEXT:PAGE_EXTENSION') }}" value="{{ constant('PAGE_EXTENSION') }}" />{% endif %}
+                </div>                    
+            </div>
+            {% endif %}
+
+            <!-- ~~~~~ dlink ~~~~ --> 
+            {% if WB_SHORTURL_ONELEVEL %}
+                <div class="cp-setting-row">
+                    <label for="dlink" class="cp-setting-name">URL</label>
+                    <div class="cp-setting-value"> 
+                        <input type="text" id="dlink" name="dlink" value="{{ page.dlink }}" />
+                    </div>                    
+                </div>
+            {% endif %}
+            
+            <!-- ~~~~~ description ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:DESCRIPTION') }}</label>
+                <div class="cp-setting-value"> 
+                    <textarea id="description" name="description" rows="5" cols="1">{{ page.description }}</textarea>
+                </div> 
+            </div>
+
+            <!-- ~~~~~ keywords ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:KEYWORDS') }}</label>
+                <div class="cp-setting-value"> 
+                    <textarea id="keywords" name="keywords" rows="5" cols="1">{{ page.keywords }}</textarea>
+                 </div>  
+            </div>                  
+
+            <!-- ~~~~~ parent page ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:PARENT') }}</label>
+                <div class="cp-setting-value">
+                    <select class="menuLink cpPageSelect" name="parent" id="parent">
+                         {% set sFlagFlag = 'data-left="' ~ WB_URL ~ '/languages/%s.svg"' %}
+
+                        <option value="0" {{ sFlagFlag|format('_empty') }}>({{ L_('TEXT:NONE')|lower }})</option>
+                        {% for p in parent_list %} 
+                            <option value="{{ p.page_id }}"  data-id="{{ p.page_id }}" title="{{ p.page_title }}"
+                             data-right="{{ p.page_id }}"  {{ sFlagFlag|format(p.root_icon) }} data-title="{{ p.page_title }}"						
+                            {{ p.selected }} {{ p.disabled }}
+                            >{{ p.menu_title }}</option>
+                        {% endfor %}
+                    </select>
+                 </div>
+            </div>
+            {#
+            <!-- ~~~~~ parent page ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:PARENT') }}</label>
+                <div class="cp-setting-value">
+                    <select id="parent" name="parent" class="cpPageSelect">
+                            <option value="0" style="font-style: italic;">( {{ L_('TEXT:NONE')|lower }})</option>
+                        {% for p in parent_list %} 
+                            <option value="{{ p.page_id }}" title="{{ p.page_title }}"
+                                 {% if p.root_icon %}{{ sFlagStyle|format(p.root_icon) }}{% endif %}                                    
+                                {{ p.selected }}
+                                {{ p.disabled }}								
+                                >{{ p.space_trail }}{{ p.menu_title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+                 #}   
+
+            <!-- ~~~~~ menu ~~~~ -->
+            {% if constant('MULTIPLE_MENUS') %}
+                    <div class="cp-setting-row">
+                            <label class="cp-setting-name">{{ L_('TEXT:MENU') }}</label>
+                            <div class="cp-setting-value">
+                                    <select id="menu" name="menu">
+                                    {% if page.menus %}
+                                        {% for key, rec in page.menus %} 
+                                                <option value="{{ rec.value }}"{% if rec.selected %} selected{% endif %} data-right="{{ key }}">
+                                                        {{ rec.name }}
+                                                </option>
+                                        {% endfor %}
+                                    {% else %}
+                                            <option value="1">{{ L_('TEXT:DEFAULT') }}</option>
+                                    {% endif %}
+                                    </select>
+                            </div>
+                    </div>
+            {% endif %}
+
+            <!-- ~~~~~ target ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:TARGET') }}</label>
+                <div class="cp-setting-value">
+                    <select id="target" name="target">
+                        <option value="_blank"{% if page.target == '_blank' %} selected{% endif %} data-right="_blank">&nbsp; {{ L_('TEXT:NEW_WINDOW') }}</option>
+                        <option value="_self"{% if page.target == '_self' %} selected{% endif %} data-right="_self">&nbsp; {{ L_('TEXT:SAME_WINDOW') }}</option>
+                        <option value="_top"{% if page.target == '_top' %} selected{% endif %}  data-right="_top">&nbsp; {{ L_('TEXT:TOP_FRAME') }}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- ~~~~~ template ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:TEMPLATE') }}</label>
+                <div class="cp-setting-value">
+                    <select id="template" name="template">
+                        <option value="" data-right="default">{{ L_('TEXT:SYSTEM_DEFAULT') }}</option>                    
+                    {% for template in page.templates %} 
+                        <option value="{{ template.dir }}"
+                                {% if template.checked == 1 %} selected="selected"{% endif %}
+                                >{{ template.name }}					
+                                {% if template.dir == constant('DEFAULT_TEMPLATE') %} ({{ L_('TEXT:SYSTEM_DEFAULT') }}){% endif %}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            {% if constant('PAGE_LANGUAGES') %}
+            <!-- ~~~~~ language ~~~~ -->
+            <div class="cp-setting-row">
+                    <label class="cp-setting-name">{{ L_('TEXT:LANGUAGE') }}</label>
+                    <div class="cp-setting-value">
+                            {% set sFlagFlag = 'data-left="' ~ WB_URL ~ '/languages/%s.svg"' %}
+
+                            <select id="language" name="language">
+                            {% for lang in page.languages %}               
+                                <option value="{{ lang.lc }}"
+                                        data-right="{{ lang.lc }}"  {{ sFlagFlag|format(lang.lc) }}
+                                        {% if lang.checked == 1 %} selected="selected"{% endif %}
+                                        >{{ lang.name }}
+                                </option>
+                            {% endfor %}
+                            </select>
+                    </div>
+            </div> 
+            {% endif %}
+ {#
+            
+                    <?php 
+                        if(isPageCodeUsed() && $language != DEFAULT_LANGUAGE):
+                    ?>
+                    <!-- ~~~~~ page_code (language) ~~~~ -->
+                    <div class="cp-setting-row">
+                            <label for="page_code" class="cp-setting-name">
+                                    {{ L_('PAGES_TEXT:PAGE_CODE') }} 
+                            </label>
+                            <div class="cp-setting-value"> 
+                                    <img src="{{ WB_URL }}/languages/<?=DEFAULT_LANGUAGE?>.png" alt="<?=DEFAULT_LANGUAGE?>"> 
+                                    {% if($language != DEFAULT_LANGUAGE):?><> 	
+                                    <img src="{{ WB_URL }}/languages/<?=$language?>.png" alt="<?=$language?>">	
+                                    {% endif %}							
+                                    <select id="page_code" name="page_code" class="cpPageSelect">
+                                    <?php 
+                                    foreach(page_code_list() as $item):
+                                            if(!isset($item['selected'])) continue;
+                                    ?>
+                                            <option value="<?=$item['value']?>" <?=$item['selected']?><?=sprintf($sFlagStyle, $item['icon']) ?>>
+                                                    <?=$item['menu_title']?>
+                                            </option>
+                                    <?php endforeach ?>
+                                    </select>
+
+                            </div>	
+                    </div>
+                    <?php endif; // end: page_code (language) ?>
+            <?php endif; //end: PAGE_LANGUAGE ?>
+                    
+ #}
+	    <!-- ~~~~~ searching ~~~~ -->
+            <div class="cp-setting-row">
+                <label class="cp-setting-name">{{ L_('TEXT:SEARCHING') }}</label>
+                <div class="cp-setting-value">
+                        <input type="radio" name="searching" id="search1" value="1"{%if page.searching == 1 %} checked="checked"{% endif %}><label for="search1" >{{ L_('TEXT:ENABLED') }}</label>
+                        <input type="radio" name="searching" id="search2" value="0"{%if page.searching == 0 %} checked="checked"{% endif %}><label for="search2" >{{ L_('TEXT:DISABLED') }}</label>
+                </div>
+            </div>
+       </div>
+    </div> 
+    <!-- ~~~~~ Admins and Viewers ~~~~~ --> 
+    <div class="cp-one-third">
+         <div class="cp-settings">
+            <div class="formHeading">{{ L_('TEXT:VISIBILITY') }}</div>
+			 <!-- ~~~~~ visibility ~~~~ -->
+            <div class="cp-setting-row fullValue">                
+                <div class="cp-setting-value">           
+                    {% set aVisibilityModes = ['public', 'private', 'registered', 'hidden', 'none'] %}
+                    {% set sVisIcon = ' data-left="' ~ theme_file('icons/%s.svg')~'"' %}
+                    <select name="visibility" id="visibility">
+                        {% for rec in aVisibilityModes %} 
+                            <option value="{{ rec }}"
+                                {% if rec == page.visibility %} selected="selected"{% endif %}
+                                {{ sVisIcon|format(rec) }}
+                            >{{ L_('TEXT:'~rec|upper)|lower }}</option>
+                        {% endfor %} 
+                    </select>
+                </div>    
+            </div>
+			
+            <!-- BEGIN admin_group_show_list_block -->
+            <!-- *** List of groups which can administrate this page *** -->
+            <ul class="operatorList">
+                <li>{{ L_('TEXT:ADMINISTRATORS') }}:</li>
+                {% for rec in operators_list %} 
+                <li>
+                    <input type="checkbox" name="admin_groups[]" id="admin_group_{{ rec.group_id }}" value="{{ rec.group_id }}"
+                        {% if rec.checked %} checked="checked"{% endif %}
+                        {% if rec.disabled %} disabled="disabled"{% endif %} />
+                    <label for="admin_group_{{ rec.group_id }}">{{ rec.group_name }}</label>
+                </li>
+                {% endfor %} 
+            </ul>
+            <!-- *** List of groups which can see this page *** -->
+            <div id="allowed_viewers" style="display:non e;">
+                <ul class="operatorList">
+                <li>{{ L_('TEXT:REGISTERED_VIEWERS') }}:</li>
+                {% for rec in viewers_list %} 
+                <li>
+                    <input type="checkbox" name="viewing_groups[]" id="viewing_group_{{ rec.group_id }}" value="{{ rec.group_id }}"
+                        {% if rec.checked %} checked="checked"{% endif %}
+                        {% if rec.disabled %} disabled="disabled"{% endif %} />
+                    <label for="viewing_group_{{ rec.group_id }}">{{ rec.group_name }}</label>
+                </li>
+                {% endfor %} 
+                </ul>
+            </div>
+       </div>
+    </div>  
+    </div>  
+    <div class="cpForm">
+        <div class="buttonsRow">
+            <button type="button" data-redirect-location="index.php?latest_page={{ page_id }}#pageID_{{ page_id }}" class="button ico-back">{{ L_('TEXT:BACK') }}</button>
+            <button type="submit" name="save_settings" class="button ico-save pos-right">{{ L_('TEXT:SAVE') }}</button>
+            <button type="submit" name="save_and_back" class="button ico-save-back pos-right">{{ L_('TEXT:SAVE') }} & {{ L_('TEXT:BACK') }}</button>
+        </div>
+    </div>
+</form>	
+            
+<script>   
+$(document).ready(function () {
+    
+    $.insert(JQUERY_PLUGINS + '/selectee/selectee.css');
+    $.insert(JQUERY_PLUGINS + '/selectee/selectee.jquery.js');
+    $('#target').selectee();
+    $('#menu').selectee();
+    $('#template').selectee();
+    $('#visibility').selectee({
+        customSelector: 'icon_left',
+        useSearch: 0
+    });
+    
+   
+    $('#module_type').selectee({
+        customSelector: 'title_only'
+    });
+    
+    let $parentPageSelectee = $('#parent');
+    $parentPageSelectee.selectee({
+        customSelector: 'flag-right',
+        searchFields: 'text right',
+    });     
+});
+
+</script>      
+{% endblock %}

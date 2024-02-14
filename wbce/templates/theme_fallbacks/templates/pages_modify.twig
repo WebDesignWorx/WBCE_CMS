@@ -1,0 +1,53 @@
+{#
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
+ */
+#}
+{% extends "pages_framer.twig" %}
+{% block content %}  
+{{ insertCssFile(theme_file('css/manageSections.css')) }}
+{% for section in sections %}
+    {% set iSID = section.section_id %}
+    {% macro section_func(action = "down", iSID) %}{{ ADMIN_URL }}/pages/modify.php?func={{ action }}&amp;page_id={{ page_id }}&amp;section_id={{ iSID }}{% endmacro %}
+    {% macro onclick_section(action = "down", iSID) %}
+        onclick="confirm_link(['{{ L_('TEXT:ARE_YOU_SURE')}}','{{ L_('MESSAGE:SETTINGS_MODE_SWITCH_WARNING')}}'] , '{{ _self.section_func(action, getIDKEY(iSID)) }}')"
+    {% endmacro %}
+    <div class="cpSectionpane {% if dbCfg.use_section_visibility_states %}secActive{{ section.active }}{% endif %}{% if section.hilite %} hilite{% endif %}" id="{{ constant('SEC_ANCHOR') }}{{ iSID }}">
+    <div class="cpSectioninfo">
+        {% if dbCfg.use_section_visibility_states %}
+            <div class="cpActiveState">
+                {% if section.active == 1 %}
+                    <a href="#" {{ _self.onclick_section('active2', iSID) }} title="{{ L_('TEXT:ACTIVE') }}">                                    
+                        <i class="pt_icon ico-active">&nbsp;</i>
+                    </a>
+                {% elseif section.active == 2 %}
+                    <a href="#" {{ _self.onclick_section('active0', iSID) }} title="{{ L_('TEXT:PREVIEW') }}">                                    
+                        <i class="pt_icon ico-preview">&nbsp;</i>
+                    </a>
+                {% else %}
+                    <a href="#" {{ _self.onclick_section('active1', iSID) }} title="{{ L_('TEXT:DISABLED') }}">                                    
+                        <i class="pt_icon ico-inactive">&nbsp;</i>
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+            <a href="#"
+               onclick="confirm_link(['{{ L_('TEXT:ARE_YOU_SURE')}}','{{ L_('MESSAGE:SETTINGS_MODE_SWITCH_WARNING')}}'] , 
+                           '{{ ADMIN_URL }}/pages/sections.php?page_id={{ page_id }}&amp;hilite={{ iSID }}#sID_{{ iSID }}')">
+        <div class="cpSecLabel si-section-id">
+                <span>{{ L_('PAGES_TEXT:SECTION_ID') }}:</span> <strong>{{ iSID }}</strong>
+        </div>
+            </a>
+        <div class="cpSecLabel si-module-name"><span>Modul:</span> <strong>{{ section.module_name }}</strong></div>
+        <div class="cpSecLabel si-namesection" title="{{ section.namesection }}"><span>{{ L_('PAGES_TEXT:SECTION_NAME') }}:</span> <strong>{% if section.namesection %} {{ section.namesection }}{% else %}<i> none </i>{% endif %}</strong></div>
+        {% if section.block_name %}
+            <div class="cpSecLabel si-block-id "><span>Layout-{{ L_('TEXT:BLOCK') }}:</span> <strong>{{ section.block_name }}</strong>[{{ section.block }}]</div>
+        {% endif %}                        
+    </div>
+    {{ section.modify_container }}                        
+</div>	
+{% endfor %} 
+{% endblock %}
