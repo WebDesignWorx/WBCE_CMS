@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Carles Escrig (simkin)';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Data de registre";
 $TEXT['LATEST_LOGIN']      = "Últim inici de sessió";
 
@@ -47,7 +47,12 @@ $TEXT['THEMES_PERMISSIONS']   = 'Accés a temes';
 $TEXT['TOOLS_PERMISSIONS']    = 'Accés a eines d\'administració';
 $TEXT['MODULE_PERMISSIONS']   = 'Accés a mòduls';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Accés a plantilles';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Vés a la pàgina creada';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Modifica el contingut de la pàgina"; 
+$TEXT['PAGE_ID'] = "ID de la pàgina";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Acc&#233;s';

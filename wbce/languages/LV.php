@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Kri&scaron;janis Rijnieks';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Reģistrācijas datums";
 $TEXT['LATEST_LOGIN']      = "Pēdējā pieteikšanās";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Piekļuve tēmām';
 $TEXT['TOOLS_PERMISSIONS']    = 'Piekļuve administrācijas rīkiem';
 $TEXT['MODULE_PERMISSIONS']   = 'Piekļuve moduļiem';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Piekļuve veidnēm';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Pāriet uz izveidoto lapu';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Mainīt lapas saturu";
+$TEXT['PAGE_ID'] = "Lapas ID";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Piekluve';

@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Vedran Presecki';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Datum registracije";
 $TEXT['LATEST_LOGIN']      = "Zadnja prijava";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Pristup temama';
 $TEXT['TOOLS_PERMISSIONS']    = 'Pristup admin alatima';
 $TEXT['MODULE_PERMISSIONS']   = 'Pristup modulima';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Pristup predlošcima';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Idi na stvorenu stranicu';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Izmijeni sadržaj stranice";
+$TEXT['PAGE_ID'] = "ID stranice";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Pristup';

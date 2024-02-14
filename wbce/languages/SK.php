@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Michal Kurtulik - YONIX.SK';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Dátum registrácie";
 $TEXT['LATEST_LOGIN']      = "Posledné prihlásenie";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Prístup k témam';
 $TEXT['TOOLS_PERMISSIONS']    = 'Prístup k admin nástrojom';
 $TEXT['MODULE_PERMISSIONS']   = 'Prístup k modulom';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Prístup k šablónam';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Prejsť na vytvorenú stránku';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Upraviť obsah stránky";
+$TEXT['PAGE_ID'] = "ID stránky";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Pr&#237;stup';

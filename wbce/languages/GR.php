@@ -27,7 +27,7 @@ $language_platform = '1.3.0';
 $language_author = 'Yannis Spyrou';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Ημερομηνία εγγραφής";
 $TEXT['LATEST_LOGIN']      = "Τελευταία σύνδεση";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Πρόσβαση στα Θέματα';
 $TEXT['TOOLS_PERMISSIONS']    = 'Πρόσβαση στα Εργαλεία Διαχείρισης';
 $TEXT['MODULE_PERMISSIONS']   = 'Πρόσβαση στις Μονάδες';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Πρόσβαση στα Πρότυπα';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Μετάβαση στη δημιουργημένη σελίδα';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Τροποποίηση περιεχομένου σελίδας";
+$TEXT['PAGE_ID'] = "ID σελίδας";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Πρόσβαση';

@@ -28,7 +28,7 @@ $language_author = 'Marin Susac';
 $language_license = 'GNU General Public License';
 
 // FRENCH
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Date d'inscription";
 $TEXT['LATEST_LOGIN']      = "Dernière connexion";
 
@@ -48,7 +48,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Accès aux thèmes';
 $TEXT['TOOLS_PERMISSIONS']    = 'Accès aux outils d\'administration';
 $TEXT['MODULE_PERMISSIONS']   = 'Accès aux modules';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Accès aux modèles';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Aller à la page créée'; 
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Modifier le contenu de la page";
+$TEXT['PAGE_ID'] = "ID de la page";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Acc&#232;s';

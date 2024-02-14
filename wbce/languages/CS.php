@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'WebStep, s.r.o.';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Datum registrace";
 $TEXT['LATEST_LOGIN']      = "Poslední přihlášení";
 
@@ -47,7 +47,12 @@ $TEXT['THEMES_PERMISSIONS']   = 'Přístup k tématům';
 $TEXT['TOOLS_PERMISSIONS']    = 'Přístup k nástrojům správce';
 $TEXT['MODULE_PERMISSIONS']   = 'Přístup k modulům';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Přístup k šablonám';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Přejít na vytvořenou stránku';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Upravit obsah stránky";
+$TEXT['PAGE_ID'] = "ID stránky";
+
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'P&#345;&#237;stup';

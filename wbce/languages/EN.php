@@ -9,7 +9,36 @@
  * @copyright WBCE Project (2015-)
  * @license GNU GPL2 (or any later version)
  *
- * Made whith help of Automated Language File tool Copyright heimsath.org
+ * Made whith help of Automated Language File tool Copyright heimsath.org * 
+ */
+/* 
+    We are commited to keep translations of the following languages where possible:
+
+    BG - Bulgarian 
+    CA - Catalan
+    CS - Czech
+    DA - Danish
+    DE - German
+    ES - Spanish
+    ET - Estonian 
+    FI - Finnish
+    FR - French 
+    GR - Greek 
+    HR - Croatian
+    HU - Hungarian
+    IT - Italian
+    LV - Latvian
+    NL - Dutch 
+    NO - Norwegian 
+    PL - Polish 
+    PT - Portugese
+    RU - Russian
+    SK - Slovak
+    SV - Swedish
+    TR - Turkish
+    
+    In cases of missing translations for single strings the English string
+    will be shown as default.
  */
 
 //no direct file access
@@ -27,7 +56,7 @@ $language_platform = '1.3.0';
 $language_author = 'Ryan Djurovich, Christian Sommer';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Registration date";
 $TEXT['LATEST_LOGIN']      = "Latest login";
 
@@ -43,7 +72,12 @@ $TEXT['TEMPLATE_PERMISSIONS'] = 'Access to Templates';
 $TEXT['MODULE_PERMISSIONS']   = 'Access to Modules';
 $TEXT['THEMES_PERMISSIONS']   = 'Access to Themes';
 $TEXT['TOOLS_PERMISSIONS']    = 'Access to AdminTools';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Go to newly created page';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Modify page contents";
+$TEXT['PAGE_ID'] = "Page-ID";
+/* END OF: New strings added in WBCE 1.7.x */
 
 $MENU['ACCESS'] = 'Access';
 $MENU['ADDON'] = 'Add-on';

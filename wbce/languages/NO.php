@@ -27,7 +27,7 @@ $language_platform = '1.3.0';
 $language_author = 'Odd Egil Hansen (oeh)';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Registreringsdato";
 $TEXT['LATEST_LOGIN']      = "Siste innlogging";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Tilgang til temaer';
 $TEXT['TOOLS_PERMISSIONS']    = 'Tilgang til adminverktøy';
 $TEXT['MODULE_PERMISSIONS']   = 'Tilgang til moduler';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Tilgang til maler';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Gå til opprettet side';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Endre sideinnholdet"; 
+$TEXT['PAGE_ID'] = "Side-ID";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Tilgang';

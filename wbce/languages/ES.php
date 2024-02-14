@@ -28,7 +28,7 @@ $language_author = 'Samuel Mateo, Jr. | samuelmateo.com';
 $language_license = 'GNU General Public License';
 
 // SPANISH
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Fecha de registro";
 $TEXT['LATEST_LOGIN']      = "Último inicio de sesión";
 
@@ -48,8 +48,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Acceso a temas';
 $TEXT['TOOLS_PERMISSIONS']    = 'Acceso a herramientas de administración';
 $TEXT['MODULE_PERMISSIONS']   = 'Acceso a módulos';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Acceso a plantillas';
-/* END OF: New strings added in WBCE 1.6.2 */
 
+$TEXT['GO_TO_CREATED_PAGE'] = 'Ir a la página creada';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Modificar el contenido de la página";
+$TEXT['PAGE_ID'] = "ID de página";
+/* END OF: New strings added in WBCE 1.7.x */
 
 $MENU['ACCESS'] = 'Acceso';
 $MENU['ADDON'] = 'Add-on';

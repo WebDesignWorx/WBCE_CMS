@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Jontse';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Rekisteröintipäivä";
 $TEXT['LATEST_LOGIN']      = "Viimeisin kirjautuminen";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Pääsy teemoihin';
 $TEXT['TOOLS_PERMISSIONS']    = 'Pääsy admin-työkaluihin';
 $TEXT['MODULE_PERMISSIONS']   = 'Pääsy moduuleihin';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Pääsy malleihin';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Siirry luotuun sivuun';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Muokkaa sivun sisältöä";
+$TEXT['PAGE_ID'] = "Sivun tunnus";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'K&#228;ytt&#228;j&#228;t';

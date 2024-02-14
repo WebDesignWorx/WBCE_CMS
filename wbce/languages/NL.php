@@ -27,8 +27,8 @@ $language_platform = '1.3.0';
 $language_author = 'Bramus, CodeALot, Luckyluke, Argos';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
-/* End of: New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
+/* End of: New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Registratiedatum";
 $TEXT['LATEST_LOGIN']      = "Laatste login";
 
@@ -48,7 +48,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Toegang tot Thema\'s';
 $TEXT['TOOLS_PERMISSIONS']    = 'Toegang tot AdminTools';
 $TEXT['MODULE_PERMISSIONS']   = 'Toegang tot Modules';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Toegang tot Templates';
-/* End of: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Ga naar de aangemaakte pagina';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Wijzig de pagina-inhoud";
+$TEXT['PAGE_ID'] = "Pagina-ID";
+/* End of: New strings added in WBCE 1.7.x */
 
 $MENU['ACCESS'] = 'Toegang';
 $MENU['ADDON'] = 'Add-on';

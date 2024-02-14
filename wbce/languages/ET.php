@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Heiko H&auml;ng';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Registreerimise kuupäev";
 $TEXT['LATEST_LOGIN']      = "Viimane sisselogimine";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Ligipääs teemadele';
 $TEXT['TOOLS_PERMISSIONS']    = 'Ligipääs adminitööriistadele';
 $TEXT['MODULE_PERMISSIONS']   = 'Ligipääs moodulitele';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Ligipääs mallidele';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Mine loodud lehele';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Muuda lehe sisu";
+$TEXT['PAGE_ID'] = "Lehe ID";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Ligip&#228;&#228;s';

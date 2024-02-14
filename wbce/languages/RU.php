@@ -27,7 +27,7 @@ $language_platform = '1.4.x';
 $language_author = 'Kirill Karakulko (kirill@nadosoft.com), Leo Klee';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Дата регистрации";
 $TEXT['LATEST_LOGIN']      = "Последний вход";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Доступ к темам';
 $TEXT['TOOLS_PERMISSIONS']    = 'Доступ к инструментам администратора';
 $TEXT['MODULE_PERMISSIONS']   = 'Доступ к модулям';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Доступ к шаблонам';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Перейти на созданную страницу';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Изменить содержимое страницы";
+$TEXT['PAGE_ID'] = "ID страницы";
+/* END OF: New strings added in WBCE 1.7.x */
 
 $MENU['ACCESS'] = 'Управление пользователями';
 $MENU['ADDON'] = 'Add-on';

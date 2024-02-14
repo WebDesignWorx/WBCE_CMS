@@ -28,7 +28,7 @@ $language_author = 'Stefan Braunewell, Matthias Gallas, Florian Meerwinck';
 $language_license = 'GNU General Public License';
 
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Registriert am";
 $TEXT['LATEST_LOGIN']      = "Letzter Login";
 
@@ -37,9 +37,13 @@ $TEXT['DEACTIVATE_RECORD'] = "%s|Datensatz deaktivieren";
 $TEXT['ADD_RECORD']        = "%s|Datensatz hinzufügen";
 $TEXT['EDIT_RECORD']       = "%s|Datensatz bearbeiten";
 $TEXT['DELETE_RECORD']     = "%s|Datensatz löschen";
+$TEXT['TRASH_RECORD']      = "%s|Datensatz in den Papierkorb verschieben";
+$TEXT['TRASH_RECORD']      = "%s|Datensatz entfernen";
+$TEXT['RESTORE_RECORD']    = "%s|Datensatz wiederherstellen"; #
 
 $TEXT['RECORD_DISABLED']   = "%s|Datensatz deaktiviert";
 $TEXT['RECORD_ENABLED']    = "%s|Datensatz aktiv";
+$TEXT['RECORDS_TOTAL']     = '%s|Datensätze gesamt'; #
 
 $TEXT['SELECT_ALL']        = "alle auswählen";
 $TEXT['DESELECT_ALL']      = "alle abwählen";
@@ -48,7 +52,12 @@ $TEXT['THEMES_PERMISSIONS']   = 'Zugriffsrechte auf Themes';
 $TEXT['TOOLS_PERMISSIONS']    = 'Zugriffsrechte auf AdminTools';
 $TEXT['MODULE_PERMISSIONS']   = 'Zugriffsrechte auf Modulen';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Zugriffsrechte auf Templates';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Zur neu angelegten Seite gehen';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Seiteninhalte bearbeiten";
+$TEXT['PAGE_ID'] = "Seiten-ID";
+
+/* END OF: New strings added in WBCE 1.7.x */
 
 $MENU['ACCESS'] = 'Benutzerverwaltung';
 $MENU['ADDON'] = 'Add-on';
@@ -481,6 +490,12 @@ $HEADING['WBMAILER_SETTINGS'] = 'Maileinstellungen';
 $HEADING['WBMAILER_CFG_OVERRIDE_HINT'] = '<b>BITTE BEACHTEN:</b> die unten aufgeführten '.$HEADING['WBMAILER_SETTINGS'].' werden momentan mit den Einstellungen aus der Datei <code>[WB_PATH]/include/PHPMailer/config_mail.php</code> überschrieben.<br />'
                                         . 'Um die HIER DRUNTER aufgeführten '.$HEADING['WBMAILER_SETTINGS'].' zu verwenden müssen die Einstellungen in der genannten Datei entfernt werden.';
 
+$MESSAGE['PAGE_TRASH_CONFIRM']   = 'Soll die ausgewählte Seite in den Papierkorb verschoben werden?';
+$MESSAGE['PAGES_TRASH_CONFIRM']  = 'Soll die ausgewählte Seite und all ihre Unterseiten in den Papierkorb verschoben werden?';
+$MESSAGE['PAGE_REMOVE_CONFIRM']  = 'Seite unwiederbringlich löschen?';
+$MESSAGE['PAGES_REMOVE_CONFIRM'] = 'Seite und all ihre Unterseiten unwiederbringlich löschen?';
+$MESSAGE['PAGE_RESTORE']         = 'Seite wiederherstellen?';
+$MESSAGE['PAGES_RESTORE']        = 'Seite und ihre Unterseiten wiederherstellen?';
 
 $MESSAGE['ADDON_ERROR_RELOAD'] = 'Fehler beim Abgleich der Add-On-Informationen.';
 $MESSAGE['ADDON_LANGUAGES_RELOADED'] = 'Sprachen erfolgreich geladen';

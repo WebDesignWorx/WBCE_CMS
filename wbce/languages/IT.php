@@ -28,7 +28,7 @@ $language_author = 'Roberto Rossi';
 $language_license = 'GNU General Public License';
 
 // ITALIAN
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Data di registrazione";
 $TEXT['LATEST_LOGIN']      = "Ultimo accesso";
 
@@ -48,7 +48,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Accesso ai temi';
 $TEXT['TOOLS_PERMISSIONS']    = 'Accesso agli strumenti di amministrazione';
 $TEXT['MODULE_PERMISSIONS']   = 'Accesso ai moduli';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Accesso ai template';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Vai alla pagina creata';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Modifica il contenuto della pagina";
+$TEXT['PAGE_ID'] = "ID pagina"; 
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Accesso';

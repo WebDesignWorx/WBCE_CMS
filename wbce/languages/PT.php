@@ -27,7 +27,7 @@ $language_platform = '1.3.0';
 $language_author = 'Daniel Neto';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Data de registro";
 $TEXT['LATEST_LOGIN']      = "Último login";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Acesso aos temas';
 $TEXT['TOOLS_PERMISSIONS']    = 'Acesso às ferramentas de admin';
 $TEXT['MODULE_PERMISSIONS']   = 'Acesso aos módulos';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Acesso aos modelos';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Ir para a página criada';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Modificar o conteúdo da página";
+$TEXT['PAGE_ID'] = "ID da página";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Acessos';

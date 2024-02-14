@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Atakan KO&Ccedil;';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Kayıt tarihi";
 $TEXT['LATEST_LOGIN']      = "Son giriş";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Temalara Erişim';
 $TEXT['TOOLS_PERMISSIONS']    = 'Yönetici Araçlarına Erişim';
 $TEXT['MODULE_PERMISSIONS']   = 'Modüllere Erişim';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Şablonlara Erişim';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Oluşturulan sayfaya git'; 
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Sayfa içeriğini değiştir";
+//$TEXT['PAGE_ID'] = "Sayfa Kimliği";
+/* END OF: New strings added in WBCE 1.7.x */
 
 $MENU['ACCESS'] = 'Giri&#254;';
 $MENU['ADDON'] = 'Add-on';

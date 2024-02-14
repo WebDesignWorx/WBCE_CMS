@@ -27,7 +27,7 @@ $language_platform = '1.3.0';
 $language_author = 'Zsolt + Robert';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Regisztráció dátuma";
 $TEXT['LATEST_LOGIN']      = "Legutóbbi bejelentkezés";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Hozzáférés a témákhoz';
 $TEXT['TOOLS_PERMISSIONS']    = 'Hozzáférés az adminisztrációs eszközökhöz';
 $TEXT['MODULE_PERMISSIONS']   = 'Hozzáférés a modulokhoz';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Hozzáférés a sablonokhoz';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Ugrás a létrehozott oldalra';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Az oldal tartalmának módosítása";
+$TEXT['PAGE_ID'] = "Oldal azonosító";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'Jogosults&#225;gok';

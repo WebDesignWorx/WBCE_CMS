@@ -27,7 +27,7 @@ $language_platform = '2.8.x';
 $language_author = 'Markus Eriksson, Peppe Bergqvist';
 $language_license = 'GNU General Public License';
 
-/* New strings added in WBCE 1.6.2 */
+/* New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Registreringsdatum";
 $TEXT['LATEST_LOGIN']      = "Senaste inloggning";
 
@@ -47,7 +47,11 @@ $TEXT['THEMES_PERMISSIONS']   = 'Åtkomst till teman';
 $TEXT['TOOLS_PERMISSIONS']    = 'Åtkomst till adminverktyg';
 $TEXT['MODULE_PERMISSIONS']   = 'Åtkomst till moduler';
 $TEXT['TEMPLATE_PERMISSIONS'] = 'Åtkomst till mallar';
-/* END OF: New strings added in WBCE 1.6.2 */
+
+$TEXT['GO_TO_CREATED_PAGE'] = 'Gå till den skapade sidan';
+$TEXT['MODIFY_PAGE_CONTENTS'] = "Ändra sidans innehåll";
+$TEXT['PAGE_ID'] = "Sid-ID";
+/* END OF: New strings added in WBCE 1.7.x */
 
 
 $MENU['ACCESS'] = 'R&#228;ttigheter';
