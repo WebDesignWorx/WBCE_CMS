@@ -1,61 +1,61 @@
 <?php
-/**
- * WBCE CMS
- * Way Better Content Editing.
- * Visit https://wbce.org to learn more and to join the community.
- *
- * @copyright Ryan Djurovich (2004-2009)
- * @copyright WebsiteBaker Org. e.V. (2009-2015)
- * @copyright WBCE Project (2015-)
- * @license GNU GPL2 (or any later version)
+
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
  */
 
-// Create new admin object
-require('../../config.php');
+// Include config file
+require realpath('../../config.php');
+require __DIR__ . '/functions/functions.backend_pages.php';
 
-require_once(WB_PATH . '/framework/class.admin.php');
-$admin = new admin('Pages', 'pages_intro');
-$content = '';
+$admin = new Admin('Pages', 'pages_intro', false);
+$oMsgBox = new MessageBox();
 
-$filename = WB_PATH . PAGES_DIRECTORY . '/intro' . PAGE_EXTENSION;
+$sContent = '';
+$sFile = WB_PATH . PAGES_DIRECTORY . '/intro' . PAGE_EXTENSION;
+// should we save the contents?
+if (isset($_POST['code'])) {
+    $sContent = $admin->get_post('code');
+    $sPos = isset($_POST['save']) ? "intro" : "index";
+    $goTo = ADMIN_URL . "/pages/" . $sPos . ".php";
 
-if (file_exists($filename) && filesize($filename) > 0) {
-    $content = file_get_contents($filename);
-} else {
-    $content = file_get_contents(ADMIN_PATH . '/pages/html.php');
+    if (file_put_contents($sFile, $sContent) === false) {        
+        #$oMsgBox->error($MESSAGE['PAGES_NOT_SAVED']);
+        $admin->print_header();
+        $admin->messageBox($MESSAGE['PAGES_NOT_SAVED'], 'error', $goTo, 1);
+    } else {
+        change_mode($sFile);
+        $oMsgBox->success($MESSAGE['PAGES_INTRO_SAVED']);
+        #$admin->print_header();
+        #$admin->messageBox($MESSAGE['PAGES_INTRO_SAVED'], 'success', $goTo, 1);            
+    }
+    if (!is_writable($sFile)) {
+        $admin->print_header();
+        $admin->messageBox($MESSAGE['PAGES_INTRO_NOT_WRITABLE'], 'error', $goTo, 1);
+        $admin->print_footer();
+    }
 }
 
-include_once WB_PATH . '/include/editarea/wb_wrapper_edit_area.php';
-echo registerEditArea('content', 'html', true, 'both', true, true, 600, 450, $toolbar = 'default');
-function show_wysiwyg_editor($name, $id, $content, $width, $height)
-{
-    echo '<textarea name="' . $name . '" id="' . $id . '" style="width: ' . $width . '; height: ' . $height . ';">' . $content . '</textarea>';
+// get contents from file
+if ($sContent == '') {
+    if (is_file($sFile) && filesize($sFile) > 0){
+        $sContent = file_get_contents($sFile);
+    } else {
+        $sContent = file_get_contents(ADMIN_PATH . '/pages/html.php');
+    }
 }
 
-?>
-    <form action="intro2.php" method="post">
-        <?php print $admin->getFTAN(); ?>
-        <input type="hidden" name="page_id" value="{PAGE_ID}"/>
-        <table cellpadding="0" cellspacing="0" border="0" class="form_submit">
-            <tr>
-                <td colspan="2">
-                    <?php
-                    show_wysiwyg_editor('content', 'content', $content, '100%', '500px');
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td class="left">
-                    <input type="submit" value="<?php echo $TEXT['SAVE']; ?>" class="submit"/>
-                </td>
-                <td class="right">
-                    <input type="button" value="<?php echo $TEXT['CANCEL']; ?>"
-                           onclick="javascript: window.location = 'index.php';" class="submit"/>
-                </td>
-            </tr>
-        </table>
+// initiate CodeMirror
+registerCodeMirror('code', 'x-php');
 
-    </form>
-<?php
-// Print admin footer
+$aToTwig = [ 
+    'code'        => $sContent,
+    'MESSAGE_BOX' => $oMsgBox->fetchDisplay()
+];
+
+$admin->print_header();
+$admin->getThemeFile('pages_intro.twig', $aToTwig);
 $admin->print_footer();

@@ -1,300 +1,143 @@
 <?php
-/**
- * WBCE CMS
- * Way Better Content Editing.
- * Visit https://wbce.org to learn more and to join the community.
- *
- * @copyright Ryan Djurovich (2004-2009)
- * @copyright WebsiteBaker Org. e.V. (2009-2015)
- * @copyright WBCE Project (2015-)
- * @license GNU GPL2 (or any later version)
+
+/*
+ * @category        Pages Backend-Tool
+ * @package         backend_pages
+ * @author          Christian M. Stefan  <stefek@designthings.de>
+ * @copyright       GPL v2 or any later (see LICENSE.md for details)
  */
 
-require '../../config.php';
-require_once WB_PATH . '/framework/class.admin.php';
-$admin = new admin('Pages', 'pages');
+// Include config file
+require realpath('../../config.php');
 
-$admin->clearIDKEY();
-
-// Include the WB functions file
-require_once(WB_PATH . '/framework/functions.php');
-
-// Include page tree and define output
-ob_start();
-if (file_exists(THEME_PATH . '/patch/page_tree.php')) {
-    require_once THEME_PATH . '/patch/page_tree.php';
-} else {
-    require_once __DIR__ . '/page_tree/page_tree.php';
-}
-$pageTreeOutput = ob_get_clean();
-
-// Setup template object
-$template = new Template(dirname($admin->correct_theme_source('pages.htt')));
-
-// Disable removing of unknown vars
-$template->set_unknowns('keep');
-
-$template->set_file('page', 'pages.htt');
-$template->set_block('page', 'main_block', 'main');
-$template->set_var('FTAN', $admin->getFTAN());
-
-// Set page tree as var
-$template->set_var('PAGE_TREE', $pageTreeOutput);
-
-// Insert values into the add page form
-
-// Group list 1
-$query = "SELECT * FROM `" . TABLE_PREFIX . "groups`";
-$get_groups = $database->query($query);
-$template->set_block('main_block', 'group_list_block', 'group_list');
-
-// Insert admin group and current group first
-$admin_group_name = $get_groups->fetchRow();
-$template->set_var(
-    array(
-        'ID' => 1,
-        'TOGGLE' => '',
-        'DISABLED' => ' disabled="disabled"',
-        'LINK_COLOR' => '000000',
-        'CURSOR' => 'default',
-        'NAME' => $admin_group_name['name'],
-        'CHECKED' => ' checked="checked"'
-    )
-);
-$template->parse('group_list', 'group_list_block', true);
-
-while ($group = $get_groups->fetchRow()) {
-    // check if the user is a member of this group
-    $flag_disabled = '';
-    $flag_checked = '';
-    $flag_cursor = 'pointer';
-    $flag_color = '';
-    if (in_array($group["group_id"], $admin->get_groups_id())) {
-        $flag_disabled = ''; // 'disabled';
-        $flag_checked = ' checked="checked"';
-        $flag_cursor = 'default';
-        $flag_color = '000000';
-    }
-
-    // Check if the group is allowed to edit pages
-    $system_permissions = explode(',', $group['system_permissions']);
-    if (is_numeric(array_search('pages_modify', $system_permissions))) {
-        $template->set_var(
-            array(
-                'ID' => $group['group_id'],
-                'TOGGLE' => $group['group_id'],
-                'CHECKED' => $flag_checked,
-                'DISABLED' => $flag_disabled,
-                'LINK_COLOR' => $flag_color,
-                'CURSOR' => $flag_checked,
-                'NAME' => $group['name'],
-            )
-        );
-        $template->parse('group_list', 'group_list_block', true);
+define('PT_USE_DRAGDROP_SWITCH', true);
+// Create new Admin object
+$admin = new Admin('Pages', 'pages', false);
+$iPageID = isset($_GET['page_id']) ? $_GET['page_id'] : NULL;
+if ($iPageID != NULL && is_numeric($iPageID) == false) {
+    if (!($iPageID = (int) $admin->checkIDKEY('page_id', 0, $_SERVER['REQUEST_METHOD']) )) {
+        $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
     }
 }
 
-// Group list 2
-$get_groups = $database->query("SELECT * FROM `{TP}groups`");
-$template->set_block('main_block', 'group_list_block2', 'group_list2');
+require __DIR__ . '/functions/functions.backend_pages.php';
+require __DIR__ . '/functions/functions.pageTree.php';
 
-// Insert admin group and current group first
-$admin_group_name = $get_groups->fetchRow();
-$template->set_var(
-    array(
-        'ID' => 1,
-        'TOGGLE' => '',
-        'DISABLED' => ' disabled="disabled"',
-        'LINK_COLOR' => '000000',
-        'CURSOR' => 'default',
-        'NAME' => $admin_group_name['name'],
-        'CHECKED' => ' checked="checked"'
-    )
-);
-$template->parse('group_list2', 'group_list_block2', true);
+$oMsgBox = new MessageBox();
+ 
+defined('PREDEFINED_MODULE') or define('PREDEFINED_MODULE', 'wysiwyg');
 
-while ($group = $get_groups->fetchRow()) {
-
-    // check if the user is a member of this group
-    $flag_disabled = '';
-    $flag_checked = '';
-    $flag_cursor = 'pointer';
-    $flag_color = '';
-    if (in_array($group["group_id"], $admin->get_groups_id())) {
-        $flag_disabled = ''; // 'disabled';
-        $flag_checked = ' checked="checked"';
-        $flag_cursor = 'default';
-        $flag_color = '000000';
-    }
-
-    $template->set_var(
-        array(
-            'ID' => $group['group_id'],
-            'TOGGLE' => $group['group_id'],
-            'CHECKED' => $flag_checked,
-            'DISABLED' => $flag_disabled,
-            'LINK_COLOR' => $flag_color,
-            'CURSOR' => $flag_cursor,
-            'NAME' => $group['name'],
-        )
-    );
-    $template->parse('group_list2', 'group_list_block2', true);
-}
-
-$template->set_block('main_block', 'page_list_block2', 'page_list2');
-if ($admin->get_permission('pages_add_l0') == true) {
-    $template->set_var(
-        array(
-            'ID' => '0',
-            'TITLE' => $TEXT['NONE'],
-            'SELECTED' => ' selected="selected"',
-            'DISABLED' => ''
-        )
-    );
-    $template->parse('page_list2', 'page_list_block2', true);
-}
-parent_list(0);
-
-// Explode module permissions
-$module_permissions = $_SESSION['MODULE_PERMISSIONS'];
-
-// Modules list
-$template->set_block('main_block', 'module_list_block', 'module_list');
-$result = $database->query("SELECT * FROM " . TABLE_PREFIX . "addons WHERE type = 'module' AND `function` LIKE '%page%' order by name");
-if ($result->numRows() > 0) {
-    while ($module = $result->fetchRow()) {
-
-        // Check if user is allowed to use this module
-        if (!is_numeric(array_search($module['directory'], $module_permissions))) {
-            $template->set_var('VALUE', $module['directory']);
-            $template->set_var('NAME', $admin->get_module_name($module['directory']));
-            if ($module['directory'] == 'wysiwyg') {
-                $template->set_var('SELECTED', ' selected="selected"');
-            } else {
-                $template->set_var('SELECTED', '');
-            }
-            $template->parse('module_list', 'module_list_block', true);
+// switch trough get links
+switch (true) {
+    case (isset($_GET['func']) && in_array($_GET['func'], array('move_up', 'move_down'))):
+        movePage($_GET['func'], $iPageID);
+        break;
+    case (isset($_GET['func']) && $_GET['func'] == 'delete'):
+        deletePage($iPageID);
+        break;
+    case (isset($_GET['func']) && $_GET['func'] == 'restore'):
+        restoreDeletedPage($iPageID);
+        break;
+    case (isset($_GET['dd']) && is_numeric($_GET['dd'])):
+        activateDragDrop($_GET['dd']);
+        break;	
+    case (isset($_GET['toggle_trash']) && is_numeric($_GET['toggle_trash'])):
+        if(isset($_GET['toggle_trash'])){
+            toggleTrashBin($_GET['toggle_trash']);
+            redirect(ADMIN_URL.'/pages/index.php');
         }
-    }
-}
-
-// Insert urls
-$template->set_var(
-    array(
-        'THEME_URL' => THEME_URL,
-        'WB_URL' => WB_URL,
-        'WB_PATH' => WB_PATH,
-        'ADMIN_URL' => ADMIN_URL,
-        // Insert language headings
-        'HEADING_ADD_PAGE' => $HEADING['ADD_PAGE'],
-        'HEADING_MODIFY_INTRO_PAGE' => $HEADING['MODIFY_INTRO_PAGE'],
-        // Insert language text and messages
-        'TEXT_PAGES' => $MENU['PAGES'],
-        'TEXT_TITLE' => $TEXT['TITLE'],
-        'TEXT_TYPE' => $TEXT['TYPE'],
-        'TEXT_PARENT' => $TEXT['PARENT'],
-        'TEXT_VISIBILITY' => $TEXT['VISIBILITY'],
-        'TEXT_PUBLIC' => $TEXT['PUBLIC'],
-        'TEXT_PRIVATE' => $TEXT['PRIVATE'],
-        'TEXT_REGISTERED' => $TEXT['REGISTERED'],
-        'TEXT_HIDDEN' => $TEXT['HIDDEN'],
-        'TEXT_NONE' => $TEXT['NONE'],
-        'TEXT_NONE_FOUND' => $TEXT['NONE_FOUND'],
-        'TEXT_ADD' => $TEXT['ADD'],
-        'TEXT_RESET' => $TEXT['RESET'],
-        'TEXT_ADMINISTRATORS' => $TEXT['ADMINISTRATORS'],
-        'TEXT_PRIVATE_VIEWERS' => $TEXT['PRIVATE_VIEWERS'],
-        'TEXT_REGISTERED_VIEWERS' => $TEXT['REGISTERED_VIEWERS'],
-        'INTRO_LINK' => $MESSAGE['PAGES_INTRO_LINK'],
-    )
-);
-
-// Insert permissions values
-if ($admin->get_permission('pages_add') != true) {
-    $template->set_var('DISPLAY_ADD', 'hide');
-}
-if ($admin->get_permission('pages_intro') != true or INTRO_PAGE != 'enabled') {
-    $template->set_var('DISPLAY_INTRO', 'hide');
-}
-
-// Include JavaScript backend includes and define output
-ob_start();
-$jsadminFile = WB_PATH . '/modules/jsadmin/jsadmin_backend_include.php';
-if (is_file($jsadminFile)) {
-    include($jsadminFile);
-}
-$jsAdminOutput = ob_get_clean();
-
-// Oadd eggsurplus Javascript to output
-$jsAdminOutput .= PHP_EOL . '<script type="text/javascript" src="eggsurplus.js"></script>';
-
-// Set JavaScript backend as var
-$template->set_var('JS_ADMIN', $jsAdminOutput);
-
-// Parse template object
-$template->parse('main', 'main_block', false);
-$template->pparse('output', 'page');
-
-// Print admin
-$admin->print_footer();
-
-// Functions
-// Parent page list
-function parent_list($parent)
-{
-    global $admin, $database, $template, $field_set;
-    $query = "SELECT * FROM " . TABLE_PREFIX . "pages WHERE parent = '$parent' AND visibility!='deleted' ORDER BY position ASC";
-    $get_pages = $database->query($query);
-    while ($page = $get_pages->fetchRow()) {
-        if ($admin->page_is_visible($page) == false) {
-            continue;
+	break;
+    case (isset($_POST['add_new_page'])):
+        $sError = '';
+        if (!$admin->checkFTAN()){
+            $admin->print_header();
+            $admin->print_error($MESSAGE['GENERIC_SECURITY_ACCESS']);
+            $admin->print_footer();
         }
-
-        // if parent = 0 set flag_icon
-        $template->set_var('FLAG_ROOT_ICON', ' none ');
-        if ($page['parent'] == 0 && $field_set) {
-            $template->set_var('FLAG_ROOT_ICON', 'url(' . WB_URL . '/languages/' . strtoupper($page['language']) . '.png)');
+        $sMenuTitle = $admin->get_post_escaped('menu_title');
+        if($sMenuTitle == '' || substr($sMenuTitle, 0, 1) == '.')	{		
+            $sError = $MESSAGE['PAGES_BLANK_PAGE_TITLE'];
+        } else {
+            $sMenuTitle = htmlspecialchars($admin->get_post_escaped('menu_title'));
         }
-
-        // Stop users from adding pages with a level of more than the set page level limit
-        if ($page['level'] + 1 < PAGE_LEVEL_LIMIT) {
-
-            // Get user perms
-            $admin_groups = explode(',', str_replace('_', '', $page['admin_groups']));
-            $admin_users = explode(',', str_replace('_', '', $page['admin_users']));
-
-            $in_group = false;
-            foreach ($admin->get_groups_id() as $cur_gid) {
-                if (in_array($cur_gid, $admin_groups)) {
-                    $in_group = true;
-                }
+        $iParent = intval($admin->get_post('parent')); 
+        if ($iParent != 0) {
+            // Write access to parent, if not you may not create subpages 
+            if (!$admin->get_page_permission($iParent, 'admin')){
+                $sError = $MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS'];	
             }
-            if (($in_group) or is_numeric(array_search($admin->get_user_id(), $admin_users))) {
-                $can_modify = true;
-            } else {
-                $can_modify = false;
-            }
-
-            // Title -'s prefix
-            $title_prefix = '';
-            for ($i = 1; $i <= $page['level']; $i++) {
-                $title_prefix .= ' - ';
-            }
-            $template->set_var(
-                array(
-                    'ID' => $page['page_id'],
-                    'TITLE' => ($title_prefix . $page['menu_title']),
-                    'MENU-TITLE' => ($title_prefix . $page['menu_title']),
-                    'PAGE-TITLE' => ($title_prefix . $page['page_title'])
-                )
+        } elseif (!$admin->get_permission('pages_add_l0','system')){
+            // generic test for permissions for page creation	
+            $sError = $MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS'];
+        }  
+        $sVisibility = $admin->get_post('visibility');
+        if (!in_array($sVisibility, array('private', 'registered', 'hidden', 'none'))) {
+            $sVisibility = 'public';
+        }
+        // check module permissions:
+        // whithout module permissions you may not create a page whith this module
+        $sModuleType = preg_replace('/[^a-z0-9_-]/i', "", $admin->get_post('type'));
+        if (!$admin->get_permission($sModuleType, 'module'))	{
+            $sError = $MESSAGE['PAGES_INSUFFICIENT_PERMISSIONS'];
+        }
+        $bGoToPage = isset($_POST['go_to_new_page']) && $_POST['go_to_new_page'] == 1;
+        if ($sError == '') {
+            $iPageID = createPage(
+                $sMenuTitle, 
+                $sModuleType, 
+                $iParent, 
+                $sVisibility,
+                $admin->get_post('admin_groups'),
+                $admin->get_post('viewing_groups'),
+                $bGoToPage
             );
-            if ($can_modify == true) {
-                $template->set_var('DISABLED', '');
-            } else {
-                $template->set_var('DISABLED', ' disabled="disabled" class="disabled"');
-            }
-            $template->parse('page_list2', 'page_list_block2', true);
+        } else {
+            $oMsgBox->error($sError);
         }
-        parent_list($page['page_id']);
-    }
+        break; 
 }
+
+$sSwitchDragDropURL = '';
+if(defined('PT_USE_DRAGDROP_SWITCH') && PT_USE_DRAGDROP_SWITCH == true){
+    $set_dd = (Settings::Get('pages_drag_drop') == 0) ? 1 : 0;
+    $PAGES_TEXT['DRAG_DROP_STATUS'] = "Drag&amp;Drop ".strtolower($set_dd == 1 ? $TEXT['DISABLED'] : $TEXT['ACTIVE']);	
+    $sSwitchDragDropURL = ADMIN_URL.'/pages/index.php?dd='.$set_dd;	
+}
+
+$_SESSION['pages_go_to_created'] = isset($_SESSION['pages_go_to_created']) ? $_SESSION['pages_go_to_created'] : 1;
+
+$bShowTrash = false;
+$sToggleTrashURL = '';
+$iDeletedPages = 0;
+if(PAGE_TRASH == 'inline' || PAGE_TRASH == 'separate'){
+    $bShowTrash = true;
+    $iDeletedPages = $database->query("SELECT `page_id` FROM `{TP}pages` WHERE `visibility` = 'deleted'")->numRows();
+    $iStatus = 1;
+    if($iDeletedPages > 0){			
+        $iStatus = (PAGE_TRASH == 'inline') ? 0 : 1;
+    }
+    $sToggleTrashURL = ADMIN_URL.'/pages/index.php?toggle_trash='.$iStatus;
+    $PAGES_TEXT['ENABLE_DISABLE_TRASH'] = ($iStatus == 1) ? $TEXT['SHOW'] : $TEXT['HIDE'];
+    if($iDeletedPages == 0) $PAGES_TEXT['ENABLE_DISABLE_TRASH'];	
+}
+
+$aToTwig = array(
+    'USE_DRAG_DROP'        => Settings::Get('pages_drag_drop'),
+    'DRAG_DROP_SWITCH_URL' => $sSwitchDragDropURL,
+    'INTRO_PAGE_ACTIVE'    => ($admin->get_permission('pages_intro') == true && INTRO_PAGE == 'enabled'),
+    'PAGES_TOTAL'          => $database->query("SELECT `page_id` FROM `{TP}pages`")->numRows(),
+    'DELETED_PAGES_TOTAL'  => $iDeletedPages,
+    'SHOW_TRASH'           => $bShowTrash,
+    'TRASH_TOGGLE_URL'     => $sToggleTrashURL,
+    'GO_TO_CREATED_PAGE'   => $_SESSION['pages_go_to_created'],
+    'operators_list'       => listOperators('admins'),
+    'viewers_list'         => listOperators('viewers'),
+    'module_list'          => moduleSelector(PREDEFINED_MODULE),
+    'parent_list'          => pageTreeCombobox(nestedPagesArray(), 0),
+    'pageTree'             => nestedPagesArray(),
+    'languages'            => languagesArray(),
+    'MESSAGE_BOX'          => $oMsgBox->fetchDisplay(),
+);
+$admin->print_header();
+$admin->getThemeFile('pages_index.twig', $aToTwig);
+$admin->print_footer();
