@@ -13,7 +13,7 @@
 $module_directory = 'wysiwyg';
 $module_name = 'WYSIWYG';
 $module_function = 'page';
-$module_version = '2.10.0';
+$module_version = '2.10.1';
 $module_platform = '1.4.0';
 $module_author = 'Ryan Djurovich';
 $module_license = 'GNU General Public License';

@@ -13,7 +13,7 @@
 $sMediaUrl = WB_URL . MEDIA_DIRECTORY;
 
 // Get page content htmlspecialchars
-$sql = 'SELECT `content` FROM `' . TABLE_PREFIX . 'mod_wysiwyg` WHERE `section_id`=' . (int) $section_id;
+$sql = 'SELECT `content` FROM `{TP}mod_wysiwyg` WHERE `section_id`=' . (int) $section_id;
 if (($content = $database->get_one($sql))) {
     $content = (str_replace('{SYSVAR:MEDIA_REL}', $sMediaUrl, $content));
     $content = htmlspecialchars($content);
@@ -32,7 +32,7 @@ if (!isset($wysiwyg_editor_loaded)) {
         }
     } else {
         $id_list = array();
-        $sql = 'SELECT `section_id` FROM `' . TABLE_PREFIX . 'sections` ';
+        $sql = 'SELECT `section_id` FROM `{TP}sections` ';
         $sql .= 'WHERE `page_id`=' . (int) $page_id . ' AND `module`=\'wysiwyg\'';
         if (($query_wysiwyg = $database->query($sql))) {
             while ($wysiwyg_section = $query_wysiwyg->fetchRow()) {
@@ -45,9 +45,9 @@ if (!isset($wysiwyg_editor_loaded)) {
 }
 ?>
 
-<form name="wysiwyg<?php echo $section_id; ?>" action="<?php echo WB_URL; ?>/modules/wysiwyg/save.php" method="post">
-    <input type="hidden" name="page_id" value="<?php echo $page_id; ?>" />
-    <input type="hidden" name="section_id" value="<?php echo $section_id; ?>" />
+<form name="wysiwyg<?=$section_id; ?>" action="<?=WB_URL ?>/modules/wysiwyg/save.php" method="post">
+    <input type="hidden" name="page_id" value="<?=$page_id ?>" />
+    <input type="hidden" name="section_id" value="<?=$section_id ?>" />
 <?php
 echo $admin->getFTAN() . "\n";
 show_wysiwyg_editor('content' . $section_id, 'content' . $section_id, $content, '100%', '350');
@@ -55,13 +55,12 @@ show_wysiwyg_editor('content' . $section_id, 'content' . $section_id, $content, 
    <table style="padding-bottom: 10px; width: 100%;">
         <tr>
             <td style="text-align: left;margin-left: 1em;">
-                <input name="modify" type="submit" value="<?php echo $TEXT['SAVE']; ?>" style="min-width: 100px; margin-top: 5px;" />
-                <input name="pagetree" type="submit" value="<?php echo $TEXT['SAVE'] . ' &amp; ' . $TEXT['BACK'];?>" style="min-width: 100px; margin-top: 5px;" />
+                <button type="button" data-redirect-location="index.php?latest_page=<?=$page_id ?>#pageID_<?=$page_id ?>" class="button ico-cancel"  tabindex="3"><?=$TEXT['CANCEL'];?></button>
             </td>
             <td style="text-align: right;margin-right: 1em;">
-                <input name="cancel" type="button" value="<?php echo $TEXT['CANCEL'];?>" onclick="javascript: window.location = 'index.php';" style="min-width: 100px; margin-top: 5px;" />
+                <input name="pagetree" type="submit" value="<?=$TEXT['SAVE'] . ' &amp; ' . $TEXT['BACK'];?>" style="min-width: 100px; margin-top: 5px;"  tabindex="2" />
+                <input name="modify" type="submit" value="<?=$TEXT['SAVE']; ?>" style="min-width: 100px; margin-top: 5px;"  tabindex="1" />
             </td>
         </tr>
     </table>
 </form>
-<br />
