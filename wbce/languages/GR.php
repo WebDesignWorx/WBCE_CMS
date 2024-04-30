@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Απενεργοποίηση %s|εγγραφής";
 $TEXT['ADD_RECORD']        = "Προσθήκη %s|εγγραφής";
 $TEXT['EDIT_RECORD']       = "Επεξεργασία %s|εγγραφής";
 $TEXT['DELETE_RECORD']     = "Διαγραφή %s|εγγραφής";
+$TEXT['EDIT_RECORD']       = "Επεξεργασία %s|εγγραφής";
+$TEXT['TRASH_RECORD']      = "Μετακίνηση %s|εγγραφής Μετακίνηση εγγραφής στον κάδο ανακύκλωσης";
+$TEXT['RESTORE_RECORD']    = "Επαναφορά %s|εγγραφής";
+$TEXT['RECORDS_TOTAL']     = 'Συνολικός αριθμός %s|εγγραφών';
 
 $TEXT['RECORD_DISABLED']   = "%s|εγγραφή απενεργοποιημένη";
 $TEXT['RECORD_ENABLED']    = "%s|εγγραφή ενεργοποιημένη";

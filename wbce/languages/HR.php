@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Deaktiviraj %s|zapise";
 $TEXT['ADD_RECORD']        = "Dodaj %s|zapis";
 $TEXT['EDIT_RECORD']       = "Uredi %s|zapis";
 $TEXT['DELETE_RECORD']     = "Izbriši %s|zapis";
+$TEXT['EDIT_RECORD']       = "Uredi %s|zapis";
+$TEXT['TRASH_RECORD']      = "Premjesti %s|zapis Premjesti zapis u koš za smeće";
+$TEXT['RESTORE_RECORD']    = "Vrati %s|zapis";
+$TEXT['RECORDS_TOTAL']     = 'Ukupan broj %s|zapisa';
 
 $TEXT['RECORD_DISABLED']   = "%s|zapis deaktiviran";
 $TEXT['RECORD_ENABLED']    = "%s|zapis aktiviran";

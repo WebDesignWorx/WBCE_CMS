@@ -64,6 +64,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Deactivate %s|record";
 $TEXT['ACTIVATE_RECORD']   = "Activate %s|record";
 $TEXT['ADD_RECORD']        = "Add %s|record";
 $TEXT['DELETE_RECORD']     = "Delete %s|record";
+$TEXT['EDIT_RECORD']       = "Edit %s|record";
+$TEXT['TRASH_RECORD']      = "Move %s|record Move record to recycle bin";
+$TEXT['RESTORE_RECORD']    = "Restore %s|record"; 
+$TEXT['RECORDS_TOTAL']     = 'Total number of %s|records'; 
 
 $TEXT['SELECT_ALL']        = "select all";
 $TEXT['DESELECT_ALL']      = "deselect all";

@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "%s|rekord deaktiválása";
 $TEXT['ADD_RECORD']        = "%s|rekord hozzáadása";
 $TEXT['EDIT_RECORD']       = "%s|rekord szerkesztése";
 $TEXT['DELETE_RECORD']     = "%s|rekord törlése";
+$TEXT['EDIT_RECORD']       = "Szerkesztés %s|feljegyzés";
+$TEXT['TRASH_RECORD']      = "Mozgatás a kukába %s|feljegyzés Mozgatás a feljegyzés a kukába";
+$TEXT['RESTORE_RECORD']    = "Visszaállítás %s|feljegyzés";
+$TEXT['RECORDS_TOTAL']     = 'Összes %s|feljegyzés';
 
 $TEXT['RECORD_DISABLED']   = "%s|rekord deaktivált";
 $TEXT['RECORD_ENABLED']    = "%s|rekord aktivált";

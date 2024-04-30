@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Deaktiver %s|optegnelse";
 $TEXT['ADD_RECORD']        = "Tilføj %s|optegnelse";
 $TEXT['EDIT_RECORD']       = "Rediger %s|optegnelse";
 $TEXT['DELETE_RECORD']     = "Slet %s|optegnelse";
+$TEXT['EDIT_RECORD']       = "Rediger %s|optegnelse";
+$TEXT['TRASH_RECORD']      = "Flyt %s|optegnelse Flyt optegnelse til papirkurven";
+$TEXT['RESTORE_RECORD']    = "Gendan %s|optegnelse";
+$TEXT['RECORDS_TOTAL']     = 'Samlet antal %s|optegnelser';
 
 $TEXT['RECORD_DISABLED']   = "%s|optegnelse deaktiveret";
 $TEXT['RECORD_ENABLED']    = "%s|optegnelse aktiveret";

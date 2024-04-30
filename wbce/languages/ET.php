@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Deaktiveeri %s|kirje";
 $TEXT['ADD_RECORD']        = "Lisa %s|kirje";
 $TEXT['EDIT_RECORD']       = "Muuda %s|kirjet";
 $TEXT['DELETE_RECORD']     = "Kustuta %s|kirje";
+$TEXT['EDIT_RECORD']       = "Muuda %s|kirjet";
+$TEXT['TRASH_RECORD']      = "Liiguta %s|kirje prügikasti Liiguta kirje prügikasti";
+$TEXT['RESTORE_RECORD']    = "Taasta %s|kirje";
+$TEXT['RECORDS_TOTAL']     = 'Kokku %s|kirjeid';
 
 $TEXT['RECORD_DISABLED']   = "%s|kirje deaktiveeritud";
 $TEXT['RECORD_ENABLED']    = "%s|kirje aktiveeritud";

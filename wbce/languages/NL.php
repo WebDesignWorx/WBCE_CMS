@@ -28,7 +28,6 @@ $language_author = 'Bramus, CodeALot, Luckyluke, Argos';
 $language_license = 'GNU General Public License';
 
 /* New strings added in WBCE 1.7.x */
-/* End of: New strings added in WBCE 1.7.x */
 $TEXT['REGISTRATION_DATE'] = "Registratiedatum";
 $TEXT['LATEST_LOGIN']      = "Laatste login";
 
@@ -37,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "%s|Record deactiveren";
 $TEXT['ADD_RECORD']        = "%s|Record toevoegen";
 $TEXT['EDIT_RECORD']       = "%s|Record bewerken";
 $TEXT['DELETE_RECORD']     = "%s|Record verwijderen";
+$TEXT['EDIT_RECORD']       = "Bewerk %s|record";
+$TEXT['TRASH_RECORD']      = "Verplaats %s|record Verplaats record naar prullenbak";
+$TEXT['RESTORE_RECORD']    = "Herstel %s|record";
+$TEXT['RECORDS_TOTAL']     = 'Totaal aantal %s|records';
 
 $TEXT['RECORD_DISABLED']   = "%s|Record uitgeschakeld";
 $TEXT['RECORD_ENABLED']    = "%s|Record ingeschakeld";

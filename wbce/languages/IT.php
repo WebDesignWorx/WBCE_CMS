@@ -37,6 +37,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Disattiva %s|record";
 $TEXT['ADD_RECORD']        = "Aggiungi %s|record";
 $TEXT['EDIT_RECORD']       = "Modifica %s|record";
 $TEXT['DELETE_RECORD']     = "Cancella %s|record";
+$TEXT['EDIT_RECORD']       = "Modifica %s|record";
+$TEXT['TRASH_RECORD']      = "Sposta %s|record Sposta record nel cestino";
+$TEXT['RESTORE_RECORD']    = "Ripristina %s|record";
+$TEXT['RECORDS_TOTAL']     = 'Numero totale di %s|record';
 
 $TEXT['RECORD_DISABLED']   = "%s|record disattivato";
 $TEXT['RECORD_ENABLED']    = "%s|record attivo";

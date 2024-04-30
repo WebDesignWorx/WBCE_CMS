@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Deaktivovat %s|záznam";
 $TEXT['ADD_RECORD']        = "Přidat %s|záznam";
 $TEXT['EDIT_RECORD']       = "Upravit %s|záznam";
 $TEXT['DELETE_RECORD']     = "Smazat %s|záznam";
+$TEXT['EDIT_RECORD']       = "Upravit %s|záznam";
+$TEXT['TRASH_RECORD']      = "Přesunout %s|záznam Přesunout záznam do koše na recyklaci";
+$TEXT['RESTORE_RECORD']    = "Obnovit %s|záznam";
+$TEXT['RECORDS_TOTAL']     = 'Celkový počet %s|záznamů';
 
 $TEXT['RECORD_DISABLED']   = "%s|záznam deaktivovaný";
 $TEXT['RECORD_ENABLED']    = "%s|záznam aktivovaný";

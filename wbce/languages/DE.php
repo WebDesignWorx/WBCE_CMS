@@ -35,15 +35,14 @@ $TEXT['LATEST_LOGIN']      = "Letzter Login";
 $TEXT['ACTIVATE_RECORD']   = "%s|Datensatz aktivieren";
 $TEXT['DEACTIVATE_RECORD'] = "%s|Datensatz deaktivieren";
 $TEXT['ADD_RECORD']        = "%s|Datensatz hinzufügen";
-$TEXT['EDIT_RECORD']       = "%s|Datensatz bearbeiten";
 $TEXT['DELETE_RECORD']     = "%s|Datensatz löschen";
+$TEXT['EDIT_RECORD']       = "%s|Datensatz bearbeiten";
 $TEXT['TRASH_RECORD']      = "%s|Datensatz in den Papierkorb verschieben";
-$TEXT['TRASH_RECORD']      = "%s|Datensatz entfernen";
-$TEXT['RESTORE_RECORD']    = "%s|Datensatz wiederherstellen"; #
+$TEXT['RESTORE_RECORD']    = "%s|Datensatz wiederherstellen"; 
+$TEXT['RECORDS_TOTAL']     = '%s|Datensätze gesamt'; 
 
 $TEXT['RECORD_DISABLED']   = "%s|Datensatz deaktiviert";
 $TEXT['RECORD_ENABLED']    = "%s|Datensatz aktiv";
-$TEXT['RECORDS_TOTAL']     = '%s|Datensätze gesamt'; #
 
 $TEXT['SELECT_ALL']        = "alle auswählen";
 $TEXT['DESELECT_ALL']      = "alle abwählen";
@@ -56,7 +55,6 @@ $TEXT['TEMPLATE_PERMISSIONS'] = 'Zugriffsrechte auf Templates';
 $TEXT['GO_TO_CREATED_PAGE'] = 'Zur neu angelegten Seite gehen';
 $TEXT['MODIFY_PAGE_CONTENTS'] = "Seiteninhalte bearbeiten";
 $TEXT['PAGE_ID'] = "Seiten-ID";
-
 /* END OF: New strings added in WBCE 1.7.x */
 
 $MENU['ACCESS'] = 'Benutzerverwaltung';

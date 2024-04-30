@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Деактивирай %s|запис";
 $TEXT['ADD_RECORD']        = "Добави %s|запис";
 $TEXT['EDIT_RECORD']       = "Редактирай %s|запис";
 $TEXT['DELETE_RECORD']     = "Изтрий %s|запис";
+$TEXT['EDIT_RECORD']       = "%s|Редактиране на запис";
+$TEXT['TRASH_RECORD']      = "%s|Преместване на запис в кошчето за боклук";
+$TEXT['RESTORE_RECORD']    = "%s|Възстановяване на запис";
+$TEXT['RECORDS_TOTAL']     = '%s|Общ брой записа';
 
 $TEXT['RECORD_DISABLED']   = "%s|запис деактивиран";
 $TEXT['RECORD_ENABLED']    = "%s|запис активиран";

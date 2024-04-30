@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Desativar %s|registro";
 $TEXT['ADD_RECORD']        = "Adicionar %s|registro";
 $TEXT['EDIT_RECORD']       = "Editar %s|registro";
 $TEXT['DELETE_RECORD']     = "Excluir %s|registro";
+$TEXT['EDIT_RECORD']       = "Editar %s|registro";
+$TEXT['TRASH_RECORD']      = "Mover %s|registro Mover registro para a lixeira";
+$TEXT['RESTORE_RECORD']    = "Restaurar %s|registro";
+$TEXT['RECORDS_TOTAL']     = 'Número total de %s|registros';
 
 $TEXT['RECORD_DISABLED']   = "%s|registro desativado";
 $TEXT['RECORD_ENABLED']    = "%s|registro ativado";

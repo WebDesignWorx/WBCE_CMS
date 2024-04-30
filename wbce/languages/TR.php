@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "%s|kaydı deaktifleştir";
 $TEXT['ADD_RECORD']        = "%s|kayıt ekle";
 $TEXT['EDIT_RECORD']       = "%s|kayıt düzenle";
 $TEXT['DELETE_RECORD']     = "%s|kayıt sil";
+$TEXT['EDIT_RECORD']       = "%s|kaydı düzenle";
+$TEXT['TRASH_RECORD']      = "%s|kaydı çöp kutusuna taşı Kaydı çöp kutusuna taşı";
+$TEXT['RESTORE_RECORD']    = "%s|kaydı geri yükle";
+$TEXT['RECORDS_TOTAL']     = '%s|kayıt toplamı';
 
 $TEXT['RECORD_DISABLED']   = "%s|kayıt devre dışı";
 $TEXT['RECORD_ENABLED']    = "%s|kayıt aktif";

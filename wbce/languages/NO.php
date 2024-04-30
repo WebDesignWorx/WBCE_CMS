@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Deaktiver %s|post";
 $TEXT['ADD_RECORD']        = "Legg til %s|post";
 $TEXT['EDIT_RECORD']       = "Rediger %s|post";
 $TEXT['DELETE_RECORD']     = "Slett %s|post";
+$TEXT['EDIT_RECORD']       = "Rediger %s|post";
+$TEXT['TRASH_RECORD']      = "Flytt %s|post Flytt post til papirkurven";
+$TEXT['RESTORE_RECORD']    = "Gjenopprett %s|post";
+$TEXT['RECORDS_TOTAL']     = 'Totalt antall %s|poster';
 
 $TEXT['RECORD_DISABLED']   = "%s|post deaktivert";
 $TEXT['RECORD_ENABLED']    = "%s|post aktivert";

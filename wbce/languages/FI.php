@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Poista %s|tietueen aktivointi";
 $TEXT['ADD_RECORD']        = "Lisää %s|tietue";
 $TEXT['EDIT_RECORD']       = "Muokkaa %s|tietuetta";
 $TEXT['DELETE_RECORD']     = "Poista %s|tietue";
+$TEXT['EDIT_RECORD']       = "Muokkaa %s|tietuetta";
+$TEXT['TRASH_RECORD']      = "Siirrä %s|tietue Siirrä tietue kierrätysroskakoriin";
+$TEXT['RESTORE_RECORD']    = "Palauta %s|tietue";
+$TEXT['RECORDS_TOTAL']     = 'Yhteensä %s|tietuetta';
 
 $TEXT['RECORD_DISABLED']   = "%s|tietue deaktivoitu";
 $TEXT['RECORD_ENABLED']    = "%s|tietue aktivoitu";

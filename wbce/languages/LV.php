@@ -36,6 +36,10 @@ $TEXT['DEACTIVATE_RECORD'] = "Deaktivizēt %s|ierakstu";
 $TEXT['ADD_RECORD']        = "Pievienot %s|ierakstu";
 $TEXT['EDIT_RECORD']       = "Rediģēt %s|ierakstu";
 $TEXT['DELETE_RECORD']     = "Dzēst %s|ierakstu";
+$TEXT['EDIT_RECORD']       = "Rediģēt %s|ierakstu";
+$TEXT['TRASH_RECORD']      = "Pārvietot %s|ierakstu Pārvietot ierakstu uz atkritumu tvertni";
+$TEXT['RESTORE_RECORD']    = "Atjaunot %s|ierakstu";
+$TEXT['RECORDS_TOTAL']     = 'Kopējais %s|ierakstu skaits';
 
 $TEXT['RECORD_DISABLED']   = "%s|ieraksts deaktivizēts";
 $TEXT['RECORD_ENABLED']    = "%s|ieraksts aktivizēts";
