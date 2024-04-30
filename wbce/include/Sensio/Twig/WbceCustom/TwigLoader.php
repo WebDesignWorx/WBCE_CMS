@@ -134,6 +134,7 @@ if (!function_exists('getTwig')) {
 
         $oTwig->addExtension(new \Twig\Extension\DebugExtension());
         $oTwig->addExtension(new \Twig\WbceCustom\Extension\UnserializeExtension());
+        $oTwig->addExtension(new \Twig\WbceCustom\Extension\StripTagsExtension());
         
         $oTwig->addTokenParser(new \Twig\WbceCustom\TokenParser\SwitchTokenParser());
         return $oTwig;
